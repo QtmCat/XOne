@@ -1,0 +1,57 @@
+=============== 
+Unity generated
+===============
+Temp/
+Library/
+ScreenshotFolder/
+Log/*
+ProjectVersion.txt
+
+=====================================
+Visual Studio / MonoDevelop generated
+=====================================
+ExportedObj/
+/obj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+*.zip
+*.rar
+
+============
+OS generated
+============
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+============
+eclipse generated
+============
+.project
+Assets/UnityVS.meta
+Assets/UnityVS/*
+
+
+Assets/Resources/Game/Prefabs/Sprites/*
+Assets/Resources/Game/Prefabs/Sprites.meta
+Assets/Resources/Game/Prefabs/UIView/completeSign.prefab.meta
+Assets/Diffuse Simple Shader.shader
+Assets/Diffuse Simple Shader.shader.meta
+Assets/Diffuse Texture Shader.shader
+Assets/Diffuse Texture Shader.shader.meta
+Assets/Materials.meta
+Assets/Standard Assets.meta
+Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll
+Assets/Atlas/WorldMap/WorldMap.rar.meta
+Assets/TEX/materials_ying/CAIZHIQIU.meta
