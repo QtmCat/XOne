@@ -9,6 +9,7 @@ namespace QtmCat
 	using System.Net.Sockets;
 	using UnityEngine;
 
+
 	public static class ANetManager
 	{
 
@@ -188,16 +189,6 @@ namespace QtmCat
 					}
 					else 
 					{
-						int   destServerInstance = stream.ReadInt32();  // (4 byte)
-						int   srcServerInstance  = stream.ReadInt32();  // (4 byte)
-						long  seq                = stream.ReadInt64();  // (8 byte)
-						int   flag               = stream.ReadInt32();  // (4 byte)
-						int   msgId              = stream.ReadInt32();  // (4 byte)
-						long  reserved_1         = stream.ReadInt64();  // (64 byte)
-						int   reserved_2         = stream.ReadInt32();  // (4 byte)
-						int   reserved_3         = stream.ReadInt32();  // (4 byte)
-						byte  result             = stream.ReadByte ();  // (1 byte) only applicable in a response message
-
 						// ADebug.Log("msgId:" + msgId);
 
 						// dispatch hanlder
@@ -238,17 +229,6 @@ namespace QtmCat
 			ADebug.Assert(OnComplete  != null, "Please set send OnComplete");
 
 			NetStream stream = new NetStream();
-
-			stream.WriteInt32(0); // temp length
-			stream.WriteByte(0);
-			stream.WriteInt32(serverInstanceId);
-			stream.WriteInt32(0);
-			stream.WriteInt64 (0);
-			stream.WriteInt32(0);
-			stream.WriteInt32(msgId);
-			stream.WriteInt64(0);
-			stream.WriteInt32(0);
-			stream.WriteInt32(0);
 
 			OnSetStream(stream);
 
@@ -321,9 +301,6 @@ namespace QtmCat
 		public static void Init()
 		{
 			new GameObject("NetReceiveStream").AddComponent<NetReveiveAction>();
-
-			#region ????
-			#endregion
 		}
 
 	}

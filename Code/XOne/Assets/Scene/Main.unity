@@ -181,6 +181,7 @@ GameObject:
   - 114: {fileID: 583572787}
   - 114: {fileID: 583572786}
   - 114: {fileID: 583572779}
+  - 114: {fileID: 583572780}
   m_Layer: 5
   m_Name: UIRoot
   m_TagString: Untagged
@@ -224,6 +225,17 @@ MonoBehaviour:
   screenWidth: 1080
   screenHeight: 1920
   eventSystem: {fileID: 2001709088}
+--- !u!114 &583572780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 583572777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75ae2090277cbf48ba33fd05bcc0ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &583572786
 MonoBehaviour:
   m_ObjectHideFlags: 0
