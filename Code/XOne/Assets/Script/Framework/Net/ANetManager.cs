@@ -82,7 +82,7 @@ namespace QtmCat
 
 
 		public static event Action onGeneralMsgSend;
-		public static event Action onGeneralMsgReceive;
+//		public static event Action onGeneralMsgReceive;
 
 
 		public static void SocketConnect(string server, int port, Action onConnected)
