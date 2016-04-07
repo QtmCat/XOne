@@ -43,9 +43,11 @@ namespace QtmCat
 		}
 
 
-		void Start()
+		protected override void Start()
 		{
-			this.viewRect       = AUIManager.instance.uiRoot.GetComponent<RectTransform>();
+			base.Start();
+
+			this.viewRect = AUIManager.instance.uiRoot.GetComponent<RectTransform>();
 			this.GetComponent<RectTransform>().sizeDelta = this.viewRect.sizeDelta;
 		}
 
@@ -117,18 +119,18 @@ namespace QtmCat
 			}
 		}
 
-		private Vector3 originPos;
-		private Vector3 originScale;
-		private bool    isNeedMoveBack = false;
+//		private Vector3 originPos;
+//		private Vector3 originScale;
+//		private bool    isNeedMoveBack = false;
 		public void MoveToUI(GameObject who, Transform to)
 		{
-			if (!this.isNeedMoveBack)
-			{
-				this.originPos   = base.content.transform.position;
-				this.originScale = base.content.localScale;
-			}
-
-			this.isNeedMoveBack = true;
+//			if (!this.isNeedMoveBack)
+//			{
+//				this.originPos   = base.content.transform.position;
+//				this.originScale = base.content.localScale;
+//			}
+//
+//			this.isNeedMoveBack = true;
 			//float scale         = CityMapManager.instance.scaleForMoveToUI / base.content.localScale.x;
 
 			//base.content.DOScale(CityMapManager.instance.scaleForMoveToUI, CityMapManager.instance.scaleTime).SetEase(CityMapManager.instance.scaleTransition);
@@ -160,7 +162,7 @@ namespace QtmCat
 			Vector3  contentPos = base.content.transform.position;
 
 
-			RectTransform rt    = from.GetComponent<RectTransform>();
+			// RectTransform rt    = from.GetComponent<RectTransform>();
 
 			contentPos.x       -= pos.x - center.transform.position.x;
 			contentPos.y       -= pos.y - center.transform.position.y;

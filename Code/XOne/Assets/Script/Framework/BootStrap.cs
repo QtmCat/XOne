@@ -139,7 +139,7 @@ public class BootStrap : MonoBehaviour
 
         //
 
-        Application.LoadLevelAdditive(1);
+//        Application.LoadLevelAdditive(1);
 
         UnityEngine.Object.Destroy(gameObject);
     }

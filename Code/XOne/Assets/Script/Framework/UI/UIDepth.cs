@@ -6,19 +6,31 @@ namespace QtmCat
 {
 	public class UIDepth : MonoBehaviour
 	{
-		public int order;
-
+		public int    order;
+		public bool   isUI = true;
 		void Start() 
 		{
-			Canvas canvas = this.GetComponent<Canvas>();
+			if (isUI)
+			{
+				Canvas canvas = this.GetComponent<Canvas>();
 
-			if( canvas == null){
-				canvas = this.gameObject.AddComponent<Canvas>();
-				this.gameObject.AddComponent<GraphicRaycaster>();
+				if( canvas == null){
+					canvas = this.gameObject.AddComponent<Canvas>();
+					this.gameObject.AddComponent<GraphicRaycaster>();
+				}
+
+				canvas.overrideSorting = true;
+				canvas.sortingOrder    = order;
 			}
+			else
+			{
+				Renderer[] renders = this.GetComponentsInChildren<Renderer>(true);
 
-			canvas.overrideSorting = true;
-			canvas.sortingOrder    = order;
+				foreach (Renderer renderer in renders)
+				{
+					renderer.sortingOrder = order;
+				}
+			}
 		}
 	}
 }
