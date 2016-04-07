@@ -222,8 +222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiRoot: {fileID: 583572777}
   uiCamera: {fileID: 98211890}
-  screenWidth: 1080
-  screenHeight: 1920
+  screenWidth: 960
+  screenHeight: 640
   eventSystem: {fileID: 2001709088}
 --- !u!114 &583572780
 MonoBehaviour:
