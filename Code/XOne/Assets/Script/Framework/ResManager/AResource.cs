@@ -15,7 +15,6 @@ namespace QtmCat
 	{
 		private static Dictionary<string, object> dicPrefab = new Dictionary<string, object>();
 
-
 		public static T Load<T>(string path) where T : UnityEngine.Object
 		{
 			object obj;
@@ -49,6 +48,18 @@ namespace QtmCat
 			}
 		}
 
+		public static void LoadAllSpriteFromPrefab(string prefabName)
+		{
+			string     path   = prefabName;
+			GameObject prefab = AResource.Load<GameObject>(path);
+			ADebug.Assert(prefab != null, "Can not find Prefab [{0}]", path);
+
+			SpriteRenderer[] renders = prefab.GetComponentsInChildren<SpriteRenderer>(true);
+			foreach (SpriteRenderer render in renders)
+			{
+				dicPrefab.Add(path + render.name, render.sprite);
+			}
+		}
 
 		public static Sprite LoadSpriteFromPrefab(string prefabName, string spriteName)
 		{
@@ -69,7 +80,7 @@ namespace QtmCat
 			#if UNITY_EDITOR
 			if (prefab == null)
 			{
-				EditorUtility.DisplayDialog("??", "???prefab????", "???????");
+			//				EditorUtility.DisplayDialog("提示", "找皮神prefab不存在啊", "好哒不要找王磊");
 			}
 			#endif
 
@@ -88,12 +99,10 @@ namespace QtmCat
 
 
 			#if UNITY_EDITOR
-			EditorUtility.DisplayDialog("??", "Sprite???, ????Tools???AtlasMaker", "??");
+			//			EditorUtility.DisplayDialog("提示", "Sprite找不到, 试试使用Tools下面的AtlasMaker", "好哒");
 			#endif
 
 			ADebug.Assert(false, "Can not find Sprite with [{0}]", spriteName);
-
-
 
 			return null;
 		}
