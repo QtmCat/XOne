@@ -1,4 +1,4 @@
-Shader "Hidden/BlurEffectConeTap" {
+Shader "Custom/BlurEffectConeTap" {
 	Properties { _MainTex ("", any) = "" {} }
 	SubShader { 
 		Pass {
