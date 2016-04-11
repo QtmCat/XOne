@@ -18,13 +18,13 @@ public class MainMenu : MonoBehaviour
 
 	public void StartButtonClick()
 	{
-		Debug.LogError("1234569");
-		ADebug.Log("123");
+		AUIManager.OpenDialog ("Prefab/UI/GameRun");
+		AUIManager.CloseDialog ("MainMenu");
 	}
 
 	public void AboutButtonClick()
 	{
-		AUIManager.CloseDialog("Prefab/UI/MainMenu");
 		AUIManager.OpenDialog("Prefab/UI/GameAbout");
+		AUIManager.CloseDialog("MainMenu");
 	}
 }

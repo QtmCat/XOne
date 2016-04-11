@@ -19,6 +19,6 @@ public class GameAbout : MonoBehaviour
 	public void BackButtonClick()
 	{
 		AUIManager.OpenDialog("Prefab/UI/MainMenu");
-		AUIManager.CloseDialog("Prefab/UI/GameAbout");
+		AUIManager.CloseDialog("GameAbout");
 	}
 }
