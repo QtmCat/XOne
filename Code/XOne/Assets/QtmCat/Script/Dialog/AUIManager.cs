@@ -256,12 +256,11 @@ namespace QtmCat
 		public static void CloseDialog(string name)
 		{
 			Dialog dialog;
-			if (!openedDialogs.TryGetValue(name, out dialog))
-			{
-				return;
-			}
 
-			CloseDialog(dialog);
+			if (openedDialogs.TryGetValue(name, out dialog))
+			{
+				CloseDialog(dialog);
+			}
 		}
 
 		public static void CloseAllDialogs(params string[] dialogNames)
