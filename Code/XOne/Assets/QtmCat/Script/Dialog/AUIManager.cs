@@ -31,7 +31,7 @@ namespace QtmCat
 
 		void Awake()
 		{
-			ADebug.Assert(this.uiRoot != null);
+			ADebug.Assert(this.uiRoot   != null);
 			ADebug.Assert(this.uiCamera != null);
 			instance = this;
 		}
@@ -126,15 +126,15 @@ namespace QtmCat
 					animator.Update(0f);
 
 					DOTween.Sequence()
-						.AppendInterval(0)
-						.AppendCallback
-						(
-							() =>
-							{
-								animator.enabled = true;
-							}
-						)
-						.Play();
+						   .AppendInterval(0)
+						   .AppendCallback
+						   (
+								() =>
+								{
+									animator.enabled = true;
+								}
+						   )
+						   .Play();
 				}
 			}
 
@@ -191,31 +191,31 @@ namespace QtmCat
 			{
 				isQueuedTipShowing = true;
 
-				ShowTip(prefab)
-					.AddOpened
-					(
-						(Dialog d) =>
-						{
-							if (onCreated != null)
-							{
-								onCreated(d);
-							}
-						}
-					)
+				ShowTip(prefab).AddOpened
+								(
+									(Dialog d) =>
+									{
+										if (onCreated != null)
+										{
+											onCreated(d);
+										}
+									}
+								)
 
-					.AddClosed
-					(
-						(Dialog d) =>
-						{
-							isQueuedTipShowing = false;
-							if (queuedTips.Count > 0)
-							{
-								QueuedDialog qd = queuedTips[0];
-								queuedTips.RemoveAt(0);
-								ShowQueuedTip(qd.prefab, qd.onCreated);
-							}
-						}
-					);
+								.AddClosed
+								(
+									(Dialog d) =>
+									{
+										isQueuedTipShowing = false;
+
+										if (queuedTips.Count > 0)
+										{
+											QueuedDialog qd = queuedTips[0];
+											queuedTips.RemoveAt(0);
+											ShowQueuedTip(qd.prefab, qd.onCreated);
+										}
+									}
+								);
 			}
 		}
 
@@ -301,95 +301,93 @@ namespace QtmCat
 
 			switch (dialog.closeTransition)
 			{
-			case Dialog.TransitionStyle.animation:
+				case Dialog.TransitionStyle.animation:
 				{
 					Animator animator = dialog.GetComponent<Animator>();
-					animator.enabled = true;
+					animator.enabled  = true;
 					animator.Play(dialog.closeAnimation.name);
 				} break;
 
-			case Dialog.TransitionStyle.none:
+				case Dialog.TransitionStyle.none:
 				{
 					DOTween.Sequence()
-						.Append(dialog.transform.DOScale(1.0f, 0.1f))
-						.AppendCallback
-						(
-							() =>
-							{
-								dialog.OnCloseComplete();
-							}
-						)
-						.Play();
+						   .Append(dialog.transform.DOScale(1.0f, 0.1f))
+						   .AppendCallback
+						   (
+							   	() =>
+							   	{
+							   		dialog.OnCloseComplete();
+							   	}
+						   )
+						   .Play();
 				} break;
 
-			case Dialog.TransitionStyle.zoom:
+				case Dialog.TransitionStyle.zoom:
 				{
 					dialog.gameObject.transform.DOScale(Vector3.zero, dialog.closeDuration)
-						.SetEase(dialog.closeEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnCloseComplete();
-							}
-						);
+						  .SetEase(dialog.closeEase)
+						  .OnComplete
+						  (
+							  	() =>
+							  	{
+							  		dialog.OnCloseComplete();
+							  	}
+						  );
 
 				} break;
 
-			case Dialog.TransitionStyle.slide_left:
+				case Dialog.TransitionStyle.slide_left:
 				{
 					dialog.gameObject.transform.DOLocalMoveX(-fullScreenDimensions.x - dialog.width / 2, dialog.closeDuration)
-						.SetEase(dialog.closeEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnCloseComplete();
-							}
-						);
+						  .SetEase(dialog.closeEase)
+						  .OnComplete
+						  (
+							  	() =>
+							  	{
+							  		dialog.OnCloseComplete();
+							  	}
+						  );
 				} break;
 
-
-			case Dialog.TransitionStyle.slide_right:
+				case Dialog.TransitionStyle.slide_right:
 				{
 					dialog.gameObject.transform.DOLocalMoveX(fullScreenDimensions.x + dialog.width / 2, dialog.closeDuration)
-						.SetEase(dialog.closeEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnCloseComplete();
-							}
-						);
+						  .SetEase(dialog.closeEase)
+						  .OnComplete
+						  (
+								() =>
+								{
+									dialog.OnCloseComplete();
+								}
+						 );
 				} break;
 
 
-			case Dialog.TransitionStyle.slide_top:
+				case Dialog.TransitionStyle.slide_top:
 				{
 					dialog.gameObject.transform.DOLocalMoveY(fullScreenDimensions.y + dialog.height / 2, dialog.closeDuration)
-						.SetEase(dialog.closeEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnCloseComplete();
-							}
-						);
+						  .SetEase(dialog.closeEase)
+						  .OnComplete
+						  (
+								() =>
+								{
+									dialog.OnCloseComplete();
+								}
+						  );
 				} break;
 
-			case Dialog.TransitionStyle.slide_bottom:
+				case Dialog.TransitionStyle.slide_bottom:
 				{
 					dialog.gameObject.transform.DOLocalMoveY(-fullScreenDimensions.y - dialog.height / 2, dialog.closeDuration)
-						.SetEase(dialog.closeEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnCloseComplete();
-							}
-						);
+						  .SetEase(dialog.closeEase)
+						  .OnComplete
+						  (
+							  	() =>
+							  	{
+							  		dialog.OnCloseComplete();
+							  	}
+						  );
 				} break;
-
 			}
 
 			if (dialog.scrim)
@@ -397,7 +395,7 @@ namespace QtmCat
 				Image image = dialog.scrim.GetComponent<Image>();
 				DOTween.ToAlpha
 				(
-					() => image.color,
+					()  => image.color,
 					(c) => image.color = c,
 					0f,
 					0.618f
@@ -411,7 +409,7 @@ namespace QtmCat
 					image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
 					DOTween.ToAlpha
 					(
-						() => image.color,
+						()  => image.color,
 						(c) => image.color = c,
 						0f,
 						dialog.fadeOutTime
@@ -423,7 +421,7 @@ namespace QtmCat
 					text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
 					DOTween.ToAlpha
 					(
-						() => text.color,
+						()  => text.color,
 						(c) => text.color = c,
 						0f,
 						dialog.fadeOutTime
@@ -443,35 +441,31 @@ namespace QtmCat
 		public static void DestroyDialog(string name, bool immediate)
 		{
 			Dialog dialog;
-			if (!openedDialogs.TryGetValue(name, out dialog))
+			if (openedDialogs.TryGetValue(name, out dialog))
 			{
-				return;
+				DestroyDialog(dialog, immediate);
 			}
-
-			DestroyDialog(dialog, immediate);
 		}
 
 		public static void DestroyDialog(Dialog dialog, bool immediate = false)
 		{
 			ADebug.Assert(dialog != null);
 
-			if (!openedDialogs.ContainsKey(dialog.dialogName))
+			if (openedDialogs.ContainsKey(dialog.dialogName))
 			{
-				return;
-			}
+				openedDialogs.Remove(dialog.dialogName);
 
-			openedDialogs.Remove(dialog.dialogName);
+				if (immediate)
+				{
+					DestroyImmediate(dialog.container);
+				}
+				else
+				{
+					Destroy(dialog.container);
+				}
 
-			if (immediate)
-			{
-				DestroyImmediate(dialog.container);
+				UnityEngine.Resources.UnloadUnusedAssets();
 			}
-			else
-			{
-				Destroy(dialog.container);
-			}
-
-			UnityEngine.Resources.UnloadUnusedAssets();
 		}
 
 		private static Dialog SpawnDialog(Dialog prefab, GameObject parent = null, Action<Dialog> onCreated = null)
@@ -516,7 +510,7 @@ namespace QtmCat
 			}
 
 
-			Vector2 fullScreenDimensions = instance.GetComponent<RectTransform>().sizeDelta;
+			Vector2 fullScreenDimensions   = instance.GetComponent<RectTransform>().sizeDelta;
 			container.transform.localScale = new Vector3(fullScreenDimensions.x / AUIManager.instance.screenWidth, fullScreenDimensions.y / AUIManager.instance.screenHeight, 1.0f);
 
 
@@ -526,17 +520,17 @@ namespace QtmCat
 
 
 
-			GameObject go = AddChild(container, prefab.gameObject);
-			container.name = go.name + "(DialogContainer)";
+			GameObject go     = AddChild(container, prefab.gameObject);
+			container.name    = go.name + "(DialogContainer)";
 			RectTransform crt = container.AddComponent<RectTransform>();
 			crt.localPosition = new Vector3(0, 0, openedDialogs.Count * -100);
-			crt.sizeDelta = Vector2.zero;
+			crt.sizeDelta     = Vector2.zero;
 
 
 
-			Dialog dialog = go.GetComponent<Dialog>();
-			dialog.container = container;
-			dialog.scrim = scrim;
+			Dialog dialog     = go.GetComponent<Dialog>();
+			dialog.container  = container;
+			dialog.scrim      = scrim;
 			dialog.isOpenning = true;
 
 			if (onCreated != null)
@@ -544,23 +538,21 @@ namespace QtmCat
 				onCreated(dialog);
 			}
 
-
 			if (dialog.isUseBlur)
 			{
-				GameObject blur = AddChild(container);
-				blur.name = "(blur)";
+				GameObject blur                                         = AddChild(container);
+				blur.name                                               = "(blur)";
 				blur.transform.SetAsFirstSibling();
 
-				dialog.rawImage = blur.AddComponent<RawImage>();
-				dialog.rawImage.color = new Color(dialog.rawImage.color.r, dialog.rawImage.color.g, dialog.rawImage.color.b, 0f);
+				dialog.rawImage                                         = blur.AddComponent<RawImage>();
+				dialog.rawImage.color                                   = new Color(dialog.rawImage.color.r, dialog.rawImage.color.g, dialog.rawImage.color.b, 0f);
 				dialog.rawImage.GetComponent<RectTransform>().sizeDelta = new Vector2(AUIManager.instance.screenWidth, AUIManager.instance.screenHeight);
 
-				BlurEffect.rawImage = dialog.rawImage;
-
+				BlurEffect.rawImage                                     = dialog.rawImage;
 
 				DOTween.ToAlpha
 				(
-					() => dialog.rawImage.color,
+					()  => dialog.rawImage.color,
 					(c) => dialog.rawImage.color = c,
 					1f,
 					1.0f
@@ -574,11 +566,11 @@ namespace QtmCat
 			Image image;
 			if (prefab.isModal)
 			{
-				image = AddImage(scrim, AResource.Load<Sprite>("Scrim"));
+				image       = AddImage(scrim, AResource.Load<Sprite>("Scrim"));
 				image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
 				DOTween.ToAlpha
 				(
-					() => image.color,
+					()  => image.color,
 					(c) => image.color = c,
 					1f,
 					0.45f
@@ -586,7 +578,7 @@ namespace QtmCat
 			}
 			else
 			{
-				image = AddImage(scrim, null);
+				image       = AddImage(scrim, null);
 				image.color = new Color(0, 0, 0, 0);
 			}
 
@@ -606,35 +598,35 @@ namespace QtmCat
 
 			if (dialog.isTouchFallThrough)
 			{
-				CanvasGroup group = scrim.AddComponent<CanvasGroup>();
-				group.interactable = false;
+				CanvasGroup group    = scrim.AddComponent<CanvasGroup>();
+				group.interactable   = false;
 				group.blocksRaycasts = false;
 			}
 
 
 			switch (dialog.openTransition)
 			{
-			case Dialog.TransitionStyle.animation:
+				case Dialog.TransitionStyle.animation:
 				{
 					dialog.transform.localPosition = new Vector3
-						(
-							prefab.openPosOffsetX + dialog.transform.localPosition.x,
-							prefab.openPosOffsetY + dialog.transform.localPosition.y,
-							dialog.transform.localPosition.z
-						);
+													 (
+														prefab.openPosOffsetX + dialog.transform.localPosition.x,
+														prefab.openPosOffsetY + dialog.transform.localPosition.y,
+														dialog.transform.localPosition.z
+													 );
 
-					AnimationEvent aEvent1 = new AnimationEvent();
-					aEvent1.time = dialog.openAnimation.length;
-					aEvent1.functionName = "OnOpenComplete";
+					AnimationEvent aEvent1      = new AnimationEvent();
+					aEvent1.time                = dialog.openAnimation.length;
+					aEvent1.functionName        = "OnOpenComplete";
 					dialog.openAnimation.events = null;
 					dialog.openAnimation.AddEvent(aEvent1);
 
 
 					if (dialog.closeTransition == Dialog.TransitionStyle.animation)
 					{
-						AnimationEvent aEvent2 = new AnimationEvent();
-						aEvent2.time = dialog.closeAnimation.length;
-						aEvent2.functionName = "OnCloseComplete";
+						AnimationEvent aEvent2       = new AnimationEvent();
+						aEvent2.time                 = dialog.closeAnimation.length;
+						aEvent2.functionName         = "OnCloseComplete";
 						dialog.closeAnimation.events = null;
 						dialog.closeAnimation.AddEvent(aEvent2);
 					}
@@ -645,6 +637,7 @@ namespace QtmCat
 						animator = dialog.gameObject.AddComponent<Animator>();
 						animator.runtimeAnimatorController = dialog.controllerAnimation;
 					}
+
 					// we set play animation playerName 
 					// disenabled and update 0 for play first frame will not dispear dialog on beginning
 					// and next frame play normalSprite
@@ -653,112 +646,116 @@ namespace QtmCat
 					animator.Update(0f);
 
 					DOTween.Sequence()
-						.AppendInterval(0)
-						.AppendCallback
-						(
-							() =>
-							{
-								animator.enabled = true;
-							}
-						)
-						.Play();
+						   .AppendInterval(0)
+						   .AppendCallback
+						   (
+								() =>
+								{
+									animator.enabled = true;
+								}
+						   )
+						   .Play();
 				} break;
 
-			case Dialog.TransitionStyle.none:
+				case Dialog.TransitionStyle.none:
 				{
 
 					Vector3 pos = go.transform.localPosition;
 					go.transform.localPosition = new Vector3(pos.x + prefab.openPosOffsetX, pos.y + prefab.openPosOffsetY, pos.z);
 
 					DOTween.Sequence()
-						.AppendInterval(0.1f)
-						.AppendCallback
-						(
-							() =>
-							{
-								dialog.OnOpenComplete();
-							}
-						)
-						.Play();
-
+						   .AppendInterval(0.1f)
+						   .AppendCallback
+						   (
+							   	() =>
+							   	{
+							   		dialog.OnOpenComplete();
+							   	}
+						   )
+						   .Play();
 				} break;
 
-			case Dialog.TransitionStyle.zoom:
+				case Dialog.TransitionStyle.zoom:
 				{
-					go.transform.localScale = Vector3.zero;
-					Vector3 pos = go.transform.localPosition;
+					go.transform.localScale    = Vector3.zero;
+					Vector3 pos                = go.transform.localPosition;
 					go.transform.localPosition = new Vector3(prefab.openPosOffsetX + pos.x, prefab.openPosOffsetY + pos.y, 0f);
+
 					go.transform.DOScale(Vector3.one, prefab.openDuration)
-						.SetEase(prefab.openEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnOpenComplete();
-							}
-						);
+					  .SetEase(prefab.openEase)
+					  .OnComplete
+					  (
+						  	() =>
+						  	{
+						  		dialog.OnOpenComplete();
+						  	}
+					  );
 				} break;
 
-			case Dialog.TransitionStyle.slide_left:
+				case Dialog.TransitionStyle.slide_left:
 				{
-					Vector3 pos = go.transform.localPosition;
+					Vector3 pos                = go.transform.localPosition;
 					go.transform.localPosition = new Vector3(-fullScreenDimensions.x - dialog.width / 2, pos.y + prefab.openPosOffsetY, pos.z);
+
 					go.transform.DOLocalMoveX(pos.x + prefab.openPosOffsetX, prefab.openDuration)
-						.SetEase(prefab.openEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnOpenComplete();
-							}
-						);
+					  .SetEase(prefab.openEase)
+					  .OnComplete
+					  (
+						  	() =>
+						  	{
+						  		dialog.OnOpenComplete();
+						  	}
+					  );
 				} break;
 
 
-			case Dialog.TransitionStyle.slide_right:
+				case Dialog.TransitionStyle.slide_right:
 				{
-					Vector3 pos = go.transform.localPosition;
+					Vector3 pos                = go.transform.localPosition;
 					go.transform.localPosition = new Vector3(fullScreenDimensions.x + dialog.width / 2, pos.y + prefab.openPosOffsetY, pos.z);
+
 					go.transform.DOLocalMoveX(pos.x + prefab.openPosOffsetX, prefab.openDuration)
-						.SetEase(prefab.openEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnOpenComplete();
-							}
-						);
+					  .SetEase(prefab.openEase)
+					  .OnComplete
+					  (
+						  	() =>
+						  	{
+						  		dialog.OnOpenComplete();
+						  	}
+					  );
 				} break;
 
 
-			case Dialog.TransitionStyle.slide_top:
+				case Dialog.TransitionStyle.slide_top:
 				{
-					Vector3 pos = go.transform.localPosition;
+					Vector3 pos                = go.transform.localPosition;
 					go.transform.localPosition = new Vector3(pos.x + prefab.openPosOffsetX, fullScreenDimensions.y + dialog.height / 2, pos.z);
+
 					go.transform.DOLocalMoveY(pos.y + prefab.openPosOffsetY, prefab.openDuration)
-						.SetEase(prefab.openEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnOpenComplete();
-							}
-						);
+					  .SetEase(prefab.openEase)
+					  .OnComplete
+					  (
+						  	() =>
+						  	{
+						  		dialog.OnOpenComplete();
+						  	}
+					  );
 				} break;
 
-			case Dialog.TransitionStyle.slide_bottom:
+				case Dialog.TransitionStyle.slide_bottom:
 				{
-					Vector3 pos = go.transform.localPosition;
+					Vector3 pos                = go.transform.localPosition;
 					go.transform.localPosition = new Vector3(pos.x + prefab.openPosOffsetX, -fullScreenDimensions.y - dialog.height / 2, pos.z);
+
 					go.transform.DOLocalMoveY(pos.y + prefab.openPosOffsetY, prefab.openDuration)
-						.SetEase(prefab.openEase)
-						.OnComplete
-						(
-							() =>
-							{
-								dialog.OnOpenComplete();
-							}
-						);
+					  .SetEase(prefab.openEase)
+					  .OnComplete
+					  (
+						  	() =>
+						  	{
+						  		dialog.OnOpenComplete();
+						  	}
+					  );
 				} break;
 			}
 
@@ -769,7 +766,7 @@ namespace QtmCat
 					image1.color = new Color(image1.color.r, image1.color.g, image1.color.b, 0f);
 					DOTween.ToAlpha
 					(
-						() => image1.color,
+						()  => image1.color,
 						(c) => image1.color = c,
 						1f,
 						dialog.fadeInTime
@@ -782,7 +779,7 @@ namespace QtmCat
 					text.color = new Color(text.color.r, text.color.g, text.color.b, 0f);
 					DOTween.ToAlpha
 					(
-						() => text.color,
+						()  => text.color,
 						(c) => text.color = c,
 						1f,
 						dialog.fadeInTime
@@ -798,7 +795,7 @@ namespace QtmCat
 		public static MyImage AddImage(GameObject go, Sprite sprite)
 		{
 			MyImage image = go.AddComponent<MyImage>();
-			image.sprite = sprite;
+			image.sprite  = sprite;
 
 			return image;
 		}
@@ -869,13 +866,13 @@ namespace QtmCat
 		{
 			ADebug.Assert(parent != null);
 
-			GameObject go = new GameObject();
-			Transform transform = go.transform;
+			GameObject go           = new GameObject();
+			Transform transform     = go.transform;
 			transform.SetParent(parent.transform);
 			transform.localPosition = Vector3.zero;
 			transform.localRotation = Quaternion.identity;
-			transform.localScale = Vector3.one;
-			go.layer = parent.layer;
+			transform.localScale    = Vector3.one;
+			go.layer                = parent.layer;
 
 			return go;
 		}
@@ -885,12 +882,12 @@ namespace QtmCat
 			GameObject go = UnityEngine.Object.Instantiate(prefab) as GameObject;
 			ADebug.Assert(go != null && parent != null);
 
-			Transform transform = go.transform;
+			Transform transform     = go.transform;
 			transform.SetParent(parent.transform);
 			transform.localPosition = Vector3.zero;
 			transform.localRotation = Quaternion.identity;
-			transform.localScale = Vector3.one;
-			go.layer = parent.layer;
+			transform.localScale    = Vector3.one;
+			go.layer                = parent.layer;
 
 			return go;
 		}

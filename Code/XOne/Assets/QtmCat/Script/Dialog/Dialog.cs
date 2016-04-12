@@ -15,7 +15,6 @@ namespace QtmCat
 		public GameObject[] array;
 	}
 
-
 	public class Dialog : MonoBehaviour 
 	{
 
@@ -31,7 +30,7 @@ namespace QtmCat
 		}
 
 		public string dialogName;
-		public int width = 0;
+		public int width  = 0;
 		public int height = 0;
 
 		[Space(10)]
@@ -40,7 +39,7 @@ namespace QtmCat
 		public bool isCloseOnFocusOutside;
 
 		[Space(10)]
-		public bool isUseBlur = false;
+		public bool isUseBlur   = false;
 
 		[Space(10)]
 		public bool  isFadeIn   = false;
@@ -56,26 +55,26 @@ namespace QtmCat
 
 		[Space(10)]
 		public TransitionStyle openTransition = TransitionStyle.zoom;
-		public Ease openEase = Ease.OutBack;
-		public float openDuration = 0.618f;
-		public int openPosOffsetX = 0;
-		public int openPosOffsetY = 0;
+		public Ease            openEase       = Ease.OutBack;
+		public float           openDuration   = 0.618f;
+		public int             openPosOffsetX = 0;
+		public int             openPosOffsetY = 0;
 
 		[Space(10)]
 		public TransitionStyle closeTransition = TransitionStyle.none;
-		public Ease closeEase = Ease.OutBack;
-		public float closeDuration = 0.618f;
+		public Ease            closeEase       = Ease.OutBack;
+		public float           closeDuration   = 0.618f;
 
 		[Space(10)]
-		public AnimationClip openAnimation = null;
-		public AnimationClip closeAnimation = null;
+		public AnimationClip             openAnimation       = null;
+		public AnimationClip             closeAnimation      = null;
 		public RuntimeAnimatorController controllerAnimation = null;
 
 		[Space(10)]
 		public float  autoCloseTime = 0f;
 		public Button closeButton;
 		// when opened which Dialog need to hide
-		public string   hideDialogName;
+		public string hideDialogName;
 
 
 		[Space(10)]
@@ -95,11 +94,11 @@ namespace QtmCat
 
 
 		[HideInInspector]
-		public bool isOpenning;
+		public bool     isOpenning;
 		[HideInInspector]
-		public bool isClosing;
+		public bool     isClosing;
 		[HideInInspector]
-		public RawImage  rawImage;
+		public RawImage rawImage;
 
 
 		private Action<Dialog> onOpened;
@@ -129,7 +128,6 @@ namespace QtmCat
 			this.onBeginClose += action;
 			return this;
 		}
-
 
 		public Dialog OnOpened()
 		{
@@ -279,13 +277,13 @@ namespace QtmCat
 							return;
 						}
 
-						Dialog dialog = AUIManager.HUD;
+						Dialog dialog             = AUIManager.HUD;
 						dialog.isJustPlayAnimator = true;
 						dialog.GetComponent<Animator>().Play(dialog.openAnimation.name);
 					};
 
 					// close hide dialog
-					Dialog dd = AUIManager.HUD;
+					Dialog dd             = AUIManager.HUD;
 					dd.isJustPlayAnimator = true;
 					dd.GetComponent<Animator>().Play(dd.closeAnimation.name);
 
@@ -371,7 +369,7 @@ namespace QtmCat
 			if (
 				AUIManager.HUD != null   && 
 				AUIManager.HUD.container.transform.GetSiblingIndex() == AUIManager.instance.uiCamera.transform.childCount - 2
-			)
+			   )
 			{
 				openCount = 1;
 			}
@@ -401,7 +399,7 @@ namespace QtmCat
 
 			this.isOpenning = false;
 
-			//			AUIManager.HUD.container.buttonGroupTransform.SetAsLastSibling();
+			// AUIManager.HUD.container.buttonGroupTransform.SetAsLastSibling();
 
 		}
 
