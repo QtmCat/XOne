@@ -16,16 +16,16 @@ public class MainMenu : MonoBehaviour
 
 	}
 
-	public void StartButtonClick()
+	public void OnStart ()
 	{
 		AUIManager.OpenDialog ("Prefab/UI/GameRun");
 		AUIManager.CloseDialog ("MainMenu");
 	}
 
-	public void AboutButtonClick()
+	public void OnAbout ()
 	{
-		AUIManager.OpenDialog("Prefab/UI/GameAbout");
-		AUIManager.CloseDialog("MainMenu");
+		AUIManager.OpenDialog ("Prefab/UI/GameAbout");
+		AUIManager.CloseDialog ("MainMenu");
 	}
 
 	public void SettingButtonClick()

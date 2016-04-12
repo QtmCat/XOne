@@ -263,8 +263,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiRoot: {fileID: 583572777}
   uiCamera: {fileID: 98211890}
-  screenWidth: 960
-  screenHeight: 640
+  screenWidth: 720
+  screenHeight: 1280
   eventSystem: {fileID: 2001709088}
 --- !u!114 &583572780
 MonoBehaviour:
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 960, y: 640}
+  m_ReferenceResolution: {x: 720, y: 1280}
   m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

@@ -5,16 +5,18 @@ using QtmCatFramework;
 public class GameRun : MonoBehaviour 
 {
 	// Use this for initialization
-	void Start () {
-	
+	void Start () 
+    {
+	    
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+    {
+	    
 	}
 
-	public void BackButtonClick()
+	public void OnBack ()
 	{
 		AUIManager.OpenDialog ("Prefab/UI/MainMenu");
 		AUIManager.CloseDialog ("GameRun");
