@@ -9,25 +9,27 @@ namespace QtmCatFramework
 
 		public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
 		{
-			#if UNITY_EDITOR || UNITY_STANDALONE_WIN
-			if (Input.GetMouseButtonDown(0))
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+			if (Input.GetMouseButtonUp(0))
 			{
 				action();
 			}
 
-			#else
+#else
 			if (Input.touchCount == 1)
 			{
-			Touch touch = Input.GetTouch(0);
+				Touch touch = Input.GetTouch(0);
 
-			if (touch.phase == TouchPhase.Began)
-			{
-			action();		
+				if (touch.phase == TouchPhase.Ended)
+				{
+				action();		
+				}
 			}
-			}
-			#endif
+#endif
 			return false;
 		}
 	}
 }
+
+
 
