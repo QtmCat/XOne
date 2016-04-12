@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
 		AUIManager.CloseDialog ("MainMenu");
 	}
 
-	public void SettingButtonClick()
+	public void OnSetting ()
 	{
 		AUIManager.OpenDialog ("Prefab/UI/GameSetting");
 	}
