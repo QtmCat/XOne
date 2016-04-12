@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		Debug.LogError("1234569");
+		
 	}
 
 	// Update is called once per frame
@@ -26,5 +26,10 @@ public class MainMenu : MonoBehaviour
 	{
 		AUIManager.OpenDialog("Prefab/UI/GameAbout");
 		AUIManager.CloseDialog("MainMenu");
+	}
+
+	public void SettingButtonClick()
+	{
+		AUIManager.OpenDialog ("Prefab/UI/GameSetting");
 	}
 }
