@@ -7,7 +7,7 @@ using System.Collections;
 using UnityEngine;
 
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class Guide
 	{ 

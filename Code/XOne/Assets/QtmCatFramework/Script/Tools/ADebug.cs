@@ -1,6 +1,6 @@
 using System;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public static class ADebug
 	{

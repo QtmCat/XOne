@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class UIDepth : MonoBehaviour
 	{

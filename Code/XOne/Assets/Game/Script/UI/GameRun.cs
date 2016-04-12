@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using QtmCat;
+using QtmCatFramework;
 
-public class GameRun : MonoBehaviour {
-
+public class GameRun : MonoBehaviour 
+{
 	// Use this for initialization
 	void Start () {
 	

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class MyImage : Image
 	{

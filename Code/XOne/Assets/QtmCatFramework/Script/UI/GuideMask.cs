@@ -6,7 +6,7 @@ using DG;
 using DG.Tweening;
 
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	[ExecuteInEditMode]
 	public class GuideMask : MonoBehaviour

@@ -5,7 +5,7 @@ using System;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 
 	[Serializable]

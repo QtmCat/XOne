@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class EventIgnore : MonoBehaviour, ICanvasRaycastFilter
 	{

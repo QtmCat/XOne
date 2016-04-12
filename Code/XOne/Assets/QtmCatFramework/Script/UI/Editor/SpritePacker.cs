@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class SpritePacker
 	{

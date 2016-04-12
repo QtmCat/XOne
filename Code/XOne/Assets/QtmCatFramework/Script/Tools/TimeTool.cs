@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public static class TimeTool
 	{

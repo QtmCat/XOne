@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using QtmCat;
+using QtmCatFramework;
 
 public class GameManager : MonoBehaviour 
 {

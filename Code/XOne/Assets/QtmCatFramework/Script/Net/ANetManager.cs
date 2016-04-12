@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public static class ANetManager
 	{

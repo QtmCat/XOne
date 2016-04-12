@@ -2,7 +2,7 @@ using System.IO;
 using System.Net;
 using System;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class NetStream
 	{

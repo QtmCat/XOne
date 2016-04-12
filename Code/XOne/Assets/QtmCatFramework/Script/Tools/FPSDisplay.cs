@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class FPSDisplay : MonoBehaviour
 	{

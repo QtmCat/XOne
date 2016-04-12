@@ -6,7 +6,7 @@ using DG;
 using DG.Tweening;
 using System;
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public class MyScrollRect : ScrollRect 
 	{

@@ -9,7 +9,7 @@ using UnityEditor;
 #endif 
 
 
-namespace QtmCat
+namespace QtmCatFramework
 {
 	public static class AResource
 	{
