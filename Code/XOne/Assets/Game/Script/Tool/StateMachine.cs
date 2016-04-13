@@ -5,27 +5,64 @@ using System;
 
 namespace QtmCatFramework
 {
-	public class StateMachine
+	public class StateMachine : MonoBehaviour
 	{
 		private Dictionary<int, State> stateDic = new Dictionary<int, State>();
 		private State                  curState;
-		private State                  preStae;
+		private State                  preState;
 
-
-		public void AddState(State state)
+		public State CreateState(int stateId)
 		{
-			// stateDic.Add(state.id, state);
+			State state        = new State();
+			state.id           = stateId;
+			state.stateMachine = this;
+			this.stateDic.Add(stateId, state);
+
+			return state;
 		}
 
+		public State SetState(int stateId)
+		{
+			if (this.curState != null)
+			{
+				if (this.curState.OnExit != null)
+				{
+					this.curState.OnExit();
+				}
+			}
+
+			this.preState = this.curState;
+			this.curState = this.stateDic[stateId];
+
+			if (this.curState.OnEnter != null)
+			{
+				this.curState.OnEnter();
+			}
+
+			return this.curState;
+		}
+
+
+		void Update()
+		{
+			if (this.curState != null)
+			{
+				if (this.curState.Update != null)
+				{
+					this.curState.Update();
+				}
+			}
+		}
 
 
 		public class State
 		{
-			private int    id;
-			private object userData;
-			private Action OnEnter;
-			private Action OnExit ;
-			private Action Update ;
+			public int          id;
+			public object       userData;
+			public StateMachine stateMachine;
+			public Action       OnEnter;
+			public Action       OnExit ;
+			public Action       Update ;
 
 			public State SetId(int id)
 			{
