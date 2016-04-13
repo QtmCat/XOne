@@ -566,7 +566,7 @@ namespace QtmCatFramework
 			Image image;
 			if (prefab.isModal)
 			{
-				image       = AddImage(scrim, AResource.Load<Sprite>("Scrim"));
+				image       = AddImage(scrim, AResource.Load<Sprite>("Sprite/Scrim"));
 				image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
 				DOTween.ToAlpha
 				(
