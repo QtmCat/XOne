@@ -4,56 +4,44 @@ using System;
 using System.Collections;
 using QtmCatFramework;
 
-public class GameSetting : MonoBehaviour {
-
-	public static bool IsMusicOn;
-	public static bool IsSoundOn;
-
+public class GameSetting : MonoBehaviour 
+{
 	public Text musicText;
+
 	public Text soundText;
 
 	// Use this for initialization
-	void Start () {
-		IsMusicOn = Convert.ToBoolean(PlayerPrefs.GetString ("IsMusicOn", "true"));
-		IsSoundOn = Convert.ToBoolean(PlayerPrefs.GetString ("IsSoundOn", "true"));
-
-		musicText.text = IsMusicOn ? "关闭" : "打开";
-		soundText.text = IsSoundOn ? "关闭" : "打开";
+	void Start () 
+    {
+        this.Finalize ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
 	
 	}
 
-	public void BackButtonClick()
+    private void Finalize ()
+    {
+        this.musicText.text = SoundManager.Instance.isMusicOn ? "关闭" : "打开";
+        this.soundText.text = SoundManager.Instance.isSoundOn ? "关闭" : "打开";
+    }
+
+	public void OnBack ()
 	{
-		AUIManager.CloseDialog("GameSetting");
+		AUIManager.CloseDialog ("GameSetting");
 	}
 
-	public void MusicButtonClick()
+    public void OnMusic ()
 	{
-		if (IsMusicOn) 
-		{
-			IsMusicOn = false;
-		} 
-		else 
-		{
-			IsMusicOn = true;
-		}
-		musicText.text = IsMusicOn ? "关闭" : "打开";
+        SoundManager.Instance.ChangeMusic ();
+        this.Finalize ();
 	}
 
-	public void SoundButtonClick()
+    public void OnSound ()
 	{
-		if (IsSoundOn) 
-		{
-			IsSoundOn = false;
-		} 
-		else 
-		{
-			IsSoundOn = true;
-		}
-		soundText.text = IsSoundOn ? "关闭" : "打开";
+        SoundManager.Instance.ChangeSound ();
+        this.Finalize ();
 	}
 }
