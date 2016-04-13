@@ -8,8 +8,8 @@ namespace QtmCatFramework
 	public class StateMachine : MonoBehaviour
 	{
 		private Dictionary<int, State> stateDic = new Dictionary<int, State>();
-		private State                  curState;
-		private State                  preState;
+		public  State                  curState;
+		public  State                  preState;
 
 		public State CreateState(int stateId)
 		{

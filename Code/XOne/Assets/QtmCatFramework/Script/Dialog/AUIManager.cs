@@ -904,5 +904,35 @@ namespace QtmCatFramework
 
 			return local;
 		}
+
+		public static void FlyText(Vector3 position, string str)
+		{
+			GameObject go    = AUIManager.AddChild(AUIManager.instance.uiCamera.gameObject);
+			Text       text  = go.AddComponent<Text>();
+
+			text.text        = str;
+			text.color       = Color.green;
+			text.fontSize    = 60;
+			text.fontStyle   = FontStyle.Bold;
+			text.font        = AResource.Load<Font>("Font/SimHei");
+
+			DOTween.Sequence()
+				   .Append
+				   (
+				   		go.transform.DOBlendableMoveBy (new Vector3(0, 300, 0), 4f).SetEase(Ease.OutSine)
+				   )
+				   .Insert
+				   (
+				   		0.0f,
+				   		text.DOFade(0, 4f).SetEase(Ease.OutSine)
+				   )
+				   .AppendCallback
+				   (
+				   		() => 
+				   		{
+				   			DestroyImmediate(go);
+				   		}
+				   );
+		}
 	}
 }
