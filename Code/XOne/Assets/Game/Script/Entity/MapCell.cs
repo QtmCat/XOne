@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using QtmCatFramework;
+using UnityEngine.UI;
 
 public class MapCell : StateMachine 
 {
-	// Use this for initialization
-	void Start () 
-	{
-	
-	}
+    private Button button;
+
+	void Start()
+    {
+
+    }
 }
