@@ -908,6 +908,7 @@ namespace QtmCatFramework
 		public static void FlyText(Vector3 position, string str)
 		{
 			GameObject go    = AUIManager.AddChild(AUIManager.instance.uiCamera.gameObject);
+			go.name          = "FlyText";
 			Text       text  = go.AddComponent<Text>();
 
 			text.text        = str;
@@ -915,6 +916,9 @@ namespace QtmCatFramework
 			text.fontSize    = 60;
 			text.fontStyle   = FontStyle.Bold;
 			text.font        = AResource.Load<Font>("Font/SimHei");
+			text.alignment   = TextAnchor.UpperCenter;
+
+			text.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100);
 
 			DOTween.Sequence()
 				   .Append
