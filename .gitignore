@@ -18,11 +18,11 @@ ProjectVersion.txt
 /[Bb]uilds/
 
 
-/Assets/AssetStoreTools*
-/Assets/UnityVS.meta
-/Assets/UnityVS/*
-/Assets/Game/Resources/Prefab/LoadSprite/*
-/Assets/Game/Resources/Prefab/LoadSprite.meta
+Assets/AssetStoreTools*
+Assets/UnityVS.meta
+Assets/UnityVS/*
+Assets/Game/Resources/Prefab/LoadSprite/*
+Assets/Game/Resources/Prefab/LoadSprite.meta
 
 
 ============
@@ -30,7 +30,7 @@ ProjectVersion.txt
 ============
 
 ExportedObj/*
-/obj/*
+obj/*
 *.csproj
 *.unityproj
 *.sln
