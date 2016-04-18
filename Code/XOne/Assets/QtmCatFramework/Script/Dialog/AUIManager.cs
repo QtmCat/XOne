@@ -393,13 +393,12 @@ namespace QtmCatFramework
 			if (dialog.scrim)
 			{
 				Image image = dialog.scrim.GetComponent<Image>();
-				DOTween.ToAlpha
+
+				image.DOFade
 				(
-					()  => image.color,
-					(c) => image.color = c,
 					0f,
 					0.618f
-				);
+				).SetEase(Ease.OutSine);
 			}
 
 			if (dialog.isFadeOut)
@@ -407,25 +406,24 @@ namespace QtmCatFramework
 				foreach (Image image in dialog.GetComponentsInChildren<Image>())
 				{
 					image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
-					DOTween.ToAlpha
+
+					image.DOFade
 					(
-						()  => image.color,
-						(c) => image.color = c,
 						0f,
 						dialog.fadeOutTime
-					);
+					).SetEase(Ease.OutSine);
+
 				}
 
 				foreach (Text text in dialog.GetComponentsInChildren<Text>())
 				{
 					text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
-					DOTween.ToAlpha
+
+					text.DOFade
 					(
-						()  => text.color,
-						(c) => text.color = c,
 						0f,
 						dialog.fadeOutTime
-					);
+					).SetEase(Ease.OutSine);
 				}
 			}
 
@@ -550,13 +548,11 @@ namespace QtmCatFramework
 
 				BlurEffect.rawImage                                     = dialog.rawImage;
 
-				DOTween.ToAlpha
+				dialog.rawImage.DOFade
 				(
-					()  => dialog.rawImage.color,
-					(c) => dialog.rawImage.color = c,
 					1f,
-					1.0f
-				);
+					1f
+				).SetEase(Ease.OutSine);
 
 				dialog.blur = blur;
 			}
@@ -568,13 +564,12 @@ namespace QtmCatFramework
 			{
 				image       = AddImage(scrim, AResource.Load<Sprite>("Sprite/Scrim"));
 				image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
-				DOTween.ToAlpha
+
+				image.DOFade
 				(
-					()  => image.color,
-					(c) => image.color = c,
 					1f,
-					0.45f
-				);
+					0.618f
+				).SetEase(Ease.OutSine);
 			}
 			else
 			{
@@ -764,26 +759,24 @@ namespace QtmCatFramework
 				foreach (Image image1 in dialog.GetComponentsInChildren<Image>())
 				{
 					image1.color = new Color(image1.color.r, image1.color.g, image1.color.b, 0f);
-					DOTween.ToAlpha
+
+					image1.DOFade
 					(
-						()  => image1.color,
-						(c) => image1.color = c,
 						1f,
 						dialog.fadeInTime
-					);
+					).SetEase(Ease.OutSine);
 				}
 
 
 				foreach (Text text in dialog.GetComponentsInChildren<Text>())
 				{
 					text.color = new Color(text.color.r, text.color.g, text.color.b, 0f);
-					DOTween.ToAlpha
+
+					text.DOFade
 					(
-						()  => text.color,
-						(c) => text.color = c,
 						1f,
 						dialog.fadeInTime
-					);
+					).SetEase(Ease.OutSine);
 				}
 			}
 
