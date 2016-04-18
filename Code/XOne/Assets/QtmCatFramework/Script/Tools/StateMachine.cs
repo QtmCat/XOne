@@ -8,8 +8,31 @@ namespace QtmCatFramework
 	public class StateMachine : MonoBehaviour
 	{
 		private Dictionary<int, State> stateDic = new Dictionary<int, State>();
-		public  State                  curState;
-		public  State                  preState;
+
+		public State curState 
+		{
+			private set;
+			get;
+		}
+
+
+		public State preState 
+		{
+			private set;
+			get;
+		}
+
+		public int GetCurStateId()
+		{
+			return this.curState != null ? this.curState.id : -1;
+		}
+
+
+		public int GetPreStateId()
+		{
+			return this.preState != null ? this.preState.id : -1;
+		}
+
 
 		public State CreateState(int stateId)
 		{
