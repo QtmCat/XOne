@@ -27,7 +27,7 @@ public class MapCellManager : StateMachine
         this.Init ();
     }
 
-    override void Update ()
+	public override void Update ()
     {
         base.Update ();
     }
