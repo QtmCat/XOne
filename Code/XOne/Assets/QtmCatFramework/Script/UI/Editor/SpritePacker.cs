@@ -9,19 +9,21 @@ namespace QtmCatFramework
 {
 	public class SpritePacker
 	{
+		private static string spritePrefabDir = Application.dataPath + "/Game/Resources/Prefab/LoadSprite";
+		private static string spriteDir       = Application.dataPath + "/Game/LinkedResources/Sprite";
+		private static string getSpriteDir    = "Sprite/(.+)/";
+
 		[MenuItem ("Tools/AtlasMaker")]
 		private static void MakeAtlas()
 		{
-			string spriteDir = Application.dataPath + "/Game/Resources/Prefab/LoadSprite";		
-
-			if (Directory.Exists(spriteDir))
+			if (Directory.Exists(spritePrefabDir))
 			{
-				Directory.Delete(spriteDir, true);
+				Directory.Delete(spritePrefabDir, true);
 			}
 
-			Directory.CreateDirectory(spriteDir);
+			Directory.CreateDirectory(spritePrefabDir);
 
-			DirectoryInfo  rootDirInfo = new DirectoryInfo(Application.dataPath + "/Game/LinkedResources/Sprite");
+			DirectoryInfo  rootDirInfo = new DirectoryInfo(spriteDir);
 			List<FileInfo> list        = new List<FileInfo>(); 
 
 			foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) 
@@ -53,7 +55,7 @@ namespace QtmCatFramework
 				}
 
 				string     path          = AssetDatabase.GetAssetPath(sprite);
-				string     dir           = Regex.Match(path, "Sprite/(.+)/").Groups[1].Value;
+				string     dir           = Regex.Match(path, getSpriteDir).Groups[1].Value;
 
 				GameObject dirGameObject = null;
 
@@ -85,7 +87,7 @@ namespace QtmCatFramework
 			while (etor.MoveNext())
 			{
 				GameObject go   = etor.Current.Value;
-				string     path = spriteDir + "/" + go.name + ".prefab";
+				string     path = spritePrefabDir + "/" + go.name + ".prefab";
 
 				PrefabUtility.CreatePrefab(path.Substring(path.IndexOf ("Assets")), go);
 
