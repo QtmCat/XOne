@@ -12,7 +12,7 @@ namespace QtmCatFramework
 		[MenuItem ("Tools/AtlasMaker")]
 		private static void MakeAtlas()
 		{
-			string spriteDir = Application.dataPath + "/Resources/Game/Prefabs/Sprites";		
+			string spriteDir = Application.dataPath + "/Game/Resources/Prefab/LoadSprite";		
 
 			if (Directory.Exists(spriteDir))
 			{
@@ -21,7 +21,7 @@ namespace QtmCatFramework
 
 			Directory.CreateDirectory(spriteDir);
 
-			DirectoryInfo  rootDirInfo = new DirectoryInfo(Application.dataPath + "/Atlas");
+			DirectoryInfo  rootDirInfo = new DirectoryInfo(Application.dataPath + "/Game/LinkedResources/Sprite");
 			List<FileInfo> list        = new List<FileInfo>(); 
 
 			foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories()) 
@@ -52,7 +52,9 @@ namespace QtmCatFramework
 					continue;
 				}
 
-				string     dir           = Regex.Match(assetPath, "Atlas\\\\(.+)\\\\").Groups[1].Value;
+				string     path          = AssetDatabase.GetAssetPath(sprite);
+				string     dir           = Regex.Match(path, "Sprite/(.+)/").Groups[1].Value;
+
 				GameObject dirGameObject = null;
 
 				if (dirGameObjectDic.ContainsKey(dir))
@@ -72,8 +74,8 @@ namespace QtmCatFramework
 
 				EditorUtility.DisplayProgressBar
 				(
-					"?? Sprite", 
-					string.Format("??? {0} / {1}, {2}", i, list.Count, sprite.name), 
+					"Create Sprite", 
+					string.Format("Progress {0} / {1}, {2}", i, list.Count, sprite.name), 
 					(i + 1) / (float) list.Count
 				);
 			}
@@ -89,8 +91,8 @@ namespace QtmCatFramework
 
 				EditorUtility.DisplayProgressBar
 				(
-					"?? Prefab", 
-					string.Format("??? {0} / {1}, {2}", count, dirGameObjectDic.Count, go.name), 
+					"Create Prefab", 
+					string.Format("Progress {0} / {1}, {2}", count, dirGameObjectDic.Count, go.name), 
 					(count++ + 1) / (float) dirGameObjectDic.Count
 				);
 
@@ -100,6 +102,7 @@ namespace QtmCatFramework
 			EditorUtility.ClearProgressBar();
 		}
 
+/*
 		[MenuItem ("Tools/SetMyImage")]
 		private static void SetMyImage()
 		{
@@ -150,7 +153,7 @@ namespace QtmCatFramework
 						EditorUtility.DisplayProgressBar
 						(
 							"Set MyImage", 
-							string.Format("?? {0}", image.spritePrefabName), 
+							string.Format("Progress {0}", image.spritePrefabName), 
 							(i + 1) / (float) list.Count
 						);
 
@@ -161,5 +164,7 @@ namespace QtmCatFramework
 
 			EditorUtility.ClearProgressBar();
 		}
+*/
+
 	}
 }
