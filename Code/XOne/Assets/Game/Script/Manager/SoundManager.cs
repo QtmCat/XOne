@@ -30,8 +30,8 @@ public class SoundManager : MonoBehaviour
 
     private void Init ()
     {
-        this.isMusicOn = Convert.ToBoolean(PlayerPrefs.GetString(Constant.IsMusicOn, "true"));
-        this.isSoundOn = Convert.ToBoolean(PlayerPrefs.GetString(Constant.IsSoundOn, "true"));
+        this.isMusicOn = Convert.ToBoolean(PlayerPrefs.GetString(AConstant.IsMusicOn, "true"));
+        this.isSoundOn = Convert.ToBoolean(PlayerPrefs.GetString(AConstant.IsSoundOn, "true"));
     }
 
     public void ChangeMusic ()
@@ -47,14 +47,14 @@ public class SoundManager : MonoBehaviour
     public void SetMusic (bool state)
     {
         this.isMusicOn = state;
-        PlayerPrefs.SetString(Constant.IsMusicOn, Convert.ToString(state));
+        PlayerPrefs.SetString(AConstant.IsMusicOn, Convert.ToString(state));
         PlayerPrefs.Save();
     }
 
     public void SetSound (bool state)
     {
         this.isSoundOn = state;
-        PlayerPrefs.SetString(Constant.IsSoundOn, Convert.ToString(state));
+        PlayerPrefs.SetString(AConstant.IsSoundOn, Convert.ToString(state));
         PlayerPrefs.Save();
     }
 

@@ -16,6 +16,8 @@ public class MapCellManager : StateMachine
 
     private MapCell nextMapCell;
 
+    private List<MapCell> dropList;
+
     void Awake ()
     {
         Instance = this;
@@ -40,6 +42,7 @@ public class MapCellManager : StateMachine
     private void Init ()
     {
         this.incubator          = this.gameObject.GetComponent<Incubator> ();
+        this.dropList           = new List<MapCell> ();
 
         this.InitState ();
         this.InitMapCellList ();
@@ -48,9 +51,9 @@ public class MapCellManager : StateMachine
     private void InitState ()
     {
         State idleState         = this.CreateState ((int)StateType.Idle);
-        idleState.OnEnter       = this.OnEneter_IdleState;
-        State aniState          = this.CreateState ((int)StateType.Ani);
-        aniState.OnEnter        = this.OnEnter_AniState;
+        idleState.OnEnter       = this.OnEneterForIdleState;
+        State aniState          = this.CreateState ((int)StateType.ExChange);
+        aniState.OnEnter        = this.OnEnterForAniState;
 
         this.SetState ((int)StateType.Idle);
     }
@@ -58,20 +61,19 @@ public class MapCellManager : StateMachine
     private void InitMapCellList ()
     {
         // 断言
-        ADebug.Assert (this.transform.childCount == Constant.RanksNum, "the col Num is not Constant.RanksNum");
+        ADebug.Assert (this.transform.childCount == AConstant.RanksNum, "the col Num is not Constant.RanksNum");
 
-        this.mapCellList        = new MapCell[Constant.RanksNum][];
-        for (int i = 0; i < Constant.RanksNum; i++)
+        this.mapCellList        = new MapCell[AConstant.RanksNum][];
+        for (int i = 0; i < AConstant.RanksNum; i++)
         {
             Transform col       = this.transform.GetChild (i);
             // 断言
-            string info         = string.Format ("the row of col{0} Num is not Constant.RanksNum", i);
-            ADebug.Assert (col.childCount == Constant.RanksNum, info);
+            ADebug.Assert (col.childCount == AConstant.RanksNum, "the row of col{0} Num is not Constant.RanksNum", i);
 
             this.mapCellList[i] = col.GetComponentsInChildren<MapCell> ();
 
             // 初始化MapCell
-            for (int j = 0; j < Constant.RanksNum; j++)
+            for (int j = 0; j < AConstant.RanksNum; j++)
             {
                 MapCell mapCell = this.mapCellList[i][j];
                 Element element = this.incubator.CreateElement ();
@@ -95,7 +97,7 @@ public class MapCellManager : StateMachine
         int rowOffset           = Math.Abs (mapCell.rowIndex - this.curMapCell.rowIndex);
         if (colOffset + rowOffset == 1)
         {
-            this.SetState ((int)StateType.Ani);
+            this.SetState ((int)StateType.ExChange);
             this.nextMapCell    = mapCell;
             this.ExChangeElement (this.curMapCell, this.nextMapCell, true);
             this.SetCurMapCell (null);
@@ -166,7 +168,7 @@ public class MapCellManager : StateMachine
             }
             rowList.Add (temp);
         }
-        for (int x = mapCell.colIndex + 1; x < Constant.RanksNum; x++)
+        for (int x = mapCell.colIndex + 1; x < AConstant.RanksNum; x++)
         {
             MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
             if (!mapCell.isSameColor (temp))
@@ -175,7 +177,7 @@ public class MapCellManager : StateMachine
             }
             rowList.Add (temp);
         }
-        if (rowList.Count >= Constant.CrashMin - 1)
+        if (rowList.Count >= AConstant.CrashMin - 1)
         {
             foreach (MapCell temp in rowList)
             {
@@ -193,7 +195,7 @@ public class MapCellManager : StateMachine
             }
             colList.Add (temp);
         }
-        for (int y = mapCell.rowIndex + 1; y < Constant.RanksNum; y++)
+        for (int y = mapCell.rowIndex + 1; y < AConstant.RanksNum; y++)
         {
             MapCell temp        = this.mapCellList[mapCell.colIndex][y];
             if (!mapCell.isSameColor (temp))
@@ -202,7 +204,7 @@ public class MapCellManager : StateMachine
             }
             colList.Add (temp);
         }
-        if (colList.Count >= Constant.CrashMin - 1)
+        if (colList.Count >= AConstant.CrashMin - 1)
         {
             foreach (MapCell temp in colList)
             {
@@ -210,7 +212,7 @@ public class MapCellManager : StateMachine
             }
         }
         //
-        if (list.Count >= Constant.CrashMin)
+        if (list.Count >= AConstant.CrashMin)
         {
             this.DoCrash(list);
             return true;
@@ -251,9 +253,9 @@ public class MapCellManager : StateMachine
 
     private void DropTest ()
     {
-        for (int x = 0; x < Constant.RanksNum; x++)
+        for (int x = 0; x < AConstant.RanksNum; x++)
         {
-            for (int y = 0; y < Constant.RanksNum; y++)
+            for (int y = 0; y < AConstant.RanksNum; y++)
             {
                 MapCell mapCell = this.mapCellList[x][y];
                 if (mapCell.element != null)
@@ -316,12 +318,12 @@ public class MapCellManager : StateMachine
         destMapCell.Drop (callback);
     }
 
-    private void OnEneter_IdleState ()
+    private void OnEneterForIdleState ()
     {
 
     }
 
-    private void OnEnter_AniState ()
+    private void OnEnterForAniState ()
     {
 
     }
@@ -332,6 +334,7 @@ public class MapCellManager : StateMachine
     {
         None = 0,
         Idle,
-        Ani,
+        ExChange,
+        Drop,
     }
 }
