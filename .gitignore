@@ -21,6 +21,8 @@ ProjectVersion.txt
 /Assets/AssetStoreTools*
 /Assets/UnityVS.meta
 /Assets/UnityVS/*
+Assets/Game/Resources/Prefab/LoadSprite/*
+Assets/Game/Resources/Prefab/LoadSprite.meta
 
 
 ============
@@ -28,6 +30,7 @@ ProjectVersion.txt
 ============
 
 ExportedObj/
+/obj/
 *.csproj
 *.unityproj
 *.sln
