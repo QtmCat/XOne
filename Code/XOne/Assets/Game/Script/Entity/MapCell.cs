@@ -5,11 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG;
 using DG.Tweening;
+using System;
 
 [ExecuteInEditMode]
 public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 {
-    public bool isShow;                 // 是否显示
+    public bool isExist;                 // 是否存在
 
     public bool isNest;                 // 是否生产Element
 
@@ -63,8 +64,50 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     public void SetElement (Element element)
     {
-        this.element                    = element;
-        this.element.transform.parent   = this.transform;
+        this.element                            = element;
+        if (this.element != null)
+        {
+            this.element.transform.parent       = this.elementPanel.transform;
+        }
+    }
+
+    public void ResetElementPos (Action callback = null)
+    {
+        this.element.transform.DOLocalMove (Vector3.zero, 0.5f).SetEase (Ease.OutBack).OnComplete (() =>
+        {
+            if (callback != null)
+            {
+                callback ();
+            }
+        });
+    }
+
+    public void Drop (Action callback)
+    {
+        float width     = this.GetComponent<RectTransform>().rect.width;
+        float duration  = Vector3.Distance (this.element.transform.localPosition, Vector3.zero) / width * 0.5f;
+        this.element.transform.DOLocalMove (Vector3.zero, duration).SetEase (Ease.OutBack).OnComplete (() =>
+        {
+            if (callback != null)
+            {
+                callback ();
+            }
+        });
+    }
+
+    public void CrashElement ()
+    {
+        this.element.Crash ();
+        this.element = null;
+    }
+
+    public bool isSameColor (MapCell other)
+    {
+        if (this.element == null || other.element == null)
+        {
+            return false;
+        }
+        return this.element.color == other.element.color;
     }
 
     public void SetSelected (bool selected)
@@ -90,6 +133,8 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
     public bool selected { private set; get; }
 
     public Element element { set; get; }
+
+    public delegate bool CrashTestHandler(MapCell mapCell);
 }
 
 public enum IceLevel

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using DG;
 using DG.Tweening;
+using System;
 
 public class Element : MonoBehaviour 
 {
@@ -33,9 +34,9 @@ public class Element : MonoBehaviour
         this.image.color    = colorList[(int)this.color];
     }
 
-    public void Reset ()
+    public void Crash ()
     {
-        this.transform.DOLocalMove (Vector3.zero, 0.5f).SetEase (Ease.OutBack);
+        Destroy (this.gameObject);
     }
 
     public void SetColor (ElementColor color)

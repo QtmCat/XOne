@@ -66,7 +66,7 @@ namespace QtmCatFramework
 		}
 
 
-		void Update()
+        public virtual void Update ()
 		{
 			if (this.curState != null)
 			{
