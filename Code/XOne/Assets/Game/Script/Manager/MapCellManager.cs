@@ -54,6 +54,8 @@ public class MapCellManager : StateMachine
         idleState.OnEnter       = this.OnEneterForIdleState;
         State aniState          = this.CreateState ((int)StateType.ExChange);
         aniState.OnEnter        = this.OnEnterForAniState;
+        State dropState         = this.CreateState((int)StateType.Drop);
+
 
         this.SetState ((int)StateType.Idle);
     }
@@ -306,9 +308,11 @@ public class MapCellManager : StateMachine
 
     private void DropElement (MapCell startMapCell, MapCell destMapCell)
     {
+        this.dropList.Add(destMapCell);
         Action callback         = () =>
         {
-
+            this.dropList.Remove(destMapCell);
+            this.CrashTestSingle(destMapCell);
         };
 
         Element element         = startMapCell.element;
@@ -316,6 +320,24 @@ public class MapCellManager : StateMachine
         destMapCell.SetElement (element);
 
         destMapCell.Drop (callback);
+    }
+
+    private void AddDropList(MapCell mapCell)
+    {
+        this.dropList.Add(mapCell);
+        if (this.GetCurStateId() != (int)StateType.Drop)
+        {
+            this.SetState((int)StateType.Drop);
+        }
+    }
+
+    private void RemoveDropList(MapCell mapCell)
+    {
+        this.dropList.Remove(mapCell);
+        if (this.dropList.Count == 0)
+        {
+            this.SetState((int)StateType.Idle);
+        }
     }
 
     private void OnEneterForIdleState ()

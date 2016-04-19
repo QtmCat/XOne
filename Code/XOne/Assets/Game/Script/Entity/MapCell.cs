@@ -51,11 +51,10 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.rowIndex   = rowIndex;
         this.element    = element;
 
+		this.element.transform.SetParent(this.elementPanel.transform, true);
         this.element.transform.localScale       = Vector3.one;
         this.element.transform.localPosition    = Vector3.zero;
         this.element.transform.localRotation    = Quaternion.identity;
-
-		this.element.transform.SetParent(this.elementPanel.transform, false);
     }
 
     private void Finalize ()
@@ -68,32 +67,20 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.element                            = element;
         if (this.element != null)
         {
-            this.element.transform.parent       = this.elementPanel.transform;
+            this.element.transform.SetParent(this.elementPanel.transform, true);
         }
     }
 
     public void ResetElementPos (Action callback = null)
     {
-        this.element.transform.DOLocalMove (Vector3.zero, 0.5f).SetEase (Ease.OutBack).OnComplete (() =>
-        {
-            if (callback != null)
-            {
-                callback ();
-            }
-        });
+        this.element.ResetPos(callback);
     }
 
     public void Drop (Action callback)
     {
         float width     = this.GetComponent<RectTransform>().rect.width;
         float duration  = Vector3.Distance (this.element.transform.localPosition, Vector3.zero) / width * 0.5f;
-        this.element.transform.DOLocalMove (Vector3.zero, duration).SetEase (Ease.OutBack).OnComplete (() =>
-        {
-            if (callback != null)
-            {
-                callback ();
-            }
-        });
+        this.element.Drop(duration, callback);
     }
 
     public void CrashElement ()
@@ -105,6 +92,11 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
     public bool isSameColor (MapCell other)
     {
         if (this.element == null || other.element == null)
+        {
+            return false;
+        }
+        if (this.element.GetCurStateId() != (int)Element.StateType.Idle 
+            || other.element.GetCurStateId() != (int)Element.StateType.Idle)
         {
             return false;
         }
