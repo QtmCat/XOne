@@ -18,8 +18,8 @@ namespace QtmCatFramework
 		public  static AUIManager Instance;
 		public  static Dialog     HUD;
 
-		public  static Dictionary<string, Dialog> openedDialogs = new Dictionary<string, Dialog>();
-		private static List<QueuedDialog>         queuedTips    = new List<QueuedDialog>();
+		public  static Dictionary<string, Dialog> OpenedDialogs = new Dictionary<string, Dialog>();
+		private static List<QueuedDialog>         QueuedTips    = new List<QueuedDialog>();
 
 		public GameObject     uiRoot;
 		public Camera         uiCamera;
@@ -40,7 +40,7 @@ namespace QtmCatFramework
 		{
 			List<Dialog> list = new List<Dialog>();
 
-			foreach (KeyValuePair<string, Dialog> kv in openedDialogs)
+			foreach (KeyValuePair<string, Dialog> kv in OpenedDialogs)
 			{
 				if (kv.Value.container.activeSelf)
 				{
@@ -64,7 +64,7 @@ namespace QtmCatFramework
 		{
 			List<Dialog> list = new List<Dialog>();
 
-			foreach (KeyValuePair<string, Dialog> kv in openedDialogs)
+			foreach (KeyValuePair<string, Dialog> kv in OpenedDialogs)
 			{
 				list.Add(kv.Value);
 			}
@@ -82,7 +82,7 @@ namespace QtmCatFramework
 
 		public static Dialog SetDialogActive(string name, bool isActive)
 		{
-			return SetDialogActive(openedDialogs[name], isActive);
+			return SetDialogActive(OpenedDialogs[name], isActive);
 		}
 
 		public static Dialog SetDialogActive(Dialog dialog, bool isActive)
@@ -185,7 +185,7 @@ namespace QtmCatFramework
 				QueuedDialog qd = new QueuedDialog();
 				qd.prefab = prefab;
 				qd.onCreated += onCreated;
-				queuedTips.Add(qd);
+				QueuedTips.Add(qd);
 			}
 			else
 			{
@@ -208,10 +208,10 @@ namespace QtmCatFramework
 									{
 										isQueuedTipShowing = false;
 
-										if (queuedTips.Count > 0)
+										if (QueuedTips.Count > 0)
 										{
-											QueuedDialog qd = queuedTips[0];
-											queuedTips.RemoveAt(0);
+											QueuedDialog qd = QueuedTips[0];
+											QueuedTips.RemoveAt(0);
 											ShowQueuedTip(qd.prefab, qd.onCreated);
 										}
 									}
@@ -257,7 +257,7 @@ namespace QtmCatFramework
 		{
 			Dialog dialog;
 
-			if (openedDialogs.TryGetValue(name, out dialog))
+			if (OpenedDialogs.TryGetValue(name, out dialog))
 			{
 				CloseDialog(dialog);
 			}
@@ -265,7 +265,7 @@ namespace QtmCatFramework
 
 		public static void CloseAllDialogs(params string[] dialogNames)
 		{
-			Dictionary<string, Dialog>.Enumerator enumerator = openedDialogs.GetEnumerator();
+			Dictionary<string, Dialog>.Enumerator enumerator = OpenedDialogs.GetEnumerator();
 			while (enumerator.MoveNext())
 			{
 				foreach (string name in dialogNames)
@@ -281,15 +281,15 @@ namespace QtmCatFramework
 				Label_next:;
 			}
 
-			openedDialogs.Clear();
-			queuedTips.Clear();
+			OpenedDialogs.Clear();
+			QueuedTips.Clear();
 		}
 
 		public static void CloseDialog(Dialog dialog)
 		{
 			ADebug.Assert(dialog != null);
 
-			if (!openedDialogs.ContainsKey(dialog.dialogName))
+			if (!OpenedDialogs.ContainsKey(dialog.dialogName))
 			{
 				return;
 			}
@@ -427,19 +427,19 @@ namespace QtmCatFramework
 				}
 			}
 
-			openedDialogs.Remove(dialog.dialogName);
+			OpenedDialogs.Remove(dialog.dialogName);
 		}
 
 		public static bool isDialogOpen(string dialogName)
 		{
-			return openedDialogs.ContainsKey(dialogName);
+			return OpenedDialogs.ContainsKey(dialogName);
 		}
 
 
 		public static void DestroyDialog(string name, bool immediate)
 		{
 			Dialog dialog;
-			if (openedDialogs.TryGetValue(name, out dialog))
+			if (OpenedDialogs.TryGetValue(name, out dialog))
 			{
 				DestroyDialog(dialog, immediate);
 			}
@@ -449,9 +449,9 @@ namespace QtmCatFramework
 		{
 			ADebug.Assert(dialog != null);
 
-			if (openedDialogs.ContainsKey(dialog.dialogName))
+			if (OpenedDialogs.ContainsKey(dialog.dialogName))
 			{
-				openedDialogs.Remove(dialog.dialogName);
+				OpenedDialogs.Remove(dialog.dialogName);
 
 				if (immediate)
 				{
@@ -471,10 +471,10 @@ namespace QtmCatFramework
 			ADebug.Assert(prefab != null);
 
 			Dialog d;
-			if (openedDialogs.TryGetValue(prefab.dialogName, out d))
+			if (OpenedDialogs.TryGetValue(prefab.dialogName, out d))
 			{
 
-				if (openedDialogs.Count == 1)
+				if (OpenedDialogs.Count == 1)
 				{
 					ADebug.Log("Dialog [{0}] has already opened, what the fuck have you done !!!", prefab.dialogName);
 				}
@@ -521,7 +521,7 @@ namespace QtmCatFramework
 			GameObject go     = AddChild(container, prefab.gameObject);
 			container.name    = go.name + "(DialogContainer)";
 			RectTransform crt = container.AddComponent<RectTransform>();
-			crt.localPosition = new Vector3(0, 0, openedDialogs.Count * -100);
+			crt.localPosition = new Vector3(0, 0, OpenedDialogs.Count * -100);
 			crt.sizeDelta     = Vector2.zero;
 
 
@@ -780,7 +780,7 @@ namespace QtmCatFramework
 				}
 			}
 
-			openedDialogs.Add(prefab.dialogName, dialog);
+			OpenedDialogs.Add(prefab.dialogName, dialog);
 
 			return dialog;
 		}
