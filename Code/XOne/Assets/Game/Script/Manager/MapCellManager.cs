@@ -61,19 +61,19 @@ public class MapCellManager : StateMachine
     private void InitMapCellList ()
     {
         // 断言
-        ADebug.Assert (this.transform.childCount == AConstant.RanksNum, "the col Num is not Constant.RanksNum");
+        ADebug.Assert (this.transform.childCount == AConstant.ranks_num, "the col Num is not Constant.RanksNum");
 
-        this.mapCellList        = new MapCell[AConstant.RanksNum][];
-        for (int i = 0; i < AConstant.RanksNum; i++)
+        this.mapCellList        = new MapCell[AConstant.ranks_num][];
+        for (int i = 0; i < AConstant.ranks_num; i++)
         {
             Transform col       = this.transform.GetChild (i);
             // 断言
-            ADebug.Assert (col.childCount == AConstant.RanksNum, "the row of col{0} Num is not Constant.RanksNum", i);
+            ADebug.Assert (col.childCount == AConstant.ranks_num, "the row of col{0} Num is not Constant.RanksNum", i);
 
             this.mapCellList[i] = col.GetComponentsInChildren<MapCell> ();
 
             // 初始化MapCell
-            for (int j = 0; j < AConstant.RanksNum; j++)
+            for (int j = 0; j < AConstant.ranks_num; j++)
             {
                 MapCell mapCell = this.mapCellList[i][j];
                 Element element = this.incubator.CreateElement ();
@@ -168,7 +168,7 @@ public class MapCellManager : StateMachine
             }
             rowList.Add (temp);
         }
-        for (int x = mapCell.colIndex + 1; x < AConstant.RanksNum; x++)
+        for (int x = mapCell.colIndex + 1; x < AConstant.ranks_num; x++)
         {
             MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
             if (!mapCell.isSameColor (temp))
@@ -177,7 +177,7 @@ public class MapCellManager : StateMachine
             }
             rowList.Add (temp);
         }
-        if (rowList.Count >= AConstant.CrashMin - 1)
+        if (rowList.Count >= AConstant.crash_min - 1)
         {
             foreach (MapCell temp in rowList)
             {
@@ -195,7 +195,7 @@ public class MapCellManager : StateMachine
             }
             colList.Add (temp);
         }
-        for (int y = mapCell.rowIndex + 1; y < AConstant.RanksNum; y++)
+        for (int y = mapCell.rowIndex + 1; y < AConstant.ranks_num; y++)
         {
             MapCell temp        = this.mapCellList[mapCell.colIndex][y];
             if (!mapCell.isSameColor (temp))
@@ -204,7 +204,7 @@ public class MapCellManager : StateMachine
             }
             colList.Add (temp);
         }
-        if (colList.Count >= AConstant.CrashMin - 1)
+        if (colList.Count >= AConstant.crash_min - 1)
         {
             foreach (MapCell temp in colList)
             {
@@ -212,7 +212,7 @@ public class MapCellManager : StateMachine
             }
         }
         //
-        if (list.Count >= AConstant.CrashMin)
+        if (list.Count >= AConstant.crash_min)
         {
             this.DoCrash(list);
             return true;
@@ -253,9 +253,9 @@ public class MapCellManager : StateMachine
 
     private void DropTest ()
     {
-        for (int x = 0; x < AConstant.RanksNum; x++)
+        for (int x = 0; x < AConstant.ranks_num; x++)
         {
-            for (int y = 0; y < AConstant.RanksNum; y++)
+            for (int y = 0; y < AConstant.ranks_num; y++)
             {
                 MapCell mapCell = this.mapCellList[x][y];
                 if (mapCell.element != null)

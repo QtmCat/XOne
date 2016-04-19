@@ -11,12 +11,12 @@ namespace QtmCatFramework
 	{
 		private class QueuedDialog
 		{
-			public Dialog prefab;
+			public Dialog         prefab;
 			public Action<Dialog> onCreated;
 		}
 
-		public  static AUIManager instance;
-		public  static Dialog HUD;
+		public  static AUIManager Instance;
+		public  static Dialog     HUD;
 
 		public  static Dictionary<string, Dialog> openedDialogs = new Dictionary<string, Dialog>();
 		private static List<QueuedDialog>         queuedTips    = new List<QueuedDialog>();
@@ -33,7 +33,7 @@ namespace QtmCatFramework
 		{
 			ADebug.Assert(this.uiRoot   != null);
 			ADebug.Assert(this.uiCamera != null);
-			instance = this;
+			Instance = this;
 		}
 
 		public static List<Dialog> GetOpenedActivedDialog()
@@ -234,7 +234,7 @@ namespace QtmCatFramework
 
 			if (parent == null)
 			{
-				parent = instance.uiCamera.gameObject;
+				parent = Instance.uiCamera.gameObject;
 			}
 
 			return SpawnDialog(prefab, parent, onCreated);
@@ -247,7 +247,7 @@ namespace QtmCatFramework
 
 			if (parent == null)
 			{
-				parent = instance.uiCamera.gameObject;
+				parent = Instance.uiCamera.gameObject;
 			}
 
 			return OpenDialog(prefab, parent, onCreated);
@@ -297,7 +297,7 @@ namespace QtmCatFramework
 			dialog.isClosing = true;
 			dialog.OnBeginClose();
 
-			Vector2 fullScreenDimensions = instance.GetComponent<RectTransform>().sizeDelta;
+			Vector2 fullScreenDimensions = Instance.GetComponent<RectTransform>().sizeDelta;
 
 			switch (dialog.closeTransition)
 			{
@@ -500,7 +500,7 @@ namespace QtmCatFramework
 			GameObject container;
 			if (parent == null)
 			{
-				container = AddChild(instance.uiCamera.gameObject);
+				container = AddChild(Instance.uiCamera.gameObject);
 			}
 			else
 			{
@@ -508,8 +508,8 @@ namespace QtmCatFramework
 			}
 
 
-			Vector2 fullScreenDimensions   = instance.GetComponent<RectTransform>().sizeDelta;
-			container.transform.localScale = new Vector3(fullScreenDimensions.x / AUIManager.instance.screenWidth, fullScreenDimensions.y / AUIManager.instance.screenHeight, 1.0f);
+			Vector2 fullScreenDimensions   = Instance.GetComponent<RectTransform>().sizeDelta;
+			container.transform.localScale = new Vector3(fullScreenDimensions.x / AUIManager.Instance.screenWidth, fullScreenDimensions.y / AUIManager.Instance.screenHeight, 1.0f);
 
 
 			GameObject scrim = AddChild(container);
@@ -544,7 +544,7 @@ namespace QtmCatFramework
 
 				dialog.rawImage                                         = blur.AddComponent<RawImage>();
 				dialog.rawImage.color                                   = new Color(dialog.rawImage.color.r, dialog.rawImage.color.g, dialog.rawImage.color.b, 0f);
-				dialog.rawImage.GetComponent<RectTransform>().sizeDelta = new Vector2(AUIManager.instance.screenWidth, AUIManager.instance.screenHeight);
+				dialog.rawImage.GetComponent<RectTransform>().sizeDelta = new Vector2(AUIManager.Instance.screenWidth, AUIManager.Instance.screenHeight);
 
 				BlurEffect.rawImage                                     = dialog.rawImage;
 
@@ -577,7 +577,7 @@ namespace QtmCatFramework
 				image.color = new Color(0, 0, 0, 0);
 			}
 
-			image.GetComponent<RectTransform>().sizeDelta = new Vector2(AUIManager.instance.screenWidth, AUIManager.instance.screenHeight);
+			image.GetComponent<RectTransform>().sizeDelta = new Vector2(AUIManager.Instance.screenWidth, AUIManager.Instance.screenHeight);
 
 			if (dialog.isCloseOnFocusOutside)
 			{
@@ -799,7 +799,7 @@ namespace QtmCatFramework
 			GameObject prefab = AResource.Load<GameObject>(prefabFile);
 			ADebug.Assert(prefab != null);
 
-			return AddChild(instance.uiRoot, prefab);
+			return AddChild(Instance.uiRoot, prefab);
 		}
 
 		public static GameObject InstantiatePrefabToUICamera(string prefabFile)
@@ -808,7 +808,7 @@ namespace QtmCatFramework
 			GameObject prefab = AResource.Load<GameObject>(prefabFile);
 			ADebug.Assert(prefab != null);
 
-			return AddChild(instance.uiCamera.gameObject, prefab);
+			return AddChild(Instance.uiCamera.gameObject, prefab);
 		}
 
 		public static GameObject InstantiatePrefab(GameObject parent, string prefabFile)
@@ -844,7 +844,7 @@ namespace QtmCatFramework
 			ADebug.Assert(prefabFile != null);
 			ADebug.Assert(callback != null);
 
-			InstantiatePrefabAsyn(instance.uiCamera.gameObject, prefabFile, callback);
+			InstantiatePrefabAsyn(Instance.uiCamera.gameObject, prefabFile, callback);
 		}
 
 		public static void InstantiatePrefabToUIRootAsyn(string prefabFile, Action<GameObject> callback)
@@ -852,7 +852,7 @@ namespace QtmCatFramework
 			ADebug.Assert(prefabFile != null);
 			ADebug.Assert(callback != null);
 
-			InstantiatePrefabAsyn(instance.uiRoot.gameObject, prefabFile, callback);
+			InstantiatePrefabAsyn(Instance.uiRoot.gameObject, prefabFile, callback);
 		}
 
 		public static GameObject AddChild(GameObject parent)
@@ -900,7 +900,7 @@ namespace QtmCatFramework
 
 		public static void FlyText(Vector3 position, string str)
 		{
-			GameObject go    = AUIManager.AddChild(AUIManager.instance.uiCamera.gameObject);
+			GameObject go    = AUIManager.AddChild(AUIManager.Instance.uiCamera.gameObject);
 			go.name          = "FlyText";
 			Text       text  = go.AddComponent<Text>();
 

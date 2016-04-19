@@ -51,10 +51,11 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.rowIndex   = rowIndex;
         this.element    = element;
 
-        this.element.transform.parent           = this.elementPanel.transform;
         this.element.transform.localScale       = Vector3.one;
         this.element.transform.localPosition    = Vector3.zero;
         this.element.transform.localRotation    = Quaternion.identity;
+
+		this.element.transform.SetParent(this.elementPanel.transform, false);
     }
 
     private void Finalize ()
