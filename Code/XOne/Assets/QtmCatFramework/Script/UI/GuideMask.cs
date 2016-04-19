@@ -23,7 +23,7 @@ namespace QtmCatFramework
 		public Image           image;
 
 
-		public static GuideMask instance;
+		public static GuideMask Instance;
 
 
 		public static GuideMask SetRectCenter(Vector2 center, Vector2 size, Action action, bool isUseVignette = true)
@@ -31,7 +31,7 @@ namespace QtmCatFramework
 			GameObject go   = AUIManager.InstantiatePrefabToUICamera("GuideMask");
 			GuideMask  mask = go.GetComponent<GuideMask>();
 
-			GuideMask.instance = mask;
+			GuideMask.Instance = mask;
 
 			go.transform.SetAsLastSibling();
 
@@ -55,7 +55,7 @@ namespace QtmCatFramework
 
 		private void SetRectCenterInner(Vector2 center, Vector2 size, bool isUseVignette = true)
 		{           
-			RectTransform   root     = AUIManager.instance.uiRoot.GetComponent<RectTransform>();
+			RectTransform   root     = AUIManager.Instance.uiRoot.GetComponent<RectTransform>();
 			Vector2         half     = root.sizeDelta * root.localScale.x / 2;
 			Vector2         halfSize = size           * root.localScale.x / 2;
 

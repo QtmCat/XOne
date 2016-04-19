@@ -192,7 +192,7 @@ namespace QtmCatFramework
 
 			if (this.isUseBlur)
 			{
-				AUIManager.instance.uiCamera.GetComponent<BlurEffect>().enabled = true;
+				AUIManager.Instance.uiCamera.GetComponent<BlurEffect>().enabled = true;
 			}
 		}
 
@@ -368,7 +368,7 @@ namespace QtmCatFramework
 
 			if (
 				AUIManager.HUD != null   && 
-				AUIManager.HUD.container.transform.GetSiblingIndex() == AUIManager.instance.uiCamera.transform.childCount - 2
+				AUIManager.HUD.container.transform.GetSiblingIndex() == AUIManager.Instance.uiCamera.transform.childCount - 2
 			   )
 			{
 				openCount = 1;
