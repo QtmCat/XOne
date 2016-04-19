@@ -18,11 +18,11 @@ ProjectVersion.txt
 /[Bb]uilds/
 
 
-Assets/AssetStoreTools*
-Assets/UnityVS.meta
-Assets/UnityVS/*
-Assets/Game/Resources/Prefab/LoadSprite/*
-Assets/Game/Resources/Prefab/LoadSprite.meta
+Code/XOne/Assets/AssetStoreTools*
+Code/XOne/Assets/UnityVS.meta
+Code/XOne/Assets/UnityVS/*
+Code/XOne/Assets/Game/Resources/Prefab/LoadSprite/*
+Code/XOne/Assets/Game/Resources/Prefab/LoadSprite.meta
 
 
 ============
