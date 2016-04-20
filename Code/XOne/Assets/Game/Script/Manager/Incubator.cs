@@ -14,7 +14,7 @@ public class Incubator : MonoBehaviour
 
     private void Init()
     {
-        this.preColor = ElementColor.None;
+        this.preColor = ElementColor.none;
     }
 
     public Element CreateElement()
@@ -23,7 +23,7 @@ public class Incubator : MonoBehaviour
 		// TODO: Instantiate 有封裝接口
         GameObject obj     = Instantiate(Resources.Load ("Prefab/Element")) as GameObject;
         Element    element = obj.GetComponent<Element>();
-        element.Setup (this.RandomColor(), ElementType.Normal);
+        element.Setup (this.RandomColor(), ElementType.normal);
 
         return element;
     }
@@ -35,7 +35,7 @@ public class Incubator : MonoBehaviour
         while (true)
         {
             color = this.colorList[UnityEngine.Random.Range(0, this.colorList.Length)];
-            if (this.preColor == ElementColor.None || this.preColor != color)
+            if (this.preColor == ElementColor.none || this.preColor != color)
             {
                 this.preColor = color;
                 break;

@@ -49,15 +49,15 @@ public class MapCellManager : StateMachine
 
     private void InitState()
     {
-        State idleState   = this.CreateState((int) StateType.Idle);
+        State idleState   = this.CreateState((int) StateType.idle);
         idleState.OnEnter = this.OnEneterForIdleState;
 
-        State aniState    = this.CreateState((int) StateType.ExChange);
+        State aniState    = this.CreateState((int) StateType.exChange);
         aniState.OnEnter  = this.OnEnterForAniState;
 
-        State dropState   = this.CreateState((int) StateType.Drop);
+        State dropState   = this.CreateState((int) StateType.drop);
 
-        this.SetState((int) StateType.Idle);
+        this.SetState((int) StateType.idle);
     }
 
     private void InitMapCellList()
@@ -90,7 +90,7 @@ public class MapCellManager : StateMachine
 
     public void SetPointerMapCell(MapCell mapCell)
     {
-        if (this.GetCurStateId() != (int) StateType.Idle)
+        if (this.GetCurStateId() != (int) StateType.idle)
         {
             return;
         }
@@ -105,7 +105,7 @@ public class MapCellManager : StateMachine
         int rowOffset = Math.Abs(mapCell.rowIndex - this.curMapCell.rowIndex);
         if (colOffset + rowOffset == 1)
         {
-            this.SetState((int) StateType.ExChange);
+            this.SetState((int) StateType.exChange);
             this.nextMapCell = mapCell;
             this.ExChangeElement(this.curMapCell, this.nextMapCell, true);
             this.SetCurMapCell(null);
@@ -144,7 +144,7 @@ public class MapCellManager : StateMachine
             }
             else
             {
-                this.SetState ((int)StateType.Idle);
+                this.SetState ((int)StateType.idle);
             }
         };
 
@@ -243,23 +243,23 @@ public class MapCellManager : StateMachine
         {
             MapCell mapCell = list[0];
 
-            if (mapCell.element.type == ElementType.Normal)
+            if (mapCell.element.type == ElementType.normal)
             {
                 mapCell.CrashElement ();
             }
-            else if (mapCell.element.type == ElementType.Horizontal)
+            else if (mapCell.element.type == ElementType.horizontal)
             {
 
             }
-            else if (mapCell.element.type == ElementType.Vertical)
+            else if (mapCell.element.type == ElementType.vertical)
             {
 
             }
-            else if (mapCell.element.type == ElementType.Boom)
+            else if (mapCell.element.type == ElementType.boom)
             {
 
             }
-            else if (mapCell.element.type == ElementType.Super)
+            else if (mapCell.element.type == ElementType.super)
             {
 
             }
@@ -344,9 +344,9 @@ public class MapCellManager : StateMachine
     {
         this.dropList.Add(mapCell);
 
-        if (this.GetCurStateId() != (int) StateType.Drop)
+        if (this.GetCurStateId() != (int) StateType.drop)
         {
-            this.SetState((int) StateType.Drop);
+            this.SetState((int) StateType.drop);
         }
     }
 
@@ -355,7 +355,7 @@ public class MapCellManager : StateMachine
         this.dropList.Remove(mapCell);
         if (this.dropList.Count == 0)
         {
-            this.SetState((int) StateType.Idle);
+            this.SetState((int) StateType.idle);
         }
     }
 
@@ -373,9 +373,9 @@ public class MapCellManager : StateMachine
 
     public enum StateType
     {
-        None = 0,
-        Idle,
-        ExChange,
-        Drop,
+        none = 0,
+        idle,
+        exChange,
+        drop,
     }
 }
