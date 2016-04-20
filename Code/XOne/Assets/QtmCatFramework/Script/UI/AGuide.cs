@@ -82,9 +82,9 @@ namespace QtmCatFramework
 
 		private static void ActiveGuideComplete()
 		{
-			if (GuideMask.Instance == null)
+			if (GuideMask.instance == null)
 			{
-				AUIManager.Instance.eventSystem.gameObject.SetActive(false);
+				AUIManager.instance.eventSystem.gameObject.SetActive(false);
 			}
 
 			DOTween.Sequence()
@@ -93,7 +93,7 @@ namespace QtmCatFramework
 				(
 					() =>
 					{
-						AUIManager.Instance.eventSystem.gameObject.SetActive(true);
+						AUIManager.instance.eventSystem.gameObject.SetActive(true);
 						activeGuide = null;
 					}
 				)

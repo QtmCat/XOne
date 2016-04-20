@@ -105,7 +105,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        MapCellManager.Instance.SetPointerMapCell(this);
+        MapCellManager.instance.SetPointerMapCell(this);
     }
 
     public void OnPointerEnter (PointerEventData eventData)

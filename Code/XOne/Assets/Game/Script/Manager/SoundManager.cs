@@ -4,11 +4,11 @@ using System;
 
 public class SoundManager : MonoBehaviour 
 {
-    public static SoundManager Instance;
+    public static SoundManager instance;
 
     void Awake()
     {
-        Instance = this;
+        instance = this;
         this.Init();
     }
 
@@ -19,7 +19,7 @@ public class SoundManager : MonoBehaviour
 
     void OnDestroy()
     {
-        Instance = null;
+        instance = null;
     }
 
     private void Init()

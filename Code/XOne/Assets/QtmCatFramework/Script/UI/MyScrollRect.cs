@@ -47,7 +47,7 @@ namespace QtmCatFramework
 		{
 			base.Start();
 
-			this.viewRect = AUIManager.Instance.uiRoot.GetComponent<RectTransform>();
+			this.viewRect = AUIManager.instance.uiRoot.GetComponent<RectTransform>();
 			this.GetComponent<RectTransform>().sizeDelta = this.viewRect.sizeDelta;
 		}
 
@@ -131,22 +131,22 @@ namespace QtmCatFramework
 //			}
 //
 //			this.isNeedMoveBack = true;
-			//float scale         = CityMapManager.Instance.scaleForMoveToUI / base.content.localScale.x;
+			//float scale         = CityMapManager.instance.scaleForMoveToUI / base.content.localScale.x;
 
-			//base.content.DOScale(CityMapManager.Instance.scaleForMoveToUI, CityMapManager.Instance.scaleTime).SetEase(CityMapManager.Instance.scaleTransition);
+			//base.content.DOScale(CityMapManager.instance.scaleForMoveToUI, CityMapManager.instance.scaleTime).SetEase(CityMapManager.instance.scaleTransition);
 
 			//float x = to.position.x - who.transform.position.x * scale + base.content.position.x * scale;
 			//float y = to.position.y - who.transform.position.y * scale + base.content.position.y * scale;
 
-			//base.content.transform.DOMove(new Vector3(x, y, 0), CityMapManager.Instance.moveTime)
-			//	.SetEase(CityMapManager.Instance.moveTransition);
+			//base.content.transform.DOMove(new Vector3(x, y, 0), CityMapManager.instance.moveTime)
+			//	.SetEase(CityMapManager.instance.moveTransition);
 		}
 
 		public void MoveBack()
 		{
-//			base.content.DOScale(this.originScale.x, CityMapManager.Instance.scaleBackTime).SetEase(CityMapManager.Instance.scaleBackTransition);
-//			base.content.transform.DOMove(this.originPos, CityMapManager.Instance.moveBackTime)
-//				.SetEase(CityMapManager.Instance.moveBackTransition)
+//			base.content.DOScale(this.originScale.x, CityMapManager.instance.scaleBackTime).SetEase(CityMapManager.instance.scaleBackTransition);
+//			base.content.transform.DOMove(this.originPos, CityMapManager.instance.moveBackTime)
+//				.SetEase(CityMapManager.instance.moveBackTransition)
 //				.OnComplete
 //				(
 //					() => 

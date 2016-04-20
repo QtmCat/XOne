@@ -8,7 +8,7 @@ using System;
 [RequireComponent (typeof (Incubator))]
 public class MapCellManager : StateMachine
 {
-    public static MapCellManager Instance;
+    public static MapCellManager instance;
 
     private Incubator     incubator;
 
@@ -20,7 +20,7 @@ public class MapCellManager : StateMachine
 
     void Awake()
     {
-        Instance = this;
+        instance = this;
     }
 
     void Start()
@@ -35,7 +35,7 @@ public class MapCellManager : StateMachine
 
     void OnDestroy()
     {
-        Instance = null;
+        instance = null;
     }
 
     private void Init()

@@ -16,8 +16,8 @@ public class GameSetting : MonoBehaviour
 	
     private void Finalize()
     {
-        this.musicText.text = SoundManager.Instance.isMusicOn ? "关闭" : "打开";
-        this.soundText.text = SoundManager.Instance.isSoundOn ? "关闭" : "打开";
+        this.musicText.text = SoundManager.instance.isMusicOn ? "关闭" : "打开";
+        this.soundText.text = SoundManager.instance.isSoundOn ? "关闭" : "打开";
     }
 
 	public void OnBack()
@@ -27,13 +27,13 @@ public class GameSetting : MonoBehaviour
 
     public void OnMusic()
 	{
-        SoundManager.Instance.ChangeMusic();
+        SoundManager.instance.ChangeMusic();
         this.Finalize();
 	}
 
     public void OnSound()
 	{
-        SoundManager.Instance.ChangeSound();
+        SoundManager.instance.ChangeSound();
         this.Finalize();
 	}
 }
