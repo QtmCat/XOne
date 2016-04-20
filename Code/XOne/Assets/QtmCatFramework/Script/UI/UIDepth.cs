@@ -8,13 +8,15 @@ namespace QtmCatFramework
 	{
 		public int    order;
 		public bool   isUI = true;
+
 		void Start() 
 		{
 			if (isUI)
 			{
 				Canvas canvas = this.GetComponent<Canvas>();
 
-				if( canvas == null){
+				if( canvas == null)
+				{
 					canvas = this.gameObject.AddComponent<Canvas>();
 					this.gameObject.AddComponent<GraphicRaycaster>();
 				}

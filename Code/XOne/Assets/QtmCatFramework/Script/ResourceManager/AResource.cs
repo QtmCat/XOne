@@ -30,7 +30,7 @@ namespace QtmCatFramework
 		}
 
 
-		public static IEnumerator LoadAsync<T> (string path) where T : UnityEngine.Object
+		public static IEnumerator LoadAsync<T>(string path) where T : UnityEngine.Object
 		{
 			if (dicPrefab.ContainsKey(path))
 			{
@@ -73,19 +73,9 @@ namespace QtmCatFramework
 				return obj as Sprite;
 			}
 
-
 			GameObject prefab = Load<GameObject>(path);
 
-
-			#if UNITY_EDITOR
-			if (prefab == null)
-			{
-			//				EditorUtility.DisplayDialog("提示", "找皮神prefab不存在啊", "好哒不要找王磊");
-			}
-			#endif
-
 			ADebug.Assert(prefab != null, "Can not find Prefab [{0}]", path);
-
 
 			SpriteRenderer[] renders = prefab.GetComponentsInChildren<SpriteRenderer>(true);
 			foreach (SpriteRenderer render in renders)
@@ -96,11 +86,6 @@ namespace QtmCatFramework
 					return render.sprite;
 				}
 			}
-
-
-			#if UNITY_EDITOR
-			//			EditorUtility.DisplayDialog("提示", "Sprite找不到, 试试使用Tools下面的AtlasMaker", "好哒");
-			#endif
 
 			ADebug.Assert(false, "Can not find Sprite with [{0}]", spriteName);
 

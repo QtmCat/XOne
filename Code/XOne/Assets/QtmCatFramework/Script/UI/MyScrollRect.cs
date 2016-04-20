@@ -200,8 +200,8 @@ namespace QtmCatFramework
 			float duration = UnityEngine.Mathf.Sqrt(pos.x * pos.x + pos.y * pos.y) / 1912.0f;
 
 			base.content.transform.DOMove(contentPos, duration)
-				.SetEase(Ease.OutSine)
-				.OnComplete(callback);		
+				                  .SetEase(Ease.OutSine)
+				                  .OnComplete(callback);		
 		}
 	}
 }

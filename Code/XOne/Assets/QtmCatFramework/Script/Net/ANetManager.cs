@@ -71,16 +71,41 @@ namespace QtmCatFramework
 			innerHttp.onComplete = onComplete;
 		}  
 
-		//-------------------------------------------------------------------------------------------------
+
+		public static void HttpPost(string url, Action<WWW> onComplete, Dictionary<string, object> formData)
+		{
+			ADebug.Assert(formData != null && formData.Count > 0, "Forgot set form data ?");
+
+			WWWForm form = new WWWForm();
+
+			foreach (KeyValuePair<string, object> kv in formData)
+			{
+				if (kv.Value is Byte[])
+				{
+					form.AddBinaryData(kv.Key, kv.Value as Byte[], "application/octet-stream");
+				}
+				else
+				{
+					form.AddField(kv.Key, kv.Value.ToString());
+				}
+			}
+
+			ADebug.Log("HttpPost {0}", url);
+
+			WWW www = new WWW(url, form);
+
+			InnerHttp innerHttp = new GameObject(www.url).AddComponent<InnerHttp>();
+			innerHttp.www        = www;
+			innerHttp.onComplete = onComplete;
+		}
+
+//-------------------------------------------------------------------------------------------------
 		private static Socket      socket;
 		private static int         bufferSize    = 1024;
 		private static byte[]      buffer        = new byte[bufferSize];
 		private static List<byte>  receiveBuffer = new List<byte>(bufferSize);
 
-
 		public static event Action onGeneralMsgSend;
-//		public static event Action onGeneralMsgReceive;
-
 
 		public static void SocketConnect(string server, int port, Action onConnected)
 		{

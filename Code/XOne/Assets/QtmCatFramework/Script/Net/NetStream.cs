@@ -116,11 +116,10 @@ namespace QtmCatFramework
 
 		public void WriteString8(string value)
 		{
-			byte [] byteArray = System.Text.Encoding.UTF8.GetBytes(value);
+			byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(value);
 
 			WriteByte
 			(
-				//(byte) value.Length
 				(byte) byteArray.Length
 			);
 
@@ -134,11 +133,10 @@ namespace QtmCatFramework
 
 		public void WriteString16(string value)
 		{
-			byte [] byteArray = System.Text.Encoding.UTF8.GetBytes(value);
+			byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(value);
 
 			WriteInt16
 			(
-				//(short) value.Length
 				(short) byteArray.Length
 			);
 

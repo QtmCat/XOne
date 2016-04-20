@@ -34,14 +34,7 @@ namespace QtmCatFramework
 			return list;
 		}
 
-		/// <summary>
-		/// ?json??????
-		/// </summary>
-		/// <param name="stream">????</param>
-		/// <param name="node">json</param>
-		/// <param name="pubdict">???????(??)????????????????????????????????</param>
-		/// <param name="riseDictByKey">???key??????????false?</param>
-		/// <param name="riseDictByString">???String???????????false?</param>
+
 		public static void Write(System.IO.Stream stream, SimpleMyJson.IJsonNode node, IList<string> pubdict = null, bool riseDictByKey = false, bool riseDictByString = false)
 		{
 			List<string> localdict = new List<string>();
@@ -53,12 +46,7 @@ namespace QtmCatFramework
 			stream.Write(data, 0, data.Length);
 		}
 
-		/// <summary>
-		/// ???????Json
-		/// </summary>
-		/// <param name="stream">????</param>
-		/// <param name="pubdict">???????(??),?????????????????????</param>
-		/// <returns></returns>
+
 		public static SimpleMyJson.IJsonNode Read(System.IO.Stream stream, IList<string> pubdict = null)
 		{
 			var list = ReadStrDict(stream);
@@ -98,17 +86,34 @@ namespace QtmCatFramework
 		{
 			byte tag = 128 | 0;//numbertag
 			if (isFloat)
+			{
 				tag |= 32;
+			}
+				
 			if (isBool)
+			{
 				tag |= 16;
+			}
+				
 			if (isNull)
+			{
 				tag |= 8;
+			}
+				
 			if (isNeg)
+			{
 				tag |= 4;
+			}
+				
 			if (isFloat)
+			{
 				tag |= (byte)(4 - 1);
+			}
 			else if (!isBool && !isNull)
+			{
 				tag |= (byte)(datalength - 1);
+			}
+			
 			return tag;
 		}
 
@@ -145,7 +150,7 @@ namespace QtmCatFramework
 		static void WriteStringDataDirect(System.IO.Stream stream, string str)
 		{
 			byte[] sdata = System.Text.Encoding.UTF8.GetBytes(str);
-			byte tag = MakeStringTag(false, false, sdata.Length);
+			byte   tag   = MakeStringTag(false, false, sdata.Length);
 			stream.WriteByte(tag);
 			stream.Write(sdata, 0, sdata.Length);
 		}
@@ -153,7 +158,7 @@ namespace QtmCatFramework
 		static void WriteStringDataDict(System.IO.Stream stream, bool isPubDict, int pid)
 		{
 			int bytelen = 1;
-			int c = pid;
+			int c       = pid;
 			while (c >= 0x100)
 			{
 				c /= 0x100;
@@ -162,15 +167,15 @@ namespace QtmCatFramework
 			byte tag = MakeStringTag(true, isPubDict, bytelen);
 			stream.WriteByte(tag);
 			byte[] buf = new byte[8];
-			buf = BitConverter.GetBytes(pid);
+			buf        = BitConverter.GetBytes(pid);
 			stream.Write(buf, 0, bytelen);
 		}
 
 		static string ReadString(System.IO.Stream stream, byte tagfirst, IList<string> pubdict, IList<string> localdict)
 		{
-			bool inDict = (tagfirst & 32) > 0;
+			bool inDict    = (tagfirst & 32) > 0;
 			bool isPubDict = (tagfirst & 16) > 0;
-			int keylength = tagfirst % 16;
+			int  keylength = tagfirst % 16;
 			if (inDict)
 			{
 				byte[] buf = new byte[4];
@@ -178,8 +183,11 @@ namespace QtmCatFramework
 				{
 					buf[i] = 0;
 				}
+
 				stream.Read(buf, 0, keylength);
+
 				int id = BitConverter.ToInt32(buf, 0);
+
 				if (isPubDict)
 				{
 					return pubdict[id];
@@ -208,15 +216,19 @@ namespace QtmCatFramework
 		static void WriteIntData(System.IO.Stream stream, int number)
 		{
 			int bytelen = 1;
-			int sc = number;
+			int sc      = number;
 			if (number < 0)
+			{
 				sc *= -1;
+			}
+				
 			int c = sc;
 			while (c >= 0x100)
 			{
 				c /= 0x100;
 				bytelen++;
 			}
+
 			stream.WriteByte(MakeNumberTag(false, false, false, (number < 0), bytelen));
 			byte[] buf = BitConverter.GetBytes(sc);
 			stream.Write(buf, 0, bytelen);
@@ -226,12 +238,13 @@ namespace QtmCatFramework
 		static void WriteUIntSingle(System.IO.Stream stream, int number)
 		{
 			int bytelen = 1;
-			int c = number;
+			int c       = number;
 			while (c >= 0x100)
 			{
 				c /= 0x100;
 				bytelen++;
 			}
+
 			if (number < 128)
 			{
 				stream.WriteByte((byte)number);
@@ -239,20 +252,19 @@ namespace QtmCatFramework
 			else if (number < 31 * 256)
 			{
 				int high = number / 256;
-				int low = number % 256;
+				int low  = number % 256;
 				stream.WriteByte((byte)(128 | (byte)high));
 				stream.WriteByte((byte)low);
 			}
 			else if (number < 15 * 256 * 256)
 			{
-				int high = number / 256 / 256;
+				int high  = number / 256 / 256;
 				int midle = (number / 256) % 256;
-				int low = (number % 256);
+				int low   = (number % 256);
 
 				stream.WriteByte((byte)(128 | 64 | (byte)high));
 				stream.WriteByte((byte)midle);
 				stream.WriteByte((byte)low);
-
 			}
 		}
 
@@ -290,7 +302,7 @@ namespace QtmCatFramework
 		static void WriteArrayCountHead(System.IO.Stream stream, int arraycount)
 		{
 			int bytelen = 1;
-			int c = arraycount;
+			int c       = arraycount;
 			while (c >= 0x100)
 			{
 				c /= 0x100;
@@ -309,12 +321,13 @@ namespace QtmCatFramework
 			bool b32 = (tagfirst & 32) > 0;
 			if (!b32)
 			{
-				int blen = tagfirst % 32 + 1;
-				byte[] buf = new byte[8];
+				int    blen = tagfirst % 32 + 1;
+				byte[] buf  = new byte[8];
 				for (int i = 0; i < 8; i++)
 				{
 					buf[i] = 0;
 				}
+
 				stream.Read(buf, 0, blen);
 				return BitConverter.ToInt32(buf, 0);
 			}
@@ -327,7 +340,8 @@ namespace QtmCatFramework
 		static void WriteObjectCountHead(System.IO.Stream stream, int arraycount)
 		{
 			int bytelen = 1;
-			int c = arraycount;
+			int c       = arraycount;
+
 			while (c >= 0x100)
 			{
 				c /= 0x100;
@@ -344,17 +358,17 @@ namespace QtmCatFramework
 		static void PackJsonString(System.IO.Stream stream, string str, IList<string> pubdict, IList<string> localdict, bool riseDictByString)
 		{
 			if (str.Length < 2)
-			{//????
+			{
 				WriteStringDataDirect(stream, str);
 			}
 			else
 			{
 				int pid = GetKey(pubdict, str);
-				if (pid >= 0)//????
+				if (pid >= 0)
 				{
 					WriteStringDataDict(stream, true, pid);
 				}
-				else //????
+				else 
 				{
 					if (localdict.Contains(str) == false)
 					{
@@ -399,10 +413,10 @@ namespace QtmCatFramework
 			}
 		}
 
-		static void PackJsonObject(System.IO.Stream stream, SimpleMyJson.JsonNodeObject _object, IList<string> pubdict, IList<string> localdict, bool riseDictByKey, bool riseDictByString)
+		static void PackJsonObject(System.IO.Stream stream, SimpleMyJson.JsonNodeObject jsonObject, IList<string> pubdict, IList<string> localdict, bool riseDictByKey, bool riseDictByString)
 		{
-			WriteObjectCountHead(stream, _object.Count);
-			foreach (string key in _object.Keys)
+			WriteObjectCountHead(stream, jsonObject.Count);
+			foreach (string key in jsonObject.Keys)
 			{
 				if (key.Length < 2)
 				{
@@ -411,11 +425,11 @@ namespace QtmCatFramework
 				else
 				{
 					int pid = GetKey(pubdict, key);
-					if (pid >= 0)//????
+					if (pid >= 0)
 					{
 						WriteStringDataDict(stream, true, pid);
 					}
-					else //????
+					else 
 					{
 						if (riseDictByKey)
 						{
@@ -436,7 +450,8 @@ namespace QtmCatFramework
 
 				}
 			}
-			foreach (var item in _object)
+
+			foreach (var item in jsonObject)
 			{
 				PackJson(stream, item.Value, pubdict, localdict, riseDictByKey, riseDictByString);
 			}
@@ -470,16 +485,18 @@ namespace QtmCatFramework
 		static SimpleMyJson.IJsonNode UnPackJsonNumber(System.IO.Stream stream, byte tagfirst)
 		{
 			SimpleMyJson.JsonNodeValueNumber number = new SimpleMyJson.JsonNodeValueNumber();
-			bool isFloat = (tagfirst & 32) > 0;
-			bool isBool = (tagfirst & 16) > 0;
-			bool isNull = (tagfirst & 8) > 0;
-			bool isNeg = (tagfirst & 4) > 0;
-			int blen = tagfirst % 4 + 1;
-			byte[] buf = new byte[4];
+			bool   isFloat = (tagfirst & 32) > 0;
+			bool   isBool  = (tagfirst & 16) > 0;
+			bool   isNull  = (tagfirst & 8) > 0;
+			bool   isNeg   = (tagfirst & 4) > 0;
+			int    blen    = tagfirst % 4   + 1;
+			byte[] buf     = new byte[4];
+
 			for (int i = 0; i < 4; i++)
 			{
 				buf[i] = 0;
 			}
+
 			if (isBool)
 			{
 				number.SetBool(isNull);
@@ -523,24 +540,27 @@ namespace QtmCatFramework
 
 		static SimpleMyJson.IJsonNode UnPackJsonObject(System.IO.Stream stream, byte tagfirst, IList<string> pubdict, IList<string> localdict)
 		{
-			SimpleMyJson.JsonNodeObject _object = new SimpleMyJson.JsonNodeObject();
-			int count = ReadCountHead(stream, tagfirst);
-			List<string> keys = new List<string>();
+			SimpleMyJson.JsonNodeObject jsonObject = new SimpleMyJson.JsonNodeObject();
+			int          count                     = ReadCountHead(stream, tagfirst);
+			List<string> keys                      = new List<string>();
+
 			for (int i = 0; i < count; i++)
 			{
 				byte ft = (byte)stream.ReadByte();
 				keys.Add(ReadString(stream, ft, pubdict, localdict));
 			}
+
 			for (int i = 0; i < count; i++)
 			{
-				_object.Add(keys[i], UnPackJson(stream, pubdict, localdict));
+				jsonObject.Add(keys[i], UnPackJson(stream, pubdict, localdict));
 			}
-			return _object;
+
+			return jsonObject;
 		}
 
 		static SimpleMyJson.IJsonNode UnPackJson(System.IO.Stream stream, IList<string> pubdict, IList<string> localdict)
 		{
-			byte b = (byte)stream.ReadByte();
+			byte b  = (byte) stream.ReadByte();
 			bool t1 = (b & 128) > 0;
 			bool t2 = (b & 64) > 0;
 

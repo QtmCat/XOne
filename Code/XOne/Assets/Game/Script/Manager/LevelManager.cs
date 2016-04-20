@@ -7,5 +7,4 @@ public class LevelManager : MonoBehaviour
 	{
 	
 	}
-
 }

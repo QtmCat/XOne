@@ -12,83 +12,97 @@ public class Element : StateMachine
 
     public Image selectImage;
 
-    void Start ()
+    void Start()
     {
         this.Init();
     }
 
-    public override void Update ()
+    public override void Update()
     {
-        base.Update ();
+        base.Update();
     }
 
     private void Init()
     {
-        this.CreateState((int)StateType.Idle);
-        this.CreateState((int)StateType.Ani);
+        this.CreateState((int) StateType.Idle);
+        this.CreateState((int) StateType.Ani);
 
-        this.SetState((int)StateType.Idle);
+        this.SetState((int) StateType.Idle);
     }
 
-    public void Setup (ElementColor color, ElementType type)
+    public void Setup(ElementColor color, ElementType type)
     {
-        this.color          = color;
-        this.type           = type;
-        this.Finalize ();
+        this.color = color;
+        this.type  = type;
+        this.Finalize();
     }
 
-    private void Finalize ()
+    private void Finalize()
     {
-        Color[] colorList   = new Color[] { Color.clear, Color.red, Color.green, Color.blue, new Color(1, 0, 1, 1), Color.yellow };
-        this.image.color    = colorList[(int)this.color];
+        Color[] colorList = new Color[] 
+		{
+			Color.clear,
+			Color.red,
+			Color.green,
+			Color.blue, 
+			new Color(1, 0, 1, 1),
+			Color.yellow 
+		};
+
+        this.image.color   = colorList[(int) this.color];
     }
 
     public void ResetPos(Action callback)
     {
-        this.SetState((int)StateType.Ani);
-        this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
-        {
-            this.SetState((int)StateType.Idle);
-            if (callback != null)
-            {
-                callback();
-            }
-        });
+        this.SetState((int) StateType.Ani);
+        this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack).OnComplete
+		(
+			() =>
+       	    {
+	            this.SetState((int) StateType.Idle);
+	            if (callback != null)
+	            {
+	                callback();
+	            }
+        	}
+		);
     }
 
     public void Drop(float duration, Action callback)
     {
-        this.SetState((int)StateType.Ani);
-        this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete(() =>
-        {
-            this.SetState((int)StateType.Idle);
-            if (callback != null)
-            {
-                callback();
-            }
-        });
+        this.SetState((int) StateType.Ani);
+        this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete
+		(
+			() =>
+	        {
+	            this.SetState((int) StateType.Idle);
+	            if (callback != null)
+	            {
+	                callback();
+	            }
+	        }
+		);
     }
 
-    public void Crash ()
+    public void Crash()
     {
-        Destroy (this.gameObject);
+        Destroy(this.gameObject);
     }
 
-    public void SetColor (ElementColor color)
+    public void SetColor(ElementColor color)
     {
         this.color = color;
-        this.Finalize ();
+        this.Finalize();
     }
 
-    public void SetType (ElementType type)
+    public void SetType(ElementType type)
     {
         this.type = type;
-        this.Finalize ();
+        this.Finalize();
     }
 
     public ElementColor color { private set; get; }
-
-    public ElementType type { private set; get; }
+    public ElementType  type  { private set; get; }
 
     public enum StateType
     {

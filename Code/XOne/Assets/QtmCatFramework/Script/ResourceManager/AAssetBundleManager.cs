@@ -42,13 +42,13 @@ namespace QtmCatFramework
 
 
 		// Download an AssetBundle
-		public static IEnumerator downloadAssetBundle (string assetBundleName, Action<WWW, string> OnProgress)
+		public static IEnumerator downloadAssetBundle(string assetBundleName, Action<WWW, string> OnProgress)
 		{
 			string path = url + assetBundleName + version.ToString();
 
-			using(WWW www = WWW.LoadFromCacheOrDownload (path, version))
+			using(WWW www = WWW.LoadFromCacheOrDownload(path, version))
 			{
-				OnProgress (www, assetBundleName);
+				OnProgress(www, assetBundleName);
 
 				yield return www;
 
@@ -59,13 +59,13 @@ namespace QtmCatFramework
 				else
 				{
 					AssetBundle ab;
-					if (dictAssetBundle.TryGetValue (assetBundleName, out ab))
+					if (dictAssetBundle.TryGetValue(assetBundleName, out ab))
 					{
-						ab.Unload (true);
-						dictAssetBundle.Remove (assetBundleName);
+						ab.Unload(true);
+						dictAssetBundle.Remove(assetBundleName);
 					}
 
-					dictAssetBundle.Add (assetBundleName, www.assetBundle);
+					dictAssetBundle.Add(assetBundleName, www.assetBundle);
 
 					www.Dispose();
 				}
@@ -73,19 +73,19 @@ namespace QtmCatFramework
 		}
 
 
-		public static T LoadAsset<T> (string assetBundleName, string assetName) where T : UnityEngine.Object
+		public static T LoadAsset<T>(string assetBundleName, string assetName) where T : UnityEngine.Object
 		{
 			AssetBundle ab;
 			if (dictAssetBundle.TryGetValue(assetBundleName, out ab))
 			{
-				return ab.LoadAsset<T> (assetName);
+				return ab.LoadAsset<T>(assetName);
 			}
 
 			return null;
 		}
 
 
-		public static T LoadAsset<T> (string assetName) where T : UnityEngine.Object
+		public static T LoadAsset<T>(string assetName) where T : UnityEngine.Object
 		{
 			Dictionary<string, AssetBundle>.Enumerator etor = dictAssetBundle.GetEnumerator();
 
@@ -94,7 +94,7 @@ namespace QtmCatFramework
 				AssetBundle ab = etor.Current.Value;
 				if (ab.Contains(assetName))
 				{
-					return ab.LoadAsset<T> (assetName);
+					return ab.LoadAsset<T>(assetName);
 				}
 			}
 
@@ -102,19 +102,19 @@ namespace QtmCatFramework
 		}
 
 
-		public static AssetBundleRequest LoadAssetAsync<T> (string assetBundleName, string assetName) where T : UnityEngine.Object
+		public static AssetBundleRequest LoadAssetAsync<T>(string assetBundleName, string assetName) where T : UnityEngine.Object
 		{
 			AssetBundle ab;
 			if (dictAssetBundle.TryGetValue(assetBundleName, out ab))
 			{
-				return ab.LoadAssetAsync<T> (assetName);
+				return ab.LoadAssetAsync<T>(assetName);
 			}
 
 			return null;
 		}
 
 
-		public static AssetBundleRequest LoadAssetAsync<T> (string assetName) where T : UnityEngine.Object
+		public static AssetBundleRequest LoadAssetAsync<T>(string assetName) where T : UnityEngine.Object
 		{
 			Dictionary<string, AssetBundle>.Enumerator etor = dictAssetBundle.GetEnumerator();
 
@@ -123,13 +123,12 @@ namespace QtmCatFramework
 				AssetBundle ab = etor.Current.Value;
 				if (ab.Contains(assetName))
 				{
-					return ab.LoadAssetAsync<T> (assetName);
+					return ab.LoadAssetAsync<T>(assetName);
 				}
 			}
 
 			return null;
 		}
-
 	}
 }
 

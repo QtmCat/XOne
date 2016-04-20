@@ -7,41 +7,33 @@ using QtmCatFramework;
 public class GameSetting : MonoBehaviour 
 {
 	public Text musicText;
-
 	public Text soundText;
 
-	// Use this for initialization
-	void Start () 
+	void Start() 
     {
-        this.Finalize ();
+        this.Finalize();
 	}
 	
-	// Update is called once per frame
-	void Update () 
-    {
-	
-	}
-
-    private void Finalize ()
+    private void Finalize()
     {
         this.musicText.text = SoundManager.Instance.isMusicOn ? "关闭" : "打开";
         this.soundText.text = SoundManager.Instance.isSoundOn ? "关闭" : "打开";
     }
 
-	public void OnBack ()
+	public void OnBack()
 	{
-		AUIManager.CloseDialog ("GameSetting");
+		AUIManager.CloseDialog("GameSetting");
 	}
 
-    public void OnMusic ()
+    public void OnMusic()
 	{
-        SoundManager.Instance.ChangeMusic ();
-        this.Finalize ();
+        SoundManager.Instance.ChangeMusic();
+        this.Finalize();
 	}
 
-    public void OnSound ()
+    public void OnSound()
 	{
-        SoundManager.Instance.ChangeSound ();
-        this.Finalize ();
+        SoundManager.Instance.ChangeSound();
+        this.Finalize();
 	}
 }

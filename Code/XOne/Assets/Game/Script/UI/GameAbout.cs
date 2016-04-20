@@ -10,12 +10,6 @@ public class GameAbout : MonoBehaviour
 
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-
-	}
-
 	public void BackButtonClick()
 	{
 		AUIManager.OpenDialog("Prefab/UI/MainMenu");

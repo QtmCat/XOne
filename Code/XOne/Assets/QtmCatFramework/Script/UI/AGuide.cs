@@ -21,8 +21,8 @@ namespace QtmCatFramework
 
 	public static class AGuide
 	{
-		private static List<Guide>               guideList     = new List<Guide>();
-		private static Guide                     activeGuide   = null;
+		private static List<Guide> guideList     = new List<Guide>();
+		private static Guide       activeGuide   = null;
 
 		public static void Init()
 		{
@@ -201,10 +201,5 @@ namespace QtmCatFramework
 
 			return arrow;
 		}
-
-
-
-
-			
 	}
 }

@@ -4,31 +4,24 @@ using QtmCatFramework;
 
 public class MainMenu : MonoBehaviour 
 {
-	// Use this for initialization
-	void Start () 
+	void Start() 
 	{
 		
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-
-	}
-
-	public void OnStart ()
+	public void OnStart()
 	{
 		AUIManager.OpenDialog ("Prefab/UI/GameRun");
 		AUIManager.CloseDialog ("MainMenu");
 	}
 
-	public void OnAbout ()
+	public void OnAbout()
 	{
 		AUIManager.OpenDialog ("Prefab/UI/GameAbout");
 		AUIManager.CloseDialog ("MainMenu");
 	}
 
-	public void OnSetting ()
+	public void OnSetting()
 	{
 		AUIManager.OpenDialog ("Prefab/UI/GameSetting");
 	}

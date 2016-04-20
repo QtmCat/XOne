@@ -30,19 +30,25 @@ public class BlurEffect : MonoBehaviour
 	//private static string blurMatString =
 
 	static Material m_Material = null;
-	protected Material material {
-		get {
-			if (m_Material == null) {
-				m_Material = new Material(blurShader);
+	protected Material material 
+	{
+		get 
+		{
+			if (m_Material == null)
+			{
+				m_Material           = new Material(blurShader);
 				m_Material.hideFlags = HideFlags.DontSave;
 			}
+
 			return m_Material;
 		} 
 	}
 
-	protected void OnDisable() {
-		if( m_Material ) {
-			DestroyImmediate( m_Material );
+	protected void OnDisable() 
+	{
+		if (m_Material) 
+		{
+			DestroyImmediate(m_Material);
 		}
 
 		rawImage = null;
@@ -53,22 +59,26 @@ public class BlurEffect : MonoBehaviour
 	protected void Start()
 	{
 		// Disable if we don't support image effects
-		if (!SystemInfo.supportsImageEffects) {
+		if (!SystemInfo.supportsImageEffects) 
+		{
 			enabled = false;
 			return;
 		}
 		// Disable if the shader can't run on the users graphics card
-		if (!blurShader || !material.shader.isSupported) {
+		if (!blurShader || !material.shader.isSupported) 
+		{
 			enabled = false;
 			return;
 		}
 	}
 
 	// Performs one blur iteration.
-	public void FourTapCone (RenderTexture source, RenderTexture dest, int iteration)
+	public void FourTapCone(RenderTexture source, RenderTexture dest, int iteration)
 	{
 		float off = 0.5f + iteration*blurSpread;
-		Graphics.BlitMultiTap (source, dest, material,
+		Graphics.BlitMultiTap 
+		(
+			source, dest, material,
 			new Vector2(-off, -off),
 			new Vector2(-off,  off),
 			new Vector2( off,  off),
@@ -77,10 +87,12 @@ public class BlurEffect : MonoBehaviour
 	}
 
 	// Downsamples the texture to a quarter resolution.
-	private void DownSample4x (RenderTexture source, RenderTexture dest)
+	private void DownSample4x(RenderTexture source, RenderTexture dest)
 	{
 		float off = 1.0f;
-		Graphics.BlitMultiTap (source, dest, material,
+		Graphics.BlitMultiTap 
+		(
+			source, dest, material,
 			new Vector2(-off, -off),
 			new Vector2(-off,  off),
 			new Vector2( off,  off),
@@ -89,7 +101,7 @@ public class BlurEffect : MonoBehaviour
 	}
 
 	// Called by the camera to apply the image effect
-	void OnRenderImage (RenderTexture source, RenderTexture destination) 
+	void OnRenderImage(RenderTexture source, RenderTexture destination) 
 	{		
 		if (rawImage != null)
 		{
@@ -98,13 +110,13 @@ public class BlurEffect : MonoBehaviour
 			RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
 
 			// Copy source to the 4x4 smaller texture.
-			DownSample4x (source, buffer);
+			DownSample4x(source, buffer);
 
 			// Blur the small texture
 			for(int i = 0; i < iterations; i++)
 			{
 				RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
-				FourTapCone (buffer, buffer2, i);
+				FourTapCone(buffer, buffer2, i);
 				RenderTexture.ReleaseTemporary(buffer);
 				buffer = buffer2;
 			}
@@ -113,7 +125,7 @@ public class BlurEffect : MonoBehaviour
 			// RenderTexture.ReleaseTemporary(buffer);
 
 			rawImage.texture = buffer;
-			this.enabled = false;
+			this.enabled     = false;
 		}
 	}	
 }
