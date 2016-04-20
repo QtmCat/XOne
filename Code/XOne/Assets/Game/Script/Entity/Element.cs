@@ -52,7 +52,7 @@ public class Element : StateMachine
         this.image.color   = colorList[(int) this.color];
     }
 
-    public void ResetPos(Action callback)
+    public void ResetPos(Action Callback)
     {
         this.SetState((int) StateType.Ani);
         this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack).OnComplete
@@ -60,15 +60,15 @@ public class Element : StateMachine
 			() =>
        	    {
 	            this.SetState((int) StateType.Idle);
-	            if (callback != null)
+	            if (Callback != null)
 	            {
-	                callback();
+	                Callback();
 	            }
         	}
 		);
     }
 
-    public void Drop(float duration, Action callback)
+    public void Drop(float duration, Action Callback)
     {
         this.SetState((int) StateType.Ani);
         this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete
@@ -76,9 +76,9 @@ public class Element : StateMachine
 			() =>
 	        {
 	            this.SetState((int) StateType.Idle);
-	            if (callback != null)
+	            if (Callback != null)
 	            {
-	                callback();
+	                Callback();
 	            }
 	        }
 		);

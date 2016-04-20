@@ -64,16 +64,16 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         }
     }
 
-    public void ResetElementPos(Action callback = null)
+    public void ResetElementPos(Action Callback = null)
     {
-        this.element.ResetPos(callback);
+        this.element.ResetPos(Callback);
     }
 
-    public void Drop(Action callback)
+    public void Drop(Action Callback)
     {
         float width    = this.GetComponent<RectTransform>().rect.width;
         float duration = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / width * 0.5f;
-        this.element.Drop(duration, callback);
+        this.element.Drop(duration, Callback);
     }
 
     public void CrashElement()

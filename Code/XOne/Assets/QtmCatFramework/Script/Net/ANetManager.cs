@@ -13,7 +13,7 @@ namespace QtmCatFramework
 		private class InnerHttp : MonoBehaviour
 		{
 			public WWW         www;
-			public Action<WWW> onComplete;
+			public Action<WWW> OnComplete;
 
 			private IEnumerator Start()
 			{
@@ -22,9 +22,9 @@ namespace QtmCatFramework
 					yield return www;
 				}
 
-				if (onComplete != null)
+				if (OnComplete != null)
 				{
-					onComplete(www);
+					OnComplete(www);
 				}
 
 				www.Dispose();
@@ -35,9 +35,9 @@ namespace QtmCatFramework
 		/**
 		 * args are groups of k-v parameters for Http get  
 		 */
-		public static void HttpGet(string url, Action<WWW> onComplete, params object[] args)  
+		public static void HttpGet(string url, Action<WWW> OnComplete, params object[] args)  
 		{
-			ADebug.Assert(onComplete != null);
+			ADebug.Assert(OnComplete != null);
 
 			string param;  
 
@@ -68,11 +68,11 @@ namespace QtmCatFramework
 
 			InnerHttp innerHttp = new GameObject(www.url).AddComponent<InnerHttp>();
 			innerHttp.www        = www;
-			innerHttp.onComplete = onComplete;
+			innerHttp.OnComplete = OnComplete;
 		}  
 
 
-		public static void HttpPost(string url, Action<WWW> onComplete, Dictionary<string, object> formData)
+		public static void HttpPost(string url, Action<WWW> OnComplete, Dictionary<string, object> formData)
 		{
 			ADebug.Assert(formData != null && formData.Count > 0, "Forgot set form data ?");
 
@@ -96,7 +96,7 @@ namespace QtmCatFramework
 
 			InnerHttp innerHttp = new GameObject(www.url).AddComponent<InnerHttp>();
 			innerHttp.www        = www;
-			innerHttp.onComplete = onComplete;
+			innerHttp.OnComplete = OnComplete;
 		}
 
 //-------------------------------------------------------------------------------------------------
@@ -105,9 +105,9 @@ namespace QtmCatFramework
 		private static byte[]      buffer        = new byte[bufferSize];
 		private static List<byte>  receiveBuffer = new List<byte>(bufferSize);
 
-		public static event Action onGeneralMsgSend;
+		public static event Action OnGeneralMsgSend;
 
-		public static void SocketConnect(string server, int port, Action onConnected)
+		public static void SocketConnect(string server, int port, Action OnConnected)
 		{
 			IPAddress  ipAddress  = Dns.GetHostEntry(server).AddressList[0];  
 			IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, port);  
@@ -125,7 +125,7 @@ namespace QtmCatFramework
 					ADebug.Log("[Socket connected]");
 
 					socket.EndSend(ar);
-					onConnected();
+					OnConnected();
 					StartReceived();
 				}, 
 				null // no need
@@ -232,12 +232,12 @@ namespace QtmCatFramework
 		}
 
 
-		public static int GameServerInstanceID = 0;
+		public static int gameServerInstanceID = 0;
 
 		public static void SocketGameSend(Action<NetStream> OnSetStream, Action OnComplete)
 		{
-			onGeneralMsgSend();
-			SocketSend(OnSetStream, OnComplete, ANetManager.GameServerInstanceID);
+			OnGeneralMsgSend();
+			SocketSend(OnSetStream, OnComplete, ANetManager.gameServerInstanceID);
 		}
 
 		public static void SocketSend(Action<NetStream> OnSetStream, Action OnComplete, int serverInstanceId = 0, int msgId = 0)
@@ -281,10 +281,10 @@ namespace QtmCatFramework
 		public static Dictionary<int, Action<NetStream>> instructionHandlerDic 	= new Dictionary<int, Action<NetStream>>();
 		public static Dictionary<int, Action<NetStream>> moduleHandlerDic 		= new Dictionary<int, Action<NetStream>>();
 
-		public static void RegisterInstructionHandler(int instructionId, Action<NetStream> onStream)
+		public static void RegisterInstructionHandler(int instructionId, Action<NetStream> OnStream)
 		{
-			ADebug.Assert(onStream != null);
-			instructionHandlerDic.Add(instructionId, onStream);
+			ADebug.Assert(OnStream != null);
+			instructionHandlerDic.Add(instructionId, OnStream);
 		}
 
 		public static void RemoveInstructionHandler(int instructionId)
@@ -292,10 +292,10 @@ namespace QtmCatFramework
 			instructionHandlerDic.Remove(instructionId);
 		}
 
-		public static void RegisterModuleHandler(int moduleId, Action<NetStream> onStream)
+		public static void RegisterModuleHandler(int moduleId, Action<NetStream> OnStream)
 		{
-			ADebug.Assert(onStream != null);
-			moduleHandlerDic.Add(moduleId, onStream);
+			ADebug.Assert(OnStream != null);
+			moduleHandlerDic.Add(moduleId, OnStream);
 		}
 
 		public static void RemoveModuleHandler(int moduleId)
