@@ -72,10 +72,10 @@ namespace QtmCatFramework
 
 		public enum jsontype 
 		{
-			Value_Number,
-			Value_String,
-			Array,
-			Object,
+			value_number,
+			value_string,
+			array,
+			obj,
 		}
 
 		public interface IJsonNode 
@@ -200,7 +200,7 @@ namespace QtmCatFramework
 			public jsontype type {
 				get 
 				{
-					return jsontype.Value_Number;
+					return jsontype.value_number;
 				}
 			}
 
@@ -485,7 +485,7 @@ namespace QtmCatFramework
 			{
 				get 
 				{
-					return jsontype.Value_String;
+					return jsontype.value_string;
 				}
 			}
 
@@ -735,7 +735,7 @@ namespace QtmCatFramework
 		{
 			public jsontype type 
 			{
-				get { return jsontype.Array; }
+				get { return jsontype.array; }
 			}
 
 			public override string ToString()
@@ -1039,7 +1039,7 @@ namespace QtmCatFramework
 		{
 			public jsontype type 
 			{
-				get { return jsontype.Object; }
+				get { return jsontype.obj; }
 			}
 
 			public override string ToString() 

@@ -50,6 +50,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.element.transform.localRotation    = Quaternion.identity;
     }
 
+	// TODO: 和object的方法冲突
     private void Finalize()
     {
         
@@ -89,7 +90,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
             return false;
         }
 
-        if (this.element.GetCurStateId() != (int) Element.StateType.Idle || other.element.GetCurStateId() != (int) Element.StateType.Idle)
+        if (this.element.GetCurStateId() != (int) Element.StateType.idle || other.element.GetCurStateId() != (int) Element.StateType.idle)
         {
             return false;
         }
@@ -127,16 +128,16 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
 public enum IceLevel
 {
-    None = 0,
-    One,
-    Double,
-    Triple
+    none = 0,
+    one,
+    two,
+    three
 }
 
 public enum StoneLevel
 {
-    None = 0,
-    One,
-    Double,
-    Triple
+    none = 0,
+    one,
+    two,
+    three
 }

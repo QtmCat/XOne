@@ -13,7 +13,8 @@ public class GameSetting : MonoBehaviour
     {
         this.Finalize();
 	}
-	
+
+	// TODO: 和object的方法冲突
     private void Finalize()
     {
         this.musicText.text = SoundManager.instance.isMusicOn ? "关闭" : "打开";

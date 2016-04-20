@@ -24,10 +24,10 @@ public class Element : StateMachine
 
     private void Init()
     {
-        this.CreateState((int) StateType.Idle);
-        this.CreateState((int) StateType.Ani);
+        this.CreateState((int) StateType.idle);
+        this.CreateState((int) StateType.ani);
 
-        this.SetState((int) StateType.Idle);
+        this.SetState((int) StateType.idle);
     }
 
     public void Setup(ElementColor color, ElementType type)
@@ -37,6 +37,7 @@ public class Element : StateMachine
         this.Finalize();
     }
 
+	// TODO: 和object的方法冲突
     private void Finalize()
     {
         Color[] colorList = new Color[] 
@@ -54,12 +55,12 @@ public class Element : StateMachine
 
     public void ResetPos(Action Callback)
     {
-        this.SetState((int) StateType.Ani);
+        this.SetState((int) StateType.ani);
         this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack).OnComplete
 		(
 			() =>
        	    {
-	            this.SetState((int) StateType.Idle);
+	            this.SetState((int) StateType.idle);
 	            if (Callback != null)
 	            {
 	                Callback();
@@ -70,12 +71,12 @@ public class Element : StateMachine
 
     public void Drop(float duration, Action Callback)
     {
-        this.SetState((int) StateType.Ani);
+        this.SetState((int) StateType.ani);
         this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete
 		(
 			() =>
 	        {
-	            this.SetState((int) StateType.Idle);
+	            this.SetState((int) StateType.idle);
 	            if (Callback != null)
 	            {
 	                Callback();
@@ -106,26 +107,26 @@ public class Element : StateMachine
 
     public enum StateType
     {
-        Idle = 0,
-        Ani,
+        idle = 0,
+        ani,
     }
 }
 
 public enum ElementColor
 {
-    None = 0,
-    Red,
-    Green,
-    Blue,
-    Purple,
-    Yellow,
+    none = 0,
+    red,
+    green,
+    blue,
+    purple,
+    yellow,
 }
 
 public enum ElementType
 {
-    Normal = 0,
-    Horizontal, // 水平
-    Vertical,   // 垂直
-    Boom,       // 炸弹
-    Super,
+    normal = 0,
+    horizontal, // 水平
+    vertical,   // 垂直
+    boom,       // 炸弹
+    super,
 }
