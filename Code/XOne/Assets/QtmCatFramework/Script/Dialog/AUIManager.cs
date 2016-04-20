@@ -95,7 +95,7 @@ namespace QtmCatFramework
 
 			if (isActive)
 			{
-				hasAnimation = dialog.openTransition == Dialog.TransitionStyle.animation;
+				hasAnimation = dialog.openTransition  == Dialog.TransitionStyle.animation;
 			}
 			else
 			{
@@ -916,7 +916,7 @@ namespace QtmCatFramework
 			DOTween.Sequence()
 				   .Append
 				   (
-				   		go.transform.DOBlendableMoveBy (new Vector3(0, 300, 0), 4f).SetEase(Ease.OutSine)
+				   		go.transform.DOBlendableMoveBy(new Vector3(0, 300, 0), 4f).SetEase(Ease.OutSine)
 				   )
 				   .Insert
 				   (

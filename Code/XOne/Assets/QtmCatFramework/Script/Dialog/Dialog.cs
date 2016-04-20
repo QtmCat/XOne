@@ -403,7 +403,7 @@ namespace QtmCatFramework
 
 		}
 
-		public bool IsActive
+		public bool isActive
 		{
 			get
 			{
