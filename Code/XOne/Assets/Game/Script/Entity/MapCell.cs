@@ -26,7 +26,9 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     public GameObject[] stoneList;
 
-    private Button      button;
+
+
+    private float width;
 
 	void Start()
     {
@@ -35,7 +37,9 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     private void Init()
     {
-        this.Finalize();
+        this.width      = this.GetComponent<RectTransform>().rect.width;
+
+        this.Populate();
     }
 
     public void Setup(int colIndex, int rowIndex, Element element)
@@ -50,8 +54,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.element.transform.localRotation    = Quaternion.identity;
     }
 
-	// TODO: 和object的方法冲突
-    private void Finalize()
+    private void Populate()
     {
         
     }
@@ -65,6 +68,16 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         }
     }
 
+    public void SetHatchElement(Element element)
+    {
+        this.element = element;
+
+        this.element.transform.SetParent(this.elementPanel.transform, true);
+        this.element.transform.localScale       = Vector3.one;
+        this.element.transform.localPosition    = this.transform.up * this.width;
+        this.element.transform.localRotation    = Quaternion.identity;
+    }
+
     public void ResetElementPos(Action Callback = null)
     {
         this.element.ResetPos(Callback);
@@ -72,8 +85,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     public void Drop(Action Callback)
     {
-        float width    = this.GetComponent<RectTransform>().rect.width;
-        float duration = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / width * 0.5f;
+        float duration = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / this.width * 0.5f;
         this.element.Drop(duration, Callback);
     }
 
@@ -96,6 +108,16 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         }
 
         return this.element.color == other.element.color;
+    }
+
+    public bool isCoundDrop()
+    {
+        return this.element == null;
+    }
+
+    public bool isCoundHatch()
+    {
+        return this.element == null;
     }
 
     public void SetSelected(bool selected)

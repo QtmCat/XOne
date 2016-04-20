@@ -11,11 +11,10 @@ public class GameSetting : MonoBehaviour
 
 	void Start() 
     {
-        this.Finalize();
+        this.Populate();
 	}
 
-	// TODO: 和object的方法冲突
-    private void Finalize()
+    private void Populate()
     {
         this.musicText.text = SoundManager.instance.isMusicOn ? "关闭" : "打开";
         this.soundText.text = SoundManager.instance.isSoundOn ? "关闭" : "打开";
@@ -29,12 +28,12 @@ public class GameSetting : MonoBehaviour
     public void OnMusic()
 	{
         SoundManager.instance.ChangeMusic();
-        this.Finalize();
+        this.Populate();
 	}
 
     public void OnSound()
 	{
         SoundManager.instance.ChangeSound();
-        this.Finalize();
+        this.Populate();
 	}
 }

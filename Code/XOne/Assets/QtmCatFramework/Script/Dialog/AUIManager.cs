@@ -811,7 +811,7 @@ namespace QtmCatFramework
 			return AddChild(instance.uiCamera.gameObject, prefab);
 		}
 
-		public static GameObject InstantiatePrefab(GameObject parent, string prefabFile)
+		public static GameObject InstantiatePrefabToParent(GameObject parent, string prefabFile)
 		{
 			ADebug.Assert(prefabFile != null);
 			ADebug.Assert(parent != null);
@@ -821,6 +821,18 @@ namespace QtmCatFramework
 
 			return AddChild(parent, prefab);
 		}
+
+        public static GameObject InstantiatePrefab(string prefabFile)
+        {
+            ADebug.Assert(prefabFile != null);
+
+            GameObject prefab   = AResource.Load<GameObject>(prefabFile);
+            GameObject obj      = UnityEngine.Object.Instantiate(prefab) as GameObject;
+
+            ADebug.Assert(prefab != null, "InstantiatePrefab not found prefab = {0}", prefabFile);
+
+            return obj;
+        }
 
 		public static void InstantiatePrefabAsyn(GameObject parent, string prefabFile, Action<GameObject> Callback)
 		{

@@ -5,16 +5,18 @@ using UnityEngine.Assertions;
 using QtmCatFramework;
 using System;
 
-[RequireComponent (typeof (Incubator))]
+[RequireComponent(typeof(Incubator))]
 public class MapCellManager : StateMachine
 {
     public static MapCellManager instance;
 
-    private Incubator     incubator;
+    private Incubator incubator;
 
-    private MapCell       curMapCell;
+    private MapCell curMapCell;
 
-    private MapCell       nextMapCell;
+    private MapCell nextMapCell;
+
+    private List<MapCell> nestList;
 
     private List<MapCell> dropList;
 
@@ -28,7 +30,7 @@ public class MapCellManager : StateMachine
         this.Init();
     }
 
-	public override void Update()
+    public override void Update()
     {
         base.Update();
     }
@@ -40,8 +42,8 @@ public class MapCellManager : StateMachine
 
     private void Init()
     {
-        this.incubator = this.gameObject.GetComponent<Incubator>();
-        this.dropList  = new List<MapCell>();
+        this.incubator  = this.gameObject.GetComponent<Incubator>();
+        this.dropList   = new List<MapCell>();
 
         this.InitState();
         this.InitMapCellList();
@@ -49,48 +51,51 @@ public class MapCellManager : StateMachine
 
     private void InitState()
     {
-        State idleState   = this.CreateState((int) StateType.idle);
-        idleState.OnEnter = this.OnEneterForIdleState;
+        State idleState     = this.CreateState((int)StateType.idle);
+        idleState.OnEnter   = this.OnEneterForIdleState;
 
-        State aniState    = this.CreateState((int) StateType.exChange);
-        aniState.OnEnter  = this.OnEnterForAniState;
+        State aniState      = this.CreateState((int)StateType.exChange);
+        aniState.OnEnter    = this.OnEnterForAniState;
 
-        State dropState   = this.CreateState((int) StateType.drop);
+        this.CreateState((int)StateType.drop);
 
-        this.SetState((int) StateType.idle);
+        this.SetState((int)StateType.idle);
     }
 
     private void InitMapCellList()
     {
-		// TODO: 函数意义很明显，不需要注释
-        // 断言
         ADebug.Assert(this.transform.childCount == AConstant.ranks_num, "the col Num is not Constant.RanksNum");
 
-        this.mapCellList = new MapCell[AConstant.ranks_num][];
+        this.mapCellList            = new MapCell[AConstant.ranks_num][];
+        this.nestList               = new List<MapCell>();
 
         for (int i = 0; i < AConstant.ranks_num; i++)
         {
-            Transform col = this.transform.GetChild (i);
+            Transform col           = this.transform.GetChild(i);
 
-			// TODO: 函数意义很明显，不需要注释
-            // 断言
-            ADebug.Assert (col.childCount == AConstant.ranks_num, "the row of col{0} Num is not Constant.RanksNum", i);
+            ADebug.Assert(col.childCount == AConstant.ranks_num, "the row of col{0} Num is not Constant.RanksNum", i);
 
-            this.mapCellList[i] = col.GetComponentsInChildren<MapCell> ();
-
+            this.mapCellList[i]     = col.GetComponentsInChildren<MapCell>();
+            
             // 初始化MapCell
             for (int j = 0; j < AConstant.ranks_num; j++)
             {
-                MapCell mapCell = this.mapCellList[i][j];
-                Element element = this.incubator.CreateElement ();
-                mapCell.Setup (i, j, element);
+                MapCell mapCell     = this.mapCellList[i][j];
+                // nest
+                if (mapCell.isNest)
+                {
+                    this.nestList.Add(mapCell);
+                }
+
+                Element element     = this.incubator.CreateElement();
+                mapCell.Setup(i, j, element);
             }
         }
     }
 
     public void SetPointerMapCell(MapCell mapCell)
     {
-        if (this.GetCurStateId() != (int) StateType.idle)
+        if (this.GetCurStateId() != (int)StateType.idle)
         {
             return;
         }
@@ -101,13 +106,15 @@ public class MapCellManager : StateMachine
             return;
         }
 
-        int colOffset = Math.Abs(mapCell.colIndex - this.curMapCell.colIndex);
-        int rowOffset = Math.Abs(mapCell.rowIndex - this.curMapCell.rowIndex);
+        int colOffset           = Math.Abs(mapCell.colIndex - this.curMapCell.colIndex);
+        int rowOffset           = Math.Abs(mapCell.rowIndex - this.curMapCell.rowIndex);
         if (colOffset + rowOffset == 1)
         {
-            this.SetState((int) StateType.exChange);
-            this.nextMapCell = mapCell;
+            this.nextMapCell    = mapCell;
+
+            this.SetState((int)StateType.exChange);
             this.ExChangeElement(this.curMapCell, this.nextMapCell, true);
+
             this.SetCurMapCell(null);
         }
         else
@@ -133,18 +140,18 @@ public class MapCellManager : StateMachine
 
     private void ExChangeElement(MapCell mapCell1, MapCell mapCell2, bool isCrashTest)
     {
-		Action Callback = () => 
+        Action Callback = () =>
         {
             if (isCrashTest)
             {
-                if (!this.CrashTestExchange (mapCell1, mapCell2))
+                if (!this.CrashTestExchange(mapCell1, mapCell2))
                 {
-                    this.ExChangeElement (mapCell1, mapCell2, false);
+                    this.ExChangeElement(mapCell1, mapCell2, false);
                 }
             }
             else
             {
-                this.SetState ((int)StateType.idle);
+                this.SetState((int)StateType.idle);
             }
         };
 
@@ -152,8 +159,8 @@ public class MapCellManager : StateMachine
         mapCell1.SetElement(mapCell2.element);
         mapCell2.SetElement(element);
 
-        mapCell1.ResetElementPos(Callback);
-        mapCell2.ResetElementPos();
+        mapCell1.ResetElementPos();
+        mapCell2.ResetElementPos(Callback);
     }
 
     // 检测交换的两个元素的消除情况
@@ -165,45 +172,44 @@ public class MapCellManager : StateMachine
     // 检测单个元素的消除情况
     private bool CrashTestSingle(MapCell mapCell)
     {
-        List<MapCell> list = new List<MapCell>();
-        list.Add (mapCell);
+        List<MapCell> list      = new List<MapCell>();
+        list.Add(mapCell);
 
         // 同一行
-        List<MapCell> rowList = new List<MapCell>();
+        List<MapCell> rowList   = new List<MapCell>();
         for (int x = mapCell.colIndex - 1; x >= 0; x--)
         {
-            MapCell temp = this.mapCellList[x][mapCell.rowIndex];
-            if (!mapCell.isSameColor (temp))
-            {
-                break;
-            }
-            rowList.Add (temp);
-        }
-
-        for (int x = mapCell.colIndex + 1; x < AConstant.ranks_num; x++)
-        {
-            MapCell temp = this.mapCellList[x][mapCell.rowIndex];
+            MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
             if (!mapCell.isSameColor(temp))
             {
                 break;
             }
+            rowList.Add(temp);
+        }
 
-            rowList.Add (temp);
+        for (int x = mapCell.colIndex + 1; x < AConstant.ranks_num; x++)
+        {
+            MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
+            if (!mapCell.isSameColor(temp))
+            {
+                break;
+            }
+            rowList.Add(temp);
         }
 
         if (rowList.Count >= AConstant.crash_min - 1)
         {
             foreach (MapCell temp in rowList)
             {
-                list.Add (temp);
+                list.Add(temp);
             }
         }
 
         // 同一列
-        List<MapCell> colList = new List<MapCell>();
+        List<MapCell> colList   = new List<MapCell>();
         for (int y = mapCell.rowIndex - 1; y >= 0; y--)
         {
-            MapCell temp = this.mapCellList[mapCell.colIndex][y];
+            MapCell temp        = this.mapCellList[mapCell.colIndex][y];
             if (!mapCell.isSameColor(temp))
             {
                 break;
@@ -213,7 +219,7 @@ public class MapCellManager : StateMachine
 
         for (int y = mapCell.rowIndex + 1; y < AConstant.ranks_num; y++)
         {
-            MapCell temp = this.mapCellList[mapCell.colIndex][y];
+            MapCell temp        = this.mapCellList[mapCell.colIndex][y];
             if (!mapCell.isSameColor(temp))
             {
                 break;
@@ -229,6 +235,7 @@ public class MapCellManager : StateMachine
             }
         }
 
+        // 是否达到最小消除数量
         if (list.Count >= AConstant.crash_min)
         {
             this.DoCrash(list);
@@ -245,7 +252,7 @@ public class MapCellManager : StateMachine
 
             if (mapCell.element.type == ElementType.normal)
             {
-                mapCell.CrashElement ();
+                mapCell.CrashElement();
             }
             else if (mapCell.element.type == ElementType.horizontal)
             {
@@ -263,10 +270,11 @@ public class MapCellManager : StateMachine
             {
 
             }
-            
-            list.RemoveAt (0);
+
+            list.RemoveAt(0);
         }
 
+        this.HatchTest();
         this.DropTest();
     }
 
@@ -291,6 +299,7 @@ public class MapCellManager : StateMachine
         if (dropMapCell != null)
         {
             this.DropElement(mapCell, dropMapCell);
+            this.HatchTest();
         }
         else
         {
@@ -303,12 +312,12 @@ public class MapCellManager : StateMachine
         MapCell dropMapCell = null;
         for (int y = mapCell.rowIndex - 1; y >= 0; y--)
         {
-            MapCell temp = this.mapCellList[mapCell.colIndex][y];
-            if (temp.element != null)
+            MapCell temp    = this.mapCellList[mapCell.colIndex][y];
+            if (!temp.isCoundDrop())
             {
                 break;
             }
-            dropMapCell = temp;
+            dropMapCell     = temp;
         }
 
         return dropMapCell;
@@ -326,16 +335,16 @@ public class MapCellManager : StateMachine
 
     private void DropElement(MapCell startMapCell, MapCell destMapCell)
     {
-        this.dropList.Add(destMapCell);
-		Action Callback = () =>
+        this.AddDropList(destMapCell);
+        Action Callback = () =>
         {
-            this.dropList.Remove(destMapCell);
+            this.RemoveDropList(destMapCell);
             this.CrashTestSingle(destMapCell);
         };
 
         Element element = startMapCell.element;
         startMapCell.SetElement(destMapCell.element);
-        destMapCell.SetElement (element);
+        destMapCell.SetElement(element);
 
         destMapCell.Drop(Callback);
     }
@@ -344,9 +353,9 @@ public class MapCellManager : StateMachine
     {
         this.dropList.Add(mapCell);
 
-        if (this.GetCurStateId() != (int) StateType.drop)
+        if (this.GetCurStateId() != (int)StateType.drop)
         {
-            this.SetState((int) StateType.drop);
+            this.SetState((int)StateType.drop);
         }
     }
 
@@ -355,7 +364,21 @@ public class MapCellManager : StateMachine
         this.dropList.Remove(mapCell);
         if (this.dropList.Count == 0)
         {
-            this.SetState((int) StateType.idle);
+            this.SetState((int)StateType.idle);
+        }
+    }
+
+    private void HatchTest()
+    {
+        foreach (MapCell mapCell in this.nestList)
+        {
+            if (mapCell.isCoundHatch())
+            {
+                Element element = this.incubator.CreateElement();
+                mapCell.SetHatchElement(element);
+                mapCell.Drop(null);
+                this.DropTestSingle(mapCell);
+            }
         }
     }
 

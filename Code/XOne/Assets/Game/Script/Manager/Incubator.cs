@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using QtmCatFramework;
 
 public class Incubator : MonoBehaviour 
 {
@@ -19,10 +20,8 @@ public class Incubator : MonoBehaviour
 
     public Element CreateElement()
     {
-		// TODO: AResource.Load<GameObject>("Prefab/Element"); 
-		// TODO: Instantiate 有封裝接口
-        GameObject obj     = Instantiate(Resources.Load ("Prefab/Element")) as GameObject;
-        Element    element = obj.GetComponent<Element>();
+        GameObject obj      = AUIManager.InstantiatePrefab("Prefab/Element");
+        Element    element  = obj.GetComponent<Element>();
         element.Setup (this.RandomColor(), ElementType.normal);
 
         return element;

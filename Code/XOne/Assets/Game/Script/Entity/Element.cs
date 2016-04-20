@@ -12,9 +12,14 @@ public class Element : StateMachine
 
     public Image selectImage;
 
-    void Start()
+    void Awake()
     {
         this.Init();
+    }
+
+    void Start()
+    {
+        
     }
 
     public override void Update()
@@ -22,7 +27,7 @@ public class Element : StateMachine
         base.Update();
     }
 
-    private void Init()
+    public void Init()
     {
         this.CreateState((int) StateType.idle);
         this.CreateState((int) StateType.ani);
@@ -34,44 +39,48 @@ public class Element : StateMachine
     {
         this.color = color;
         this.type  = type;
-        this.Finalize();
+        this.Populate();
     }
 
-	// TODO: 和object的方法冲突
-    private void Finalize()
+    private void Populate()
     {
-        Color[] colorList = new Color[] 
+        Color[] colorList   = new Color[] 
 		{
 			Color.clear,
 			Color.red,
 			Color.green,
 			Color.blue, 
 			new Color(1, 0, 1, 1),
-			Color.yellow 
+			Color.yellow
 		};
 
-        this.image.color   = colorList[(int) this.color];
+        this.image.color    = colorList[(int) this.color];
     }
 
     public void ResetPos(Action Callback)
     {
         this.SetState((int) StateType.ani);
-        this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack).OnComplete
-		(
-			() =>
-       	    {
-	            this.SetState((int) StateType.idle);
-	            if (Callback != null)
-	            {
-	                Callback();
-	            }
-        	}
-		);
+
+        Sequence sequence   = DOTween.Sequence();
+        sequence.Append(this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack));
+        sequence.AppendInterval(0f);
+        sequence.AppendCallback
+        (
+            () =>
+            {
+                this.SetState((int)StateType.idle);
+                if (Callback != null)
+                {
+                    Callback();
+                }
+            }
+        );
     }
 
     public void Drop(float duration, Action Callback)
     {
         this.SetState((int) StateType.ani);
+
         this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete
 		(
 			() =>
@@ -93,13 +102,13 @@ public class Element : StateMachine
     public void SetColor(ElementColor color)
     {
         this.color = color;
-        this.Finalize();
+        this.Populate();
     }
 
     public void SetType(ElementType type)
     {
         this.type = type;
-        this.Finalize();
+        this.Populate();
     }
 
     public ElementColor color { private set; get; }
