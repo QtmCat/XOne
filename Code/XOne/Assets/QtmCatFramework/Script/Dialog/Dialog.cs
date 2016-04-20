@@ -101,35 +101,35 @@ namespace QtmCatFramework
 		public RawImage rawImage;
 
 
-		private Action<Dialog> onOpened;
-		private Action<Dialog> onClosed;
-		private Action<Dialog> onBeginClose;
+		private Action<Dialog> OnOpened;
+		private Action<Dialog> OnClosed;
+		private Action<Dialog> OnBeginClose;
 
 
 		private bool           isJustPlayAnimator = false; 
 		private static int     openCount          = 1;
 
 
-		public Dialog AddOpened(Action<Dialog> action)
+		public Dialog AddOpened(Action<Dialog> OnOpened)
 		{
-			this.onOpened += action;
+			this.OnOpened += OnOpened;
 			return this;
 		}
 
 
-		public Dialog AddClosed(Action<Dialog> action)
+		public Dialog AddClosed(Action<Dialog> OnClosed)
 		{
-			this.onClosed += action;
+			this.OnClosed += OnClosed;
 			return this;
 		}
 
-		public Dialog AddBeginClose(Action<Dialog> action)
+		public Dialog AddBeginClose(Action<Dialog> OnBeginClose)
 		{
-			this.onBeginClose += action;
+			this.OnBeginClose += OnBeginClose;
 			return this;
 		}
 
-		public Dialog OnOpened()
+		public Dialog FireOpened()
 		{
 			if (this.isJustPlayAnimator)
 			{
@@ -137,15 +137,15 @@ namespace QtmCatFramework
 				return this;
 			}
 
-			if (this.onOpened != null)
+			if (this.OnOpened != null)
 			{
-				this.onOpened(this);
+				this.OnOpened(this);
 			}
 
 			return this;
 		}
 
-		public Dialog OnClosed()
+		public Dialog FireClosed()
 		{
 			if (this.isJustPlayAnimator)
 			{
@@ -153,24 +153,24 @@ namespace QtmCatFramework
 				return this;
 			}
 
-			if (this.onClosed != null)
+			if (this.OnClosed != null)
 			{
-				this.onClosed(this);
+				this.OnClosed(this);
 			}
 
 			return this;
 		}
 
-		public Dialog OnBeginClose()
+		public Dialog FireBeginClose()
 		{
 			if (this.isJustPlayAnimator)
 			{
 				return this;
 			}
 
-			if (this.onBeginClose != null)
+			if (this.OnBeginClose != null)
 			{
-				this.onBeginClose(this);
+				this.OnBeginClose(this);
 			}
 
 			return this;
@@ -254,12 +254,12 @@ namespace QtmCatFramework
 					Dialog       hideDialog = list[list.Count - 2];
 
 					// open hide dialog when closed
-					this.onBeginClose += (Dialog d) =>
+					this.OnBeginClose += (Dialog d) =>
 					{
 						AUIManager.SetDialogActive(hideDialog, true);
 					};
 
-					this.onOpened += (Dialog d) =>
+					this.OnOpened += (Dialog d) =>
 					{
 						// close hide dialog
 						AUIManager.SetDialogActive(hideDialog, false);
@@ -270,7 +270,7 @@ namespace QtmCatFramework
 				case "HUD":
 				{
 					// open hide dialog when closed
-					this.onBeginClose += (Dialog d) =>
+					this.OnBeginClose += (Dialog d) =>
 					{
 						if (this.hideDialogName == "")
 						{
@@ -292,12 +292,12 @@ namespace QtmCatFramework
 				default:
 				{
 					// open hide dialog when closed
-					this.onBeginClose += (Dialog d) =>
+					this.OnBeginClose += (Dialog d) =>
 					{
 						AUIManager.SetDialogActive(this.hideDialogName, true);
 					};
 
-					this.onOpened += (Dialog d) =>
+					this.OnOpened += (Dialog d) =>
 					{
 						// close hide dialog
 						AUIManager.SetDialogActive(this.hideDialogName, false);
@@ -359,9 +359,9 @@ namespace QtmCatFramework
 
 			this.isClosing = false;
 
-			if (this.onClosed != null)
+			if (this.OnClosed != null)
 			{
-				this.onClosed(this);
+				this.OnClosed(this);
 			}
 
 			Destroy(this.container);
@@ -392,9 +392,9 @@ namespace QtmCatFramework
 				animator.StopPlayback();
 			}
 
-			if (this.onOpened != null)
+			if (this.OnOpened != null)
 			{
-				this.onOpened(this);
+				this.OnOpened(this);
 			}
 
 			this.isOpenning = false;

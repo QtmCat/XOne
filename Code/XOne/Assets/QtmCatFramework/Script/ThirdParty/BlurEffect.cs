@@ -29,26 +29,26 @@ public class BlurEffect : MonoBehaviour
 
 	//private static string blurMatString =
 
-	static Material m_Material = null;
+	static Material _material = null;
 	protected Material material 
 	{
 		get 
 		{
-			if (m_Material == null)
+			if (_material == null)
 			{
-				m_Material           = new Material(blurShader);
-				m_Material.hideFlags = HideFlags.DontSave;
+				_material           = new Material(blurShader);
+				_material.hideFlags = HideFlags.DontSave;
 			}
 
-			return m_Material;
+			return _material;
 		} 
 	}
 
 	protected void OnDisable() 
 	{
-		if (m_Material) 
+		if (_material) 
 		{
-			DestroyImmediate(m_Material);
+			DestroyImmediate(_material);
 		}
 
 		rawImage = null;

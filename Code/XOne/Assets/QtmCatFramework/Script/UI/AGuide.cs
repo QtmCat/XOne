@@ -88,16 +88,16 @@ namespace QtmCatFramework
 			}
 
 			DOTween.Sequence()
-				.AppendInterval(0.5f)
-				.AppendCallback
-				(
-					() =>
-					{
-						AUIManager.instance.eventSystem.gameObject.SetActive(true);
-						activeGuide = null;
-					}
-				)
-				.Play();
+				   .AppendInterval(0.5f)
+				   .AppendCallback
+				   (
+				   		() =>
+				   		{
+				   			AUIManager.instance.eventSystem.gameObject.SetActive(true);
+				   			activeGuide = null;
+				   		}
+				   )
+				   .Play();
 		}
 
 

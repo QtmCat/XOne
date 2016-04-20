@@ -12,14 +12,14 @@ namespace QtmCatFramework
 		private class QueuedDialog
 		{
 			public Dialog         prefab;
-			public Action<Dialog> onCreated;
+			public Action<Dialog> OnCreated;
 		}
 
 		public  static AUIManager instance;
 		public  static Dialog     hudDialog;
 
-		public  static Dictionary<string, Dialog> OpenedDialogs = new Dictionary<string, Dialog>();
-		private static List<QueuedDialog>         QueuedTips    = new List<QueuedDialog>();
+		public  static Dictionary<string, Dialog> openedDialogs = new Dictionary<string, Dialog>();
+		private static List<QueuedDialog>         queuedTips    = new List<QueuedDialog>();
 
 		public GameObject     uiRoot;
 		public Camera         uiCamera;
@@ -40,7 +40,7 @@ namespace QtmCatFramework
 		{
 			List<Dialog> list = new List<Dialog>();
 
-			foreach (KeyValuePair<string, Dialog> kv in OpenedDialogs)
+			foreach (KeyValuePair<string, Dialog> kv in openedDialogs)
 			{
 				if (kv.Value.container.activeSelf)
 				{
@@ -64,7 +64,7 @@ namespace QtmCatFramework
 		{
 			List<Dialog> list = new List<Dialog>();
 
-			foreach (KeyValuePair<string, Dialog> kv in OpenedDialogs)
+			foreach (KeyValuePair<string, Dialog> kv in openedDialogs)
 			{
 				list.Add(kv.Value);
 			}
@@ -82,7 +82,7 @@ namespace QtmCatFramework
 
 		public static Dialog SetDialogActive(string name, bool isActive)
 		{
-			return SetDialogActive(OpenedDialogs[name], isActive);
+			return SetDialogActive(openedDialogs[name], isActive);
 		}
 
 		public static Dialog SetDialogActive(Dialog dialog, bool isActive)
@@ -176,7 +176,7 @@ namespace QtmCatFramework
 
 		private static bool isQueuedTipShowing = false;
 
-		public static void ShowQueuedTip(Dialog prefab, Action<Dialog> onCreated = null)
+		public static void ShowQueuedTip(Dialog prefab, Action<Dialog> OnCreated = null)
 		{
 			ADebug.Assert(prefab != null);
 
@@ -184,8 +184,8 @@ namespace QtmCatFramework
 			{
 				QueuedDialog qd = new QueuedDialog();
 				qd.prefab = prefab;
-				qd.onCreated += onCreated;
-				QueuedTips.Add(qd);
+				qd.OnCreated += OnCreated;
+				queuedTips.Add(qd);
 			}
 			else
 			{
@@ -195,9 +195,9 @@ namespace QtmCatFramework
 								(
 									(Dialog d) =>
 									{
-										if (onCreated != null)
+										if (OnCreated != null)
 										{
-											onCreated(d);
+											OnCreated(d);
 										}
 									}
 								)
@@ -208,26 +208,26 @@ namespace QtmCatFramework
 									{
 										isQueuedTipShowing = false;
 
-										if (QueuedTips.Count > 0)
+										if (queuedTips.Count > 0)
 										{
-											QueuedDialog qd = QueuedTips[0];
-											QueuedTips.RemoveAt(0);
-											ShowQueuedTip(qd.prefab, qd.onCreated);
+											QueuedDialog qd = queuedTips[0];
+											queuedTips.RemoveAt(0);
+											ShowQueuedTip(qd.prefab, qd.OnCreated);
 										}
 									}
 								);
 			}
 		}
 
-		public static void ShowQueuedTip(string prefabFile, Action<Dialog> onCreated = null)
+		public static void ShowQueuedTip(string prefabFile, Action<Dialog> OnCreated = null)
 		{
 			Dialog prefab = AResource.Load<Dialog>(prefabFile);
 			ADebug.Assert(prefab != null);
 
-			ShowQueuedTip(prefab, onCreated);
+			ShowQueuedTip(prefab, OnCreated);
 		}
 
-		public static Dialog OpenDialog(Dialog prefab, GameObject parent = null, Action<Dialog> onCreated = null)
+		public static Dialog OpenDialog(Dialog prefab, GameObject parent = null, Action<Dialog> OnCreated = null)
 		{
 			ADebug.Assert(prefab != null);
 			ADebug.Assert(prefab.autoCloseTime == 0);
@@ -237,10 +237,10 @@ namespace QtmCatFramework
 				parent = instance.uiCamera.gameObject;
 			}
 
-			return SpawnDialog(prefab, parent, onCreated);
+			return SpawnDialog(prefab, parent, OnCreated);
 		}
 
-		public static Dialog OpenDialog(string prefabFile, GameObject parent = null, Action<Dialog> onCreated = null)
+		public static Dialog OpenDialog(string prefabFile, GameObject parent = null, Action<Dialog> OnCreated = null)
 		{
 			Dialog prefab = AResource.Load<Dialog>(prefabFile);
 			ADebug.Assert(prefab != null);
@@ -250,14 +250,14 @@ namespace QtmCatFramework
 				parent = instance.uiCamera.gameObject;
 			}
 
-			return OpenDialog(prefab, parent, onCreated);
+			return OpenDialog(prefab, parent, OnCreated);
 		}
 
 		public static void CloseDialog(string name)
 		{
 			Dialog dialog;
 
-			if (OpenedDialogs.TryGetValue(name, out dialog))
+			if (openedDialogs.TryGetValue(name, out dialog))
 			{
 				CloseDialog(dialog);
 			}
@@ -265,7 +265,7 @@ namespace QtmCatFramework
 
 		public static void CloseAllDialogs(params string[] dialogNames)
 		{
-			Dictionary<string, Dialog>.Enumerator enumerator = OpenedDialogs.GetEnumerator();
+			Dictionary<string, Dialog>.Enumerator enumerator = openedDialogs.GetEnumerator();
 			while (enumerator.MoveNext())
 			{
 				foreach (string name in dialogNames)
@@ -281,21 +281,21 @@ namespace QtmCatFramework
 				Label_next:;
 			}
 
-			OpenedDialogs.Clear();
-			QueuedTips.Clear();
+			openedDialogs.Clear();
+			queuedTips.Clear();
 		}
 
 		public static void CloseDialog(Dialog dialog)
 		{
 			ADebug.Assert(dialog != null);
 
-			if (!OpenedDialogs.ContainsKey(dialog.dialogName))
+			if (!openedDialogs.ContainsKey(dialog.dialogName))
 			{
 				return;
 			}
 
 			dialog.isClosing = true;
-			dialog.OnBeginClose();
+			dialog.FireBeginClose();
 
 			Vector2 fullScreenDimensions = instance.GetComponent<RectTransform>().sizeDelta;
 
@@ -427,19 +427,19 @@ namespace QtmCatFramework
 				}
 			}
 
-			OpenedDialogs.Remove(dialog.dialogName);
+			openedDialogs.Remove(dialog.dialogName);
 		}
 
-		public static bool isDialogOpen(string dialogName)
+		public static bool IsDialogOpen(string dialogName)
 		{
-			return OpenedDialogs.ContainsKey(dialogName);
+			return openedDialogs.ContainsKey(dialogName);
 		}
 
 
 		public static void DestroyDialog(string name, bool immediate)
 		{
 			Dialog dialog;
-			if (OpenedDialogs.TryGetValue(name, out dialog))
+			if (openedDialogs.TryGetValue(name, out dialog))
 			{
 				DestroyDialog(dialog, immediate);
 			}
@@ -449,9 +449,9 @@ namespace QtmCatFramework
 		{
 			ADebug.Assert(dialog != null);
 
-			if (OpenedDialogs.ContainsKey(dialog.dialogName))
+			if (openedDialogs.ContainsKey(dialog.dialogName))
 			{
-				OpenedDialogs.Remove(dialog.dialogName);
+				openedDialogs.Remove(dialog.dialogName);
 
 				if (immediate)
 				{
@@ -466,15 +466,15 @@ namespace QtmCatFramework
 			}
 		}
 
-		private static Dialog SpawnDialog(Dialog prefab, GameObject parent = null, Action<Dialog> onCreated = null)
+		private static Dialog SpawnDialog(Dialog prefab, GameObject parent = null, Action<Dialog> OnCreated = null)
 		{
 			ADebug.Assert(prefab != null);
 
 			Dialog d;
-			if (OpenedDialogs.TryGetValue(prefab.dialogName, out d))
+			if (openedDialogs.TryGetValue(prefab.dialogName, out d))
 			{
 
-				if (OpenedDialogs.Count == 1)
+				if (openedDialogs.Count == 1)
 				{
 					ADebug.Log("Dialog [{0}] has already opened, what the fuck have you done !!!", prefab.dialogName);
 				}
@@ -521,7 +521,7 @@ namespace QtmCatFramework
 			GameObject go     = AddChild(container, prefab.gameObject);
 			container.name    = go.name + "(DialogContainer)";
 			RectTransform crt = container.AddComponent<RectTransform>();
-			crt.localPosition = new Vector3(0, 0, OpenedDialogs.Count * -100);
+			crt.localPosition = new Vector3(0, 0, openedDialogs.Count * -100);
 			crt.sizeDelta     = Vector2.zero;
 
 
@@ -531,9 +531,9 @@ namespace QtmCatFramework
 			dialog.scrim      = scrim;
 			dialog.isOpenning = true;
 
-			if (onCreated != null)
+			if (OnCreated != null)
 			{
-				onCreated(dialog);
+				OnCreated(dialog);
 			}
 
 			if (dialog.isUseBlur)
@@ -780,7 +780,7 @@ namespace QtmCatFramework
 				}
 			}
 
-			OpenedDialogs.Add(prefab.dialogName, dialog);
+			openedDialogs.Add(prefab.dialogName, dialog);
 
 			return dialog;
 		}
@@ -822,11 +822,11 @@ namespace QtmCatFramework
 			return AddChild(parent, prefab);
 		}
 
-		public static void InstantiatePrefabAsyn(GameObject parent, string prefabFile, Action<GameObject> callback)
+		public static void InstantiatePrefabAsyn(GameObject parent, string prefabFile, Action<GameObject> Callback)
 		{
 			ADebug.Assert(prefabFile != null);
 			ADebug.Assert(parent != null);
-			ADebug.Assert(callback != null);
+			ADebug.Assert(Callback != null);
 
 			ACoroutineManager.StartCoroutineTask
 			(
@@ -834,25 +834,25 @@ namespace QtmCatFramework
 				(object obj) =>
 				{
 					ADebug.Assert(obj != null, "InstantiatePrefabAsyn not found prefabFile = {0}", prefabFile);
-					callback(AddChild(parent, obj as GameObject));
+					Callback(AddChild(parent, obj as GameObject));
 				}
 			);
 		}
 
-		public static void InstantiatePrefabToUICameraAsyn(string prefabFile, Action<GameObject> callback)
+		public static void InstantiatePrefabToUICameraAsyn(string prefabFile, Action<GameObject> Callback)
 		{
 			ADebug.Assert(prefabFile != null);
-			ADebug.Assert(callback != null);
+			ADebug.Assert(Callback != null);
 
-			InstantiatePrefabAsyn(instance.uiCamera.gameObject, prefabFile, callback);
+			InstantiatePrefabAsyn(instance.uiCamera.gameObject, prefabFile, Callback);
 		}
 
-		public static void InstantiatePrefabToUIRootAsyn(string prefabFile, Action<GameObject> callback)
+		public static void InstantiatePrefabToUIRootAsyn(string prefabFile, Action<GameObject> Callback)
 		{
 			ADebug.Assert(prefabFile != null);
-			ADebug.Assert(callback != null);
+			ADebug.Assert(Callback != null);
 
-			InstantiatePrefabAsyn(instance.uiRoot.gameObject, prefabFile, callback);
+			InstantiatePrefabAsyn(instance.uiRoot.gameObject, prefabFile, Callback);
 		}
 
 		public static GameObject AddChild(GameObject parent)

@@ -26,7 +26,7 @@ namespace QtmCatFramework
 		public static GuideMask instance;
 
 
-		public static GuideMask SetRectCenter(Vector2 center, Vector2 size, Action action, bool isUseVignette = true)
+		public static GuideMask SetRectCenter(Vector2 center, Vector2 size, Action DoAction, bool isUseVignette = true)
 		{
 			GameObject go   = AUIManager.InstantiatePrefabToUICamera("GuideMask");
 			GuideMask  mask = go.GetComponent<GuideMask>();
@@ -42,10 +42,10 @@ namespace QtmCatFramework
 				isUseVignette
 			);
 
-			mask.eventArea.gameObject.GetComponent<EventIgnore>().action += 
-				() =>
+			mask.eventArea.gameObject.GetComponent<EventIgnore>().DoAction += 
+			() =>
 			{
-				action();
+				DoAction();
 				DestroyImmediate(go);
 			};
 

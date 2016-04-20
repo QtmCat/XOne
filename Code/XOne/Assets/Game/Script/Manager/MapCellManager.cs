@@ -133,7 +133,7 @@ public class MapCellManager : StateMachine
 
     private void ExChangeElement(MapCell mapCell1, MapCell mapCell2, bool isCrashTest)
     {
-        Action callback = () => 
+		Action Callback = () => 
         {
             if (isCrashTest)
             {
@@ -152,7 +152,7 @@ public class MapCellManager : StateMachine
         mapCell1.SetElement(mapCell2.element);
         mapCell2.SetElement(element);
 
-        mapCell1.ResetElementPos(callback);
+        mapCell1.ResetElementPos(Callback);
         mapCell2.ResetElementPos();
     }
 
@@ -327,7 +327,7 @@ public class MapCellManager : StateMachine
     private void DropElement(MapCell startMapCell, MapCell destMapCell)
     {
         this.dropList.Add(destMapCell);
-        Action callback = () =>
+		Action Callback = () =>
         {
             this.dropList.Remove(destMapCell);
             this.CrashTestSingle(destMapCell);
@@ -337,7 +337,7 @@ public class MapCellManager : StateMachine
         startMapCell.SetElement(destMapCell.element);
         destMapCell.SetElement (element);
 
-        destMapCell.Drop(callback);
+        destMapCell.Drop(Callback);
     }
 
     private void AddDropList(MapCell mapCell)
