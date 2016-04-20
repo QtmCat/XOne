@@ -192,7 +192,7 @@ namespace QtmCatFramework
 
 			if (this.isUseBlur)
 			{
-				AUIManager.Instance.uiCamera.GetComponent<BlurEffect>().enabled = true;
+				AUIManager.instance.uiCamera.GetComponent<BlurEffect>().enabled = true;
 			}
 		}
 
@@ -277,13 +277,13 @@ namespace QtmCatFramework
 							return;
 						}
 
-						Dialog dialog             = AUIManager.HUD;
+						Dialog dialog             = AUIManager.hudDialog;
 						dialog.isJustPlayAnimator = true;
 						dialog.GetComponent<Animator>().Play(dialog.openAnimation.name);
 					};
 
 					// close hide dialog
-					Dialog dd             = AUIManager.HUD;
+					Dialog dd             = AUIManager.hudDialog;
 					dd.isJustPlayAnimator = true;
 					dd.GetComponent<Animator>().Play(dd.closeAnimation.name);
 
@@ -367,8 +367,8 @@ namespace QtmCatFramework
 			Destroy(this.container);
 
 			if (
-				AUIManager.HUD != null   && 
-				AUIManager.HUD.container.transform.GetSiblingIndex() == AUIManager.Instance.uiCamera.transform.childCount - 2
+				AUIManager.hudDialog != null   && 
+				AUIManager.hudDialog.container.transform.GetSiblingIndex() == AUIManager.instance.uiCamera.transform.childCount - 2
 			   )
 			{
 				openCount = 1;
