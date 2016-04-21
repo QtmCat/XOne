@@ -95,14 +95,14 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.element = null;
     }
 
-    public bool isSameColor(MapCell other)
+    public bool IsSameColor(MapCell other)
     {
         if (this.element == null || other.element == null)
         {
             return false;
         }
 
-        if (this.element.GetCurStateId() != (int) Element.StateType.idle || other.element.GetCurStateId() != (int) Element.StateType.idle)
+        if (this.element.GetCurStateId () != (int) Element.StateType.idle || other.element.GetCurStateId() != (int) Element.StateType.idle)
         {
             return false;
         }
@@ -110,12 +110,12 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         return this.element.color == other.element.color;
     }
 
-    public bool isCoundDrop()
+    public bool IsCoundDrop()
     {
         return this.element == null;
     }
 
-    public bool isCoundHatch()
+    public bool IsCoundHatch()
     {
         return this.element == null;
     }
@@ -131,7 +131,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         MapCellManager.instance.SetPointerMapCell(this);
     }
 
-    public void OnPointerEnter (PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
         
     }

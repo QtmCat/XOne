@@ -61,20 +61,20 @@ public class Element : StateMachine
     {
         this.SetState((int) StateType.ani);
 
-        Sequence sequence   = DOTween.Sequence();
-        sequence.Append(this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack));
-        sequence.AppendInterval(0f);
-        sequence.AppendCallback
-        (
-            () =>
-            {
-                this.SetState((int)StateType.idle);
-                if (Callback != null)
-                {
-                    Callback();
-                }
-            }
-        );
+        DOTween.Sequence()
+               .Append(this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack))
+               .AppendInterval(0f)
+               .AppendCallback
+		        (
+		            () =>
+		            {
+		                this.SetState((int)StateType.idle);
+		                if (Callback != null)
+		                {
+		                    Callback();
+		                }
+		            }
+		        );
     }
 
     public void Drop(float duration, Action Callback)
@@ -114,7 +114,7 @@ public class Element : StateMachine
     public ElementColor color { private set; get; }
     public ElementType  type  { private set; get; }
 
-    public enum StateType
+    public enum StateType : int
     {
         idle = 0,
         ani,

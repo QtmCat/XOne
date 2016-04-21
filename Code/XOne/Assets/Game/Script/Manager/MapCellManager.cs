@@ -180,7 +180,7 @@ public class MapCellManager : StateMachine
         for (int x = mapCell.colIndex - 1; x >= 0; x--)
         {
             MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
-            if (!mapCell.isSameColor(temp))
+            if (!mapCell.IsSameColor(temp))
             {
                 break;
             }
@@ -190,7 +190,7 @@ public class MapCellManager : StateMachine
         for (int x = mapCell.colIndex + 1; x < AConstant.ranks_num; x++)
         {
             MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
-            if (!mapCell.isSameColor(temp))
+            if (!mapCell.IsSameColor(temp))
             {
                 break;
             }
@@ -210,7 +210,7 @@ public class MapCellManager : StateMachine
         for (int y = mapCell.rowIndex - 1; y >= 0; y--)
         {
             MapCell temp        = this.mapCellList[mapCell.colIndex][y];
-            if (!mapCell.isSameColor(temp))
+            if (!mapCell.IsSameColor(temp))
             {
                 break;
             }
@@ -220,7 +220,7 @@ public class MapCellManager : StateMachine
         for (int y = mapCell.rowIndex + 1; y < AConstant.ranks_num; y++)
         {
             MapCell temp        = this.mapCellList[mapCell.colIndex][y];
-            if (!mapCell.isSameColor(temp))
+            if (!mapCell.IsSameColor(temp))
             {
                 break;
             }
@@ -313,7 +313,7 @@ public class MapCellManager : StateMachine
         for (int y = mapCell.rowIndex - 1; y >= 0; y--)
         {
             MapCell temp    = this.mapCellList[mapCell.colIndex][y];
-            if (!temp.isCoundDrop())
+            if (!temp.IsCoundDrop())
             {
                 break;
             }
@@ -372,7 +372,7 @@ public class MapCellManager : StateMachine
     {
         foreach (MapCell mapCell in this.nestList)
         {
-            if (mapCell.isCoundHatch())
+            if (mapCell.IsCoundHatch())
             {
                 Element element = this.incubator.CreateElement();
                 mapCell.SetHatchElement(element);
