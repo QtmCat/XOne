@@ -102,7 +102,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
             return false;
         }
 
-        if (this.element.GetCurStateId () != (int) Element.StateType.idle || other.element.GetCurStateId() != (int) Element.StateType.idle)
+		if ((Element.StateType) this.element.GetCurStateId() != Element.StateType.idle || (Element.StateType) other.element.GetCurStateId() != Element.StateType.idle)
         {
             return false;
         }

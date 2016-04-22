@@ -22,29 +22,29 @@ namespace QtmCatFramework
 			get;
 		}
 
-		public int GetCurStateId()
+		public Enum GetCurStateId()
 		{
-			return this.curState != null ? this.curState.id : -1;
+			return this.curState != null ? this.curState.id : (Enum) Enum.ToObject(typeof(Enum), -1);
 		}
 
 
-		public int GetPreStateId()
+		public Enum GetPreStateId()
 		{
-			return this.preState != null ? this.preState.id : -1;
+			return this.preState != null ? this.preState.id : (Enum) Enum.ToObject(typeof(Enum), -1);
 		}
 
 
-		public State CreateState(int stateId)
+		public State CreateState(Enum stateId)
 		{
 			State state        = new State();
 			state.id           = stateId;
 			state.stateMachine = this;
-			this.stateDic.Add(stateId, state);
+			this.stateDic.Add(Convert.ToInt32(stateId), state);
 
 			return state;
 		}
 
-		public State SetState(int stateId)
+		public State SetState(Enum stateId)
 		{
 			if (this.curState != null)
 			{
@@ -55,7 +55,7 @@ namespace QtmCatFramework
 			}
 
 			this.preState = this.curState;
-			this.curState = this.stateDic[stateId];
+			this.curState = this.stateDic[Convert.ToInt32(stateId)];
 
 			if (this.curState.OnEnter != null)
 			{
@@ -80,14 +80,14 @@ namespace QtmCatFramework
 
 		public class State
 		{
-			public int          id;
+			public Enum         id;
 			public object       userData;
 			public StateMachine stateMachine;
 			public Action       OnEnter;
 			public Action       OnExit ;
 			public Action       Update ;
 
-			public State SetId(int id)
+			public State SetId(Enum id)
 			{
 				this.id = id;
 				return this;

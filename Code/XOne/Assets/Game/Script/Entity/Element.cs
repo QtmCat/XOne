@@ -29,10 +29,10 @@ public class Element : StateMachine
 
     public void Init()
     {
-        this.CreateState((int) StateType.idle);
-        this.CreateState((int) StateType.ani);
+        this.CreateState(StateType.idle);
+        this.CreateState(StateType.ani);
 
-        this.SetState((int) StateType.idle);
+        this.SetState(StateType.idle);
     }
 
     public void Setup(ElementColor color, ElementType type)
@@ -59,7 +59,7 @@ public class Element : StateMachine
 
     public void ResetPos(Action Callback)
     {
-        this.SetState((int) StateType.ani);
+        this.SetState(StateType.ani);
 
         DOTween.Sequence()
                .Append(this.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.OutBack))
@@ -68,7 +68,7 @@ public class Element : StateMachine
 		        (
 		            () =>
 		            {
-		                this.SetState((int)StateType.idle);
+		                this.SetState(StateType.idle);
 		                if (Callback != null)
 		                {
 		                    Callback();
@@ -79,13 +79,13 @@ public class Element : StateMachine
 
     public void Drop(float duration, Action Callback)
     {
-        this.SetState((int) StateType.ani);
+        this.SetState(StateType.ani);
 
         this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete
 		(
 			() =>
 	        {
-	            this.SetState((int) StateType.idle);
+	            this.SetState(StateType.idle);
 	            if (Callback != null)
 	            {
 	                Callback();

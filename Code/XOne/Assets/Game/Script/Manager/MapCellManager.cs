@@ -51,15 +51,15 @@ public class MapCellManager : StateMachine
 
     private void InitState()
     {
-        State idleState     = this.CreateState((int)StateType.idle);
+        State idleState     = this.CreateState(StateType.idle);
         idleState.OnEnter   = this.OnEneterForIdleState;
 
-        State aniState      = this.CreateState((int)StateType.exChange);
+        State aniState      = this.CreateState(StateType.exChange);
         aniState.OnEnter    = this.OnEnterForAniState;
 
-        this.CreateState((int)StateType.drop);
+        this.CreateState(StateType.drop);
 
-        this.SetState((int)StateType.idle);
+        this.SetState(StateType.idle);
     }
 
     private void InitMapCellList()
@@ -95,7 +95,7 @@ public class MapCellManager : StateMachine
 
     public void SetPointerMapCell(MapCell mapCell)
     {
-        if (this.GetCurStateId() != (int)StateType.idle)
+		if ((StateType) this.GetCurStateId() != StateType.idle)
         {
             return;
         }
@@ -112,7 +112,7 @@ public class MapCellManager : StateMachine
         {
             this.nextMapCell    = mapCell;
 
-            this.SetState((int)StateType.exChange);
+            this.SetState(StateType.exChange);
             this.ExChangeElement(this.curMapCell, this.nextMapCell, true);
 
             this.SetCurMapCell(null);
@@ -151,7 +151,7 @@ public class MapCellManager : StateMachine
             }
             else
             {
-                this.SetState((int)StateType.idle);
+                this.SetState(StateType.idle);
             }
         };
 
@@ -353,9 +353,9 @@ public class MapCellManager : StateMachine
     {
         this.dropList.Add(mapCell);
 
-        if (this.GetCurStateId() != (int)StateType.drop)
+		if ((StateType) this.GetCurStateId() != StateType.drop)
         {
-            this.SetState((int)StateType.drop);
+            this.SetState(StateType.drop);
         }
     }
 
@@ -364,7 +364,7 @@ public class MapCellManager : StateMachine
         this.dropList.Remove(mapCell);
         if (this.dropList.Count == 0)
         {
-            this.SetState((int)StateType.idle);
+            this.SetState(StateType.idle);
         }
     }
 
