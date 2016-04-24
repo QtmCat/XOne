@@ -44,7 +44,7 @@ public class Element : StateMachine
 
     private void Populate()
     {
-        Color[] colorList   = new Color[] 
+        Color[] colorList = new Color[] 
 		{
 			Color.clear,
 			Color.red,
@@ -54,7 +54,10 @@ public class Element : StateMachine
 			Color.yellow
 		};
 
-        this.image.color    = colorList[(int) this.color];
+		// TODO:
+		// 为什么不用系统的自己的Color，而是用了一个枚举做索引
+		// 或者是不需要Color，直接使用Image，或是动画的属性
+        this.image.color = colorList[(int) this.color];
     }
 
     public void ResetPos(Action Callback)

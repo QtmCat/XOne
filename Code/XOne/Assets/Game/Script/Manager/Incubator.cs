@@ -22,7 +22,7 @@ public class Incubator : MonoBehaviour
     {
         GameObject obj      = AUIManager.InstantiatePrefab("Prefab/Element");
         Element    element  = obj.GetComponent<Element>();
-        element.Setup (this.RandomColor(), ElementType.normal);
+        element.Setup(this.RandomColor(), ElementType.normal);
 
         return element;
     }

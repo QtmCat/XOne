@@ -10,11 +10,11 @@ public class MapCellManager : StateMachine
 {
     public static MapCellManager instance;
 
-    private Incubator incubator;
+    private Incubator     incubator;
 
-    private MapCell curMapCell;
+    private MapCell       curMapCell;
 
-    private MapCell nextMapCell;
+    private MapCell       nextMapCell;
 
     private List<MapCell> nestList;
 
@@ -42,7 +42,7 @@ public class MapCellManager : StateMachine
 
     private void Init()
     {
-        this.incubator  = this.gameObject.GetComponent<Incubator>();
+        this.incubator  = this.GetComponent<Incubator>();
         this.dropList   = new List<MapCell>();
 
         this.InitState();
@@ -51,14 +51,13 @@ public class MapCellManager : StateMachine
 
     private void InitState()
     {
-        State idleState     = this.CreateState(StateType.idle);
-        idleState.OnEnter   = this.OnEneterForIdleState;
+        State idleState   = this.CreateState(StateType.idle);
+        idleState.OnEnter = this.OnEneterForIdleState;
 
-        State aniState      = this.CreateState(StateType.exChange);
-        aniState.OnEnter    = this.OnEnterForAniState;
+        State aniState    =  this.CreateState(StateType.exChange);
+        aniState.OnEnter  = this.OnEnterForAniState;
 
         this.CreateState(StateType.drop);
-
         this.SetState(StateType.idle);
     }
 
@@ -66,28 +65,28 @@ public class MapCellManager : StateMachine
     {
         ADebug.Assert(this.transform.childCount == AConstant.ranks_num, "the col Num is not Constant.RanksNum");
 
-        this.mapCellList            = new MapCell[AConstant.ranks_num][];
-        this.nestList               = new List<MapCell>();
+        this.mapCellList = new MapCell[AConstant.ranks_num][];
+        this.nestList    = new List<MapCell>();
 
         for (int i = 0; i < AConstant.ranks_num; i++)
         {
-            Transform col           = this.transform.GetChild(i);
+            Transform col       = this.transform.GetChild(i);
 
             ADebug.Assert(col.childCount == AConstant.ranks_num, "the row of col{0} Num is not Constant.RanksNum", i);
 
-            this.mapCellList[i]     = col.GetComponentsInChildren<MapCell>();
+            this.mapCellList[i] = col.GetComponentsInChildren<MapCell>();
             
             // 初始化MapCell
             for (int j = 0; j < AConstant.ranks_num; j++)
             {
-                MapCell mapCell     = this.mapCellList[i][j];
+                MapCell mapCell = this.mapCellList[i][j];
                 // nest
                 if (mapCell.isNest)
                 {
                     this.nestList.Add(mapCell);
                 }
 
-                Element element     = this.incubator.CreateElement();
+                Element element = this.incubator.CreateElement();
                 mapCell.Setup(i, j, element);
             }
         }
@@ -172,14 +171,14 @@ public class MapCellManager : StateMachine
     // 检测单个元素的消除情况
     private bool CrashTestSingle(MapCell mapCell)
     {
-        List<MapCell> list      = new List<MapCell>();
+        List<MapCell> list = new List<MapCell>();
         list.Add(mapCell);
 
         // 同一行
-        List<MapCell> rowList   = new List<MapCell>();
+        List<MapCell> rowList = new List<MapCell>();
         for (int x = mapCell.colIndex - 1; x >= 0; x--)
         {
-            MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
+            MapCell temp = this.mapCellList[x][mapCell.rowIndex];
             if (!mapCell.IsSameColor(temp))
             {
                 break;
@@ -189,7 +188,7 @@ public class MapCellManager : StateMachine
 
         for (int x = mapCell.colIndex + 1; x < AConstant.ranks_num; x++)
         {
-            MapCell temp        = this.mapCellList[x][mapCell.rowIndex];
+            MapCell temp = this.mapCellList[x][mapCell.rowIndex];
             if (!mapCell.IsSameColor(temp))
             {
                 break;
@@ -206,10 +205,10 @@ public class MapCellManager : StateMachine
         }
 
         // 同一列
-        List<MapCell> colList   = new List<MapCell>();
+        List<MapCell> colList = new List<MapCell>();
         for (int y = mapCell.rowIndex - 1; y >= 0; y--)
         {
-            MapCell temp        = this.mapCellList[mapCell.colIndex][y];
+            MapCell temp = this.mapCellList[mapCell.colIndex][y];
             if (!mapCell.IsSameColor(temp))
             {
                 break;
@@ -219,7 +218,7 @@ public class MapCellManager : StateMachine
 
         for (int y = mapCell.rowIndex + 1; y < AConstant.ranks_num; y++)
         {
-            MapCell temp        = this.mapCellList[mapCell.colIndex][y];
+            MapCell temp = this.mapCellList[mapCell.colIndex][y];
             if (!mapCell.IsSameColor(temp))
             {
                 break;

@@ -37,21 +37,22 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     private void Init()
     {
-        this.width      = this.GetComponent<RectTransform>().rect.width;
-
+		// TODO: rectTransform.sizeDelta 是对应界面的width 和 height
+		// 不仅可以获得还能设置修改，rect 貌似只能获取
+        this.width = this.GetComponent<RectTransform>().rect.width;
         this.Populate();
     }
 
     public void Setup(int colIndex, int rowIndex, Element element)
     {
-        this.colIndex   = colIndex;
-        this.rowIndex   = rowIndex;
-        this.element    = element;
+        this.colIndex = colIndex;
+        this.rowIndex = rowIndex;
+        this.element  = element;
 
 		this.element.transform.SetParent(this.elementPanel.transform, true);
-        this.element.transform.localScale       = Vector3.one;
-        this.element.transform.localPosition    = Vector3.zero;
-        this.element.transform.localRotation    = Quaternion.identity;
+        this.element.transform.localScale    = Vector3.one;
+        this.element.transform.localPosition = Vector3.zero;
+        this.element.transform.localRotation = Quaternion.identity;
     }
 
     private void Populate()
@@ -73,9 +74,9 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.element = element;
 
         this.element.transform.SetParent(this.elementPanel.transform, true);
-        this.element.transform.localScale       = Vector3.one;
-        this.element.transform.localPosition    = this.transform.up * this.width;
-        this.element.transform.localRotation    = Quaternion.identity;
+        this.element.transform.localScale    = Vector3.one;
+        this.element.transform.localPosition = this.transform.up * this.width;
+        this.element.transform.localRotation = Quaternion.identity;
     }
 
     public void ResetElementPos(Action Callback = null)
@@ -137,11 +138,8 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
     }
 
     public int     colIndex { private set; get; }
-
     public int     rowIndex { private set; get; }
-
     public bool    selected { private set; get; }
-
     public Element element  { set; get; }
 
     public delegate bool CrashTestHandler(MapCell mapCell);
