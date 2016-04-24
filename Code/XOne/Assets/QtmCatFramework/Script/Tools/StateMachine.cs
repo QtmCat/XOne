@@ -22,15 +22,37 @@ namespace QtmCatFramework
 			get;
 		}
 
-		public Enum GetCurStateId()
+		public T GetCurStateId<T>() where T : struct, IConvertible
 		{
-			return this.curState != null ? this.curState.id : (Enum) Enum.ToObject(typeof(Enum), -1);
+			return GetState<T>(this.curState);
 		}
 
-
-		public Enum GetPreStateId()
+		public T GetPreStateId<T>() where T : struct, IConvertible
 		{
-			return this.preState != null ? this.preState.id : (Enum) Enum.ToObject(typeof(Enum), -1);
+			return GetState<T>(this.preState);
+		}
+
+		private static T GetState<T>(State state)
+		{
+			Type enumType = typeof(T);
+
+			if (!enumType.IsEnum) 
+			{
+				throw new ArgumentException("T must be an enumerated type");
+			}
+
+			int value;
+
+			if (state != null)
+			{
+				value = Convert.ToInt32(state.id);
+			}
+			else
+			{
+				value = -1;
+			}
+
+			return (T) Enum.ToObject(enumType, value);
 		}
 
 

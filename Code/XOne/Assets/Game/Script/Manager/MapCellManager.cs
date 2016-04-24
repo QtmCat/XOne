@@ -95,7 +95,7 @@ public class MapCellManager : StateMachine
 
     public void SetPointerMapCell(MapCell mapCell)
     {
-		if ((StateType) this.GetCurStateId() != StateType.idle)
+		if (this.GetCurStateId<StateType>() != StateType.idle)
         {
             return;
         }
@@ -353,7 +353,7 @@ public class MapCellManager : StateMachine
     {
         this.dropList.Add(mapCell);
 
-		if ((StateType) this.GetCurStateId() != StateType.drop)
+		if (this.GetCurStateId<StateType>() != StateType.drop)
         {
             this.SetState(StateType.drop);
         }
