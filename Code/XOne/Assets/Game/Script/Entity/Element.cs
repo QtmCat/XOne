@@ -10,8 +10,6 @@ public class Element : StateMachine
 {
     public Image image;
 
-    public Image selectImage;
-
     void Awake()
     {
         this.Init();
@@ -84,7 +82,7 @@ public class Element : StateMachine
     {
         this.SetState(StateType.ani);
 
-        this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBack).OnComplete
+        this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.Linear).OnComplete
 		(
 			() =>
 	        {
@@ -95,6 +93,41 @@ public class Element : StateMachine
 	            }
 	        }
 		);
+    }
+
+    public void DropWithBounce(float duration, Action Callback)
+    {
+        this.SetState(StateType.ani);
+
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(this.transform.DOLocalMove(new Vector3(0, -10, 0), duration).SetEase(Ease.Linear));
+        sequence.Append(this.transform.DOLocalMove(new Vector3(0, 5, 0), 0.05f).SetEase(Ease.Linear));
+        sequence.Append(this.transform.DOLocalMove(new Vector3(0, -2, 0), 0.05f).SetEase(Ease.Linear));
+        sequence.Append(this.transform.DOLocalMove(new Vector3(0, 0, 0), 0.05f).SetEase(Ease.Linear));
+        sequence.AppendCallback
+        (
+            () =>
+            {
+                this.SetState(StateType.idle);
+                if (Callback != null)
+                {
+                    Callback();
+                }
+            }
+        );
+
+        //this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBounce).OnComplete
+        //(
+        //    () =>
+        //    {
+        //        this.SetState(StateType.idle);
+        //        if (Callback != null)
+        //        {
+        //            Callback();
+        //        }
+        //    }
+        //);
     }
 
     public void Crash()

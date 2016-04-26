@@ -273,12 +273,15 @@ public class MapCellManager : StateMachine
             list.RemoveAt(0);
         }
 
-        this.HatchTest();
-        this.DropTest();
+        if (!this.DropTest())
+        {
+            this.HatchTest();
+        }
     }
 
-    private void DropTest()
+    private bool DropTest()
     {
+        bool hasDrop = false;
         for (int x = 0; x < AConstant.ranks_num; x++)
         {
             for (int y = 0; y < AConstant.ranks_num; y++)
@@ -286,24 +289,35 @@ public class MapCellManager : StateMachine
                 MapCell mapCell = this.mapCellList[x][y];
                 if (mapCell.element != null)
                 {
-                    this.DropTestSingle(mapCell);
+                    if (this.DropTestSingle(mapCell))
+                    {
+                        hasDrop = true;
+                    }
                 }
             }
         }
+        return hasDrop;
     }
 
-    private void DropTestSingle(MapCell mapCell)
+    private bool DropTestSingle(MapCell mapCell)
     {
-        MapCell dropMapCell = this.GetDropDownMapCell(mapCell);
+        MapCell dropMapCell = this.GetDropMapCell(mapCell);
         if (dropMapCell != null)
         {
             this.DropElement(mapCell, dropMapCell);
-            this.HatchTest();
+            return true;
         }
-        else
+        return false;
+    }
+
+    private MapCell GetDropMapCell(MapCell mapCell)
+    {
+        MapCell dropMapCell = this.GetDropDownMapCell(mapCell);
+        if (dropMapCell == null)
         {
 
         }
+        return dropMapCell;
     }
 
     private MapCell GetDropDownMapCell(MapCell mapCell)
@@ -335,17 +349,20 @@ public class MapCellManager : StateMachine
     private void DropElement(MapCell startMapCell, MapCell destMapCell)
     {
         this.AddDropList(destMapCell);
-        Action Callback = () =>
+        Action<MapCell> Callback = (MapCell mapCell) =>
         {
-            this.RemoveDropList(destMapCell);
-            this.CrashTestSingle(destMapCell);
+            this.RemoveDropList(mapCell);
+            this.CrashTestSingle(mapCell);
         };
 
         Element element = startMapCell.element;
         startMapCell.SetElement(destMapCell.element);
         destMapCell.SetElement(element);
 
-        destMapCell.Drop(Callback);
+        destMapCell.DropWithBounce(Callback);
+
+        // 当元素掉落时, 检测元素生成
+        this.HatchTest();
     }
 
     private void AddDropList(MapCell mapCell)
@@ -373,10 +390,28 @@ public class MapCellManager : StateMachine
         {
             if (mapCell.IsCoundHatch())
             {
+                this.AddDropList(mapCell);
+                Action<MapCell> Callback = (MapCell dropMapCell) =>
+                {
+                    this.RemoveDropList(dropMapCell);
+                    if (!this.DropTestSingle(dropMapCell))
+                    {
+                        this.CrashTestSingle(mapCell);
+                    }
+                };
+
                 Element element = this.incubator.CreateElement();
                 mapCell.SetHatchElement(element);
-                mapCell.Drop(null);
-                this.DropTestSingle(mapCell);
+                //mapCell.Drop(Callback);
+
+                if (this.GetDropMapCell(mapCell) != null)
+                {
+                    mapCell.Drop(Callback);
+                }
+                else
+                {
+                    mapCell.DropWithBounce(Callback);
+                }
             }
         }
     }

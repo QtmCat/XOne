@@ -84,10 +84,34 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
         this.element.ResetPos(Callback);
     }
 
-    public void Drop(Action Callback)
+    public void Drop(Action<MapCell> Callback)
     {
-        float duration = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / this.width * 0.5f;
-        this.element.Drop(duration, Callback);
+        float num       = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / this.width;
+        float duration  = num * 0.2f;
+        this.element.Drop(duration, 
+            () => 
+            {
+                if (Callback != null)
+                {
+                    Callback(this); 
+                }
+            }
+        );
+    }
+
+    public void DropWithBounce(Action<MapCell> Callback)
+    {
+        float num       = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / this.width;
+        float duration  = num * 0.2f - (num - 1) * 0.1f;
+        this.element.DropWithBounce(duration,
+            () =>
+            {
+                if (Callback != null)
+                {
+                    Callback(this);
+                }
+            }
+        );
     }
 
     public void CrashElement()
