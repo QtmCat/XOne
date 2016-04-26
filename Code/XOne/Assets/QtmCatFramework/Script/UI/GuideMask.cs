@@ -88,7 +88,7 @@ namespace QtmCatFramework
 				Vector2 imageSize = image.GetComponent<RectTransform>().sizeDelta = root.sizeDelta;
 
 				image.material.SetFloat("_width",     0);
-				image.material.SetFloat("_heigth",    0);
+				image.material.SetFloat("_height",    0);
 				image.material.SetFloat("_fade",      0);
 				image.material.SetFloat("_intensity", 0);
 
@@ -97,8 +97,8 @@ namespace QtmCatFramework
 
 
 
-				image.material.DOFloat(size.x / imageSize.x + 0.85f,  "_width",  0.3f).SetEase(Ease.OutBack);
-				image.material.DOFloat(size.y / imageSize.y + 0.5f,  "_heigth", 0.3f).SetEase(Ease.OutBack);
+				image.material.DOFloat(half.x / size.x * 0.9f,   "_width" , 0.3f).SetEase(Ease.OutBack);
+				image.material.DOFloat(half.y / size.y * 0.35f,  "_height", 0.3f).SetEase(Ease.OutBack);
 
 				image.material.DOFloat(fade,       "_fade",      0.3f).SetEase(Ease.OutSine);
 				image.material.DOFloat(intensity,  "_intensity", 0.3f).SetEase(Ease.OutSine);
