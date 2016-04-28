@@ -86,8 +86,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     public void Drop(Action<MapCell> Callback)
     {
-        float num       = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / this.width;
-        float duration  = num * 0.2f;
+		float duration  = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / 70;
         this.element.Drop(duration, 
             () => 
             {
