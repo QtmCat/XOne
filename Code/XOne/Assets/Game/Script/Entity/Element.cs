@@ -99,13 +99,25 @@ public class Element : StateMachine
     {
         this.SetState(StateType.ani);
 
-        Sequence sequence = DOTween.Sequence();
+//        Sequence sequence = DOTween.Sequence();
+//
+//        sequence.Append(this.transform.DOLocalMove(new Vector3(0, -10, 0), duration).SetEase(Ease.Linear));
+//        sequence.Append(this.transform.DOLocalMove(new Vector3(0, 5, 0), 0.05f).SetEase(Ease.Linear));
+//        sequence.Append(this.transform.DOLocalMove(new Vector3(0, -2, 0), 0.05f).SetEase(Ease.Linear));
+//        sequence.Append(this.transform.DOLocalMove(new Vector3(0, 0, 0), 0.05f).SetEase(Ease.Linear));
+//        sequence.AppendCallback
+//        (
+//            () =>
+//            {
+//                this.SetState(StateType.idle);
+//                if (Callback != null)
+//                {
+//                    Callback();
+//                }
+//            }
+//        );
 
-        sequence.Append(this.transform.DOLocalMove(new Vector3(0, -10, 0), duration).SetEase(Ease.Linear));
-        sequence.Append(this.transform.DOLocalMove(new Vector3(0, 5, 0), 0.05f).SetEase(Ease.Linear));
-        sequence.Append(this.transform.DOLocalMove(new Vector3(0, -2, 0), 0.05f).SetEase(Ease.Linear));
-        sequence.Append(this.transform.DOLocalMove(new Vector3(0, 0, 0), 0.05f).SetEase(Ease.Linear));
-        sequence.AppendCallback
+        this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBounce).OnComplete
         (
             () =>
             {
@@ -116,18 +128,6 @@ public class Element : StateMachine
                 }
             }
         );
-
-        //this.transform.DOLocalMove(Vector3.zero, duration).SetEase(Ease.OutBounce).OnComplete
-        //(
-        //    () =>
-        //    {
-        //        this.SetState(StateType.idle);
-        //        if (Callback != null)
-        //        {
-        //            Callback();
-        //        }
-        //    }
-        //);
     }
 
     public void Crash()

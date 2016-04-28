@@ -101,8 +101,7 @@ public class MapCell : StateMachine, IPointerDownHandler, IPointerEnterHandler
 
     public void DropWithBounce(Action<MapCell> Callback)
     {
-        float num       = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / this.width;
-        float duration  = num * 0.2f - (num - 1) * 0.1f;
+		float duration  = Vector3.Distance(this.element.transform.localPosition, Vector3.zero) / 120;
         this.element.DropWithBounce(duration,
             () =>
             {
